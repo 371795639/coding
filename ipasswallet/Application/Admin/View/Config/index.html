@@ -1,0 +1,71 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+    <a class="uk-button uk-button-primary" href="__CONTROLLER__/clearCache/web_config">
+{$Think.lang.refresh_cache}
+</a>
+</p>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>{$Think.lang.config_name}</th>
+            <th>{$Think.lang.config_value}</th>
+            <th>{$Think.lang.remark}</th>
+            <th>{$Think.lang.add_time}</th>
+            <th>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>
+                        <a href="__CONTROLLER__/details/{$vo.conf_name}">{$vo.conf_name}</a></td>
+                    <td>{$vo.conf_value|cutStr="20"}</td>
+                    <td>{$vo.conf_remark|cutStr="20"}</td>
+                    <td>{$vo.conf_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.conf_name}')">
+                            <i class="uk-icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>{$Think.lang.config_name}</td>
+                    <td>
+                        <input type="text" name="conf_name" required value="{$conf_name}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.config_value}
+                    </td>
+                    <td>
+                        <textarea name="conf_value" required style="height:100px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.remark}</td>
+                    <td>
+                        <textarea type="text" name="conf_remark" style="height:100px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

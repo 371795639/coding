@@ -1,0 +1,59 @@
+<layout name="layout" />
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.user_id}:
+            <input type="text" name="wd_user_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.status}:
+            <select name="wd_status">
+                <option value="">--</option>
+                <volist name="Think.lang.withdraw_status" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+{$page}
+<div class="uk-overflow-container">
+    <table id="wd-table" class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>{$Think.lang.user_id}</th>
+            <th>{$Think.lang.amount}</th>
+            <th>{$Think.lang.fee}</th>
+            <th>{$Think.lang.status}</th>
+            <th>提现时余额</th>
+            <th>提现时押款</th>
+            <th>{$Think.lang.add_time}/{$Think.lang.end_time}</th>
+            <th width=300>商户备注/管理员备注</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.wd_id}">{$vo.wd_id}</a>
+                    </td>
+                    <td>
+                        <a href="__MODULE__/Merchant/index/mh_id/{$vo.wd_mid}">{$vo.wd_user_id}</a></td>
+                    <td>
+                        <a href="javascript:void(0)" onclick='openwin("__MODULE__/Withdraw/wdbank/wd_bank_id/{$vo.wd_bank_id}")' class='uk-icon-bank uk-icon-hover'></a>&nbsp; {$vo.wd_amount}
+                    </td>
+                    <td>{$vo.wd_fee}</td>
+                    <td>{$vo.wd_status|withdraw_status=true}</td>
+                    <td>{$vo.wd_total|number_format="2"}</td>
+                    <td>{$vo.wd_holdamount|number_format="2"}</td>
+                    <td>{$vo.wd_date}/ {$vo.wd_enddate}
+                    </td>
+                    <td>{$vo.wd_mh_remark}
+                        <hr>
+                        <font color=red>{$vo.wd_desc}</font>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}

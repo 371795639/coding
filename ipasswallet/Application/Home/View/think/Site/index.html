@@ -1,0 +1,125 @@
+<layout name="inner" />
+<p>
+    <div class="uk-button-group">
+        <!-- Button trigger modal -->
+        <button type="button" class="uk-button" data-uk-modal="{target:'#myModal',center:true}">
+            {$Think.lang.add_new}
+        </button>
+        <button type="button" class="uk-button" data-uk-modal="{target:'#myModal1',center:true}">
+            {$Think.lang.bulk_add_new}
+        </button>
+    </div>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">site_id:
+            <input type="text" name="site_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.domain}:
+            <input type="text" name="site_domain" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.isactive}:
+            <select name="site_isactive">
+                <option value="">--</option>
+                <option value="1">{$Think.lang.yes}</option>
+                <option value="0">{$Think.lang.no}</option>
+            </select>
+        </div>
+        <eq name="merchant_info.mh_child_status" value="1">
+            <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.child_account} ID:
+                <input type="text" name="site_child_id" placeholder="" class="uk-width-1-1">
+            </div>
+        </eq>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th>site_id</th>
+                <th>{$Think.lang.domain}</th>
+                <th>{$Think.lang.isactive}</th>
+                <th width=180>{$Think.lang.add_time}</th>
+                <th>--</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.site_id}">{$vo.site_id}</a></td>
+                    <td>{$vo.site_domain}</td>
+                    <td>{$vo.site_isactive|displayIcon}
+                        <eq name="vo.site_isactive" value="0">
+                            <notempty name="vo.site_desc">
+                                <br>
+                                <span class="uk-text-warning"><i class="uk-icon-info-circle"></i>&nbsp;&nbsp; {$vo.site_desc}</span>
+                            </notempty>
+                        </eq>
+                    </td>
+                    <td>{$vo.site_regtime}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.site_id}')">
+                            <i class="uk-icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    {$page}
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new_site}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.domain}</td>
+                    <td>
+                        <input type="text" name="site_domain" class="uk-width-1-1" required url="true" value="" />
+                        <small class="uk-text-muted">{$Think.lang.url_desc}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.product_service}
+                    </td>
+                    <td>
+                        <textarea name="site_service" class="uk-width-1-1" style="height:150px;" minlength="8" required></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="myModal1">
+    <form class="uk-form" method="post" action="__CONTROLLER__/bulkaddHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new_site}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>{$Think.lang.site_list}
+                    </td>
+                    <td>
+                        <textarea name="site_list" class="uk-width-1-1" style="height:150px;" required></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-alert uk-alert-warning">
+                {$Think.lang.bulk_add_site_tip}
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

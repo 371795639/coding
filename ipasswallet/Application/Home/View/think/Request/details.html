@@ -1,0 +1,95 @@
+<layout name="inner" />
+<include file="public/angular" />
+<load href="__PUBLIC__/Common/dist/jquery.form.js" />
+<p>
+    <a class="uk-button" href="__CONTROLLER__/index">{$Think.lang.back}</a>
+    <eq name="order_islive" value="1">
+        <switch name="order_status">
+            <case value="2|8|4">
+                <include file="refund" />
+            </case>
+            <case value="7">
+                <include file="cancelRefund" />
+            </case>
+            <case value="1">
+                <include file="void" />
+            </case>
+            <case value="3">
+                <include file="authaction" />
+            </case>
+        </switch>
+    </eq>
+</p>
+<div class="uk-overflow-container">
+    <table class="uk-table">
+        <tr>
+            <td width=280>#</td>
+            <td>
+                {$ts_id}&nbsp;
+                <eq name="ts_type" value="0">
+                    <i class="uk-icon-lock uk-text-success"></i>
+                    <else/> <i class="uk-icon-paper-plane uk-text-danger"></i>
+                </eq>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.amount}(USD)</td>
+            <td>
+                {$ts_amount}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.add_time}</td>
+            <td>
+                {$ts_time}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.status}</td>
+            <td>
+                {$ts_status|transfer_status=true}&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payer}</td>
+            <td>
+                {$user_name}({$user_email})
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.fees}(USD)</td>
+            <td>
+                {$ts_fee|number_format=2}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                {$ts_remark}
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <eq name="ts_status" value="1">
+                    <button type="button" onclick="confirmDelete('__CONTROLLER__/confirmCancel/ts_id/{$ts_id}','{$Think.lang.cancel_ts_notice}')" class="uk-button">{$Think.lang.cancel_ts}</button>
+                </eq>
+            </td>
+        </tr>
+    </table>
+</div>
+<h3 class="tm-article-subtitle">{$Think.lang.ts_history}</h3>
+<div class="uk-alert">
+    <table class="uk-table">
+        <volist name="list" id="vo">
+            <tr>
+                <td width=280>{$vo.td_time}</td>
+                <td width=200>{$vo.td_status|transfer_status=true}
+                </td>
+                <td>
+                    {$vo.td_remark}
+                </td>
+            </tr>
+        </volist>
+    </table>
+</div>

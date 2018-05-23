@@ -1,0 +1,14 @@
+    <load href="__PUBLIC__/{:UMEDITOR}/themes/default/css/umeditor.css" />
+	<load href="__PUBLIC__/{:UMEDITOR}/umeditor.config.js"/>
+    <load href="__PUBLIC__/{:UMEDITOR}/umeditor.min.js"/>
+	<load href="__PUBLIC__/{:UMEDITOR}/lang/en/en.js"/>
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+    var um = UM.getEditor('container',{
+		toolbar:[
+            ' bold italic underline strikethrough | forecolor backcolor | removeformat | link unlink',
+            'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
+            '| justifyleft justifycenter justifyright justifyjustify |',
+        ]
+	});
+	</script>

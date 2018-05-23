@@ -1,0 +1,118 @@
+<layout name="layout" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/datepicker.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/datepicker.min.js" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/lightbox.min.js" />
+<p>
+    <!-- Button trigger modal -->
+    <a href="__CONTROLLER__/index" class="uk-button">
+        {$Think.lang.back}
+    </a>
+</p>
+<div class="uk-overflow-container">
+    <form class="uk-form" enctype="multipart/form-data" method="post" action="__CONTROLLER__/updateHandle">
+        <input type="hidden" name="doc_id" value="{$doc_id}" />
+        <table class="uk-table">
+            <tr>
+                <td width=150>单页标题</td>
+                <td>
+                    <input type="text" name="doc_title" required value="{$doc_title}" />{:W('Propertycheckbox/show',array($doc_property))}
+                </td>
+            </tr>
+            <tr>
+                <td>分类</td>
+                <td>
+                    <select name="doc_cat" required>
+                        <option value="">--</option>
+                        <volist name=":getCategoryList()" id="vo">
+                            <option value="{$vo.cat_id}" <eq name="vo.cat_id" value="$doc_cat">selected</eq>>{$vo.level|levelshow}{$vo.cat_name}</option>
+                        </volist>
+                    </select>
+                    * 没有分类的话，可先去分类里创建
+                </td>
+            </tr>
+            <tr>
+                <td>唯一标识(英文)</td>
+                <td>
+                    <input type="text" name="doc_unique" required isEnglish="true" value="{$doc_unique}" />
+                </td>
+            </tr>
+            <tr>
+                <td>描述</td>
+                <td>
+                    <textarea name="doc_desc" style="height:100px;">{$doc_desc}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>关键词</td>
+                <td>
+                    <input type="text" name="doc_keyword" value="{$doc_keyword}" /> * 多个关键词用英文逗号分割
+                </td>
+            </tr>
+            <tr>
+                <td>内容</td>
+                <td>
+                    <script id="container" name="doc_content" style="height:230px;width:100%;" type="text/plain">{$doc_content|htmlspecialchars_decode}</script>
+                </td>
+            </tr>
+            <tr>
+                <td>是否可见</td>
+                <td>
+                    <label>
+                        <input type="radio" name="doc_status" value="1" <eq name="doc_status" value="1">checked</eq> /> 是</label>
+                    <label>
+                        <input type="radio" name="doc_status" value="0" <eq name="doc_status" value="0">checked</eq> /> 否</label>
+                </td>
+            </tr>
+            <tr>
+                <td>图片</td>
+                <td>
+                    <input type="file" name="file" />
+                    <notempty name="doc_dir">
+                        <a href="__PUBLIC__/Uploads/{$doc_dir}{$doc_img}" data-uk-lightbox title="">
+                            <img src="__PUBLIC__/Uploads/{$doc_dir}thumb_{$doc_img}" />
+                        </a>
+                    </notempty>
+                </td>
+            </tr>
+            <tr>
+                <td>模板</td>
+                <td>
+                    <input type="text" name="doc_tpl" value="{$doc_tpl}" required />
+                </td>
+            </tr>
+            <tr>
+                <td>排序</td>
+                <td>
+                    <input type="number" name="doc_sort" required isNumber="true" value="{$doc_sort}" />*数字越大，排序越靠前
+                </td>
+            </tr>
+            <tr>
+                <td>来源</td>
+                <td>
+                    <input type="text" name="doc_source" value="{$doc_source}" />
+                </td>
+            </tr>
+            <tr>
+                <td>更新时间</td>
+                <td>
+                    <input type="text" name="doc_update_time" value="{$doc_update_time}" data-uk-datepicker="{format:'YYYY-MM-DD'}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>添加时间</td>
+                <td>
+                    {$doc_time}
+                </td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>
+                    <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="clear:both"></div>
+<!--引入ueditor-->
+<include file="Public:ueditor" />

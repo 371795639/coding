@@ -1,0 +1,106 @@
+<layout name="layout" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/datepicker.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/datepicker.min.js" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/lightbox.min.js" />
+<p>
+    <!-- Button trigger modal -->
+    <a href="__CONTROLLER__/index" class="uk-button">
+        {$Think.lang.back}
+    </a>
+</p>
+<div class="uk-overflow-container">
+    <form class="uk-form" enctype="multipart/form-data" method="post" action="__CONTROLLER__/addHandle">
+        <table class="uk-table">
+            <tr>
+                <td width=150>文章标题</td>
+                <td>
+                    <input type="text" name="doc_title" required />{:W('Propertycheckbox/show')}
+                </td>
+            </tr>
+            <tr>
+                <td>分类</td>
+                <td>
+                    <select name="doc_cat" required>
+                        <option value="">--</option>
+                        <volist name=":getCategoryList()" id="vo">
+                            <option value="{$vo.cat_id}">{$vo.level|levelshow}{$vo.cat_name}</option>
+                        </volist>
+                    </select>
+                    * 没有分类的话，可先去分类里创建
+                </td>
+            </tr>
+            <tr>
+                <td>描述</td>
+                <td>
+                    <textarea name="doc_desc" style="height:100px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>关键词</td>
+                <td>
+                    <input type="text" name="doc_keyword" /> * 多个关键词用英文逗号分割
+                </td>
+            </tr>
+            <tr>
+                <td>内容</td>
+                <td>
+                    <script id="container" name="doc_content" style="height:230px;width:100%;" type="text/plain"></script>
+                </td>
+            </tr>
+            <tr>
+                <td>是否可见</td>
+                <td>
+                    <label>
+                        <input type="radio" name="doc_status" value="1" checked /> 是</label>
+                    <label>
+                        <input type="radio" name="doc_status" value="0" /> 否</label>
+                </td>
+            </tr>
+            <tr>
+                <td>图片</td>
+                <td>
+                    <input type="file" name="file" />
+                </td>
+            </tr>
+            <tr>
+                <td>标签</td>
+                <td>
+                    <input type="text" name="doc_label" />*多个标签使用英文逗号分割
+                </td>
+            </tr>
+            <tr>
+                <td>点击数</td>
+                <td>
+                    <input type="number" name="doc_hit" isNumber='true' required value="{:rand(1,100)}" />
+                </td>
+            </tr>
+            <tr>
+                <td>排序</td>
+                <td>
+                    <input type="number" name="doc_sort" isNumber='true' required value="10" />*数字越大，排序越靠前
+                </td>
+            </tr>
+            <tr>
+                <td>来源</td>
+                <td>
+                    <input type="text" name="doc_source" />
+                </td>
+            </tr>
+            <tr>
+                <td>更新时间</td>
+                <td>
+                    <input type="text" name="doc_update_time" value="{:date('Y-m-d')}" data-uk-datepicker="{format:'YYYY-MM-DD'}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>
+                    <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="clear:both"></div>
+<!--引入ueditor-->
+<include file="Public:ueditor" />

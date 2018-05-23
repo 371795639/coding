@@ -1,0 +1,46 @@
+<div id="gotop" class="uk-icon-chevron-up"></div>
+<style>
+#gotop {
+    background-color: silver;
+    color: black;
+    padding: 15px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    display: none;
+    cursor: pointer;
+}
+</style>
+<script>
+$(function() {
+
+    $(window).scroll(function() {
+
+        //滚动条到顶部的距离
+        var scrTop = $(window).scrollTop();
+
+        //回到顶部按钮距离窗口右侧的距离，
+        //这句比较难理解，用到了三元运算，不懂的百度下。
+        var myWidth = ($(window).width() > $("$reference").width()) ? (($(window).width() - $("#reference").width()) / 2) : 0;
+
+        //窗口高度
+        var windowTop = $(window).height();
+
+        if ((windowTop - 300) < scrTop) {
+            //滚动高度大于一页
+            $("#gotop").css("top", (scrTop + windowTop - 100)).css("right", myWidth).fadeIn("slow");
+        } else {
+            //滚动高度小于一页
+            $("#gotop").css("top", (scrTop + windowTop - 100)).css("right", myWidth).fadeOut("slow");
+        }
+    });
+
+    //按钮被点击后，滑动到顶部。
+    $('#gotop').click(function() {
+        $('html,body').animate({
+            scrollTop: '0px'
+        }, 800);
+    });
+
+})
+</script>

@@ -1,0 +1,172 @@
+<layout name="inner" />
+<include file="public/angular" />
+<load href="__PUBLIC__/Common/dist/jquery.form.js" />
+<p>
+    <a class="uk-button" href="__CONTROLLER__/index">{$Think.lang.back}</a>
+</p>
+<div class="uk-overflow-container">
+    <table class="uk-table">
+        <tr>
+            <td width=280>#</td>
+            <td>
+                {$ts_id}&nbsp;
+                <eq name="ts_type" value="0">
+                    <i class="uk-icon-lock uk-text-success"></i>
+                    <else/> <i class="uk-icon-paper-plane uk-text-danger"></i>
+                </eq>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.amount}(USD)</td>
+            <td>
+                {$ts_amount}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.add_time}</td>
+            <td>
+                {$ts_time}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.status}</td>
+            <td>
+                {$ts_status|transfer_status=true}&nbsp;
+                <switch name="ts_status">
+                    <case value="1">
+                        <br><i class="uk-icon-clock-o"></i>&nbsp;
+                        <small>
+                    你可以在X日期前确认或拒绝付款，超过时间，系统会自动取消该笔转账交易！
+                        <em>&nbsp;X&nbsp;=&nbsp;{:date("Y-m-d",strtotime($ts_time."+5 day"))}</em>  
+                    </case>
+                    <case value="2">
+                        <br><i class="uk-icon-clock-o"></i>&nbsp;
+                        <small>
+                    {$Think.lang.send_money_clock}
+                        <em>&nbsp;X&nbsp;=&nbsp;{:date("Y-m-d",strtotime($ts_time."+10 day"))}</em>             
+                    
+                </small>
+                    </case>
+                </switch>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee}</td>
+            <td>
+                {$user_name}({$user_email})
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                {$ts_remark}
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <switch name="ts_status">
+                    <case value="1">
+                        <eq name="ts_type" value="1">
+                            <button type="button" onclick="confirmDelete('__CONTROLLER__/confirmPay/ts_id/{$ts_id}','{$Think.lang.confirm_pay_notice}')" class="uk-button uk-button-primary">{$Think.lang.confirm_payment}</button>
+                            <else/>
+                            <button type="button" onclick="confirmDelete('__CONTROLLER__/confirmPay/ts_id/{$ts_id}','{$Think.lang.confirm_pay_notice1}')" class="uk-button uk-button-primary">{$Think.lang.confirm_payment}</button>
+                        </eq>
+                        <button type="button" data-uk-modal="{target:'#declineModal',center:true}" class="uk-button  uk-button-danger">{$Think.lang.decline_ts}</button>
+                    </case>
+                    <case value="2">
+                        <button type="button" onclick="confirmDelete('__CONTROLLER__/confirmPay/ts_id/{$ts_id}','{$Think.lang.confirm_pay_notice}')" class="uk-button uk-button-primary">{$Think.lang.confirm_payment}</button>
+                        <button data-uk-modal="{target:'#refundModal',center:true}" type="button" class="uk-button">{$Think.lang.request_refund}</button>
+                    </case>
+                    <case value="3">
+                        <button data-uk-modal="{target:'#disputeModal',center:true}" type="button" class="uk-button uk-button-danger">{$Think.lang.file_dispute}</button>
+                    </case>
+                    <case value="5">
+                        <button type="button" onclick="confirmDelete('__CONTROLLER__/cancelRefund/ts_id/{$ts_id}','{$Think.lang.r_u_sure}')" class="uk-button">{$Think.lang.cancel_refund}</button>
+                    </case>
+                    <case value="7|8">
+                        <button type="button" onclick="confirmDelete('__CONTROLLER__/confirmPay/ts_id/{$ts_id}','{$Think.lang.r_u_sure}')" class="uk-button">{$Think.lang.revoke_dispute}</button>
+                    </case>
+                </switch>
+            </td>
+        </tr>
+    </table>
+</div>
+<h3 class="tm-article-subtitle">{$Think.lang.ts_history}</h3>
+<div class="uk-alert">
+    <table class="uk-table">
+        <volist name="list" id="vo">
+            <tr>
+                <td width=280>{$vo.td_time}</td>
+                <td width=200>{$vo.td_status|transfer_status=true}
+                </td>
+                <td>
+                    {$vo.td_remark}
+                </td>
+            </tr>
+        </volist>
+    </table>
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="refundModal">
+    <form id="refund_form" action="__CONTROLLER__/confirmRefund" class="uk-form" method="post">
+        <input type="hidden" name="ts_id" value="{$ts_id}" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.refund_request}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.refund_reason}</td>
+                    <td>
+                        <textarea name="refund_reason" style="width: 100%;height: 100px;" required="" placeholder="{$Think.lang.refund_reason_placeholder}"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="disputeModal">
+    <form id="refund_form" action="__CONTROLLER__/processDispute" class="uk-form" method="post">
+        <input type="hidden" name="ts_id" value="{$ts_id}" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.file_dispute}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.dispute_reason}</td>
+                    <td>
+                        <textarea name="dispute_reason" style="width: 100%;height:100px;" required="" placeholder="{$Think.lang.refund_reason_placeholder}"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="declineModal">
+    <form id="refund_form" action="__CONTROLLER__/processDecline" class="uk-form" method="post">
+        <input type="hidden" name="ts_id" value="{$ts_id}" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.decline_ts}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.decline_reason}</td>
+                    <td>
+                        <textarea name="decline_reason" style="width: 100%;height:100px;" required="" placeholder="{$Think.lang.decline_reason_placeholder}"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>

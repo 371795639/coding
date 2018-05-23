@@ -1,0 +1,110 @@
+<layout name="layout" />
+<p>
+    <button type="button" data-uk-modal="{target:'#st_remark'}" class='uk-button uk-button-primary' data-uk-modal>修改备注</button>
+</p>
+<notempty name="Think.get.gen_csv">
+    <p>
+        <a class="uk-button uk-button-primary uk-width-1-1" href="__CONTROLLER__/downloadCsv">Download CSV file</a>
+    </p>
+</notempty>
+<load href="__PUBLIC__/{:UIKIT}/css/components/datepicker.almost-flat.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/datepicker.min.js" />
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.user_id}:
+            <input type="text" name="st_user_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.remark}:
+            <input type="text" name="st_reason" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.type}:
+            <select name="st_type">
+                <option value="">--</option>
+                <volist name="Think.lang.st_type" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.start_time}:
+            <input type="text" name="order_time_start" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.end_time}:
+            <input type="text" name="order_time_end" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-1">
+            <p>
+                <br>
+                <label>
+                    <input type="checkbox" name="gen_csv">{$Think.lang.create_csv}</label>
+            </p>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<blockquote>
+    总额：{$st_amount|number_format="2"}
+</blockquote>
+{$page}
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>{$Think.lang.user_id}</th>
+            <th>{$Think.lang.type}</th>
+            <th>{$Think.lang.amount}</th>
+            <th>{$Think.lang.fee}</th>
+            <th width=250>{$Think.lang.remark}</th>
+            <th>{$Think.lang.add_time}</th>
+            <th>{$Think.lang.balance}</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.st_id}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick='openwin("__MODULE__/Users/details/{$vo.st_user_id}")'>{$vo.st_user_id}</a></td>
+                    <td>{$vo.st_type|statement_type=true}</td>
+                    <td>
+                        <eq name="vo.st_flag" value="1">
+                            <font color=green>
+                                <else/>
+                                <font color=red>
+                        </eq>
+                        {$vo.st_amount}
+                        </font>
+                    </td>
+                    <td>{$vo.st_fee}</td>
+                    <td>{$vo.st_reason}</td>
+                    <td>{$vo.st_time}</td>
+                    <td>{$vo.st_balance}</td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<div class="uk-modal" id="st_remark">
+    <form class="uk-form uk-form-stacked" method="post" action="__CONTROLLER__/updateHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header uk-text-danger">修改对账单备注,谨慎操作</div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">序号#</label>
+                <div class="uk-form-controls">
+                    <input type="text" name="st_id" required/>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">备注</label>
+                <div class="uk-form-controls">
+                    <textarea name="st_reason" required></textarea>
+                </div>
+            </div>
+            <div class="uk-modal-footer">
+                <button type="submit" class='uk-button uk-button-danger'>{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>

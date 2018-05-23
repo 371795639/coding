@@ -1,0 +1,80 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+    </a>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.action_name}:
+            <input type="text" name="title" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.action}:
+            <input type="text" name="name" placeholder="" class="uk-width-1-1">
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <tr>
+            <th>#</th>
+            <th>{$Think.lang.action_name}</th>
+            <th>{$Think.lang.action}</th>
+            <th>{$Think.lang.module}</th>
+            <th>{$Think.lang.status}</th>
+            <th>--</th>
+        </tr>
+        <volist name="list" id="vo">
+            <tr>
+                <td><a href="__CONTROLLER__/details/{$vo.id}">{$vo.id}</a></td>
+                <td>{$vo.title}</td>
+                <td>{$vo.name}</td>
+                <th>{$vo.module}</th>
+                <td>{$vo.status|displayIcon}</td>
+                <td>
+                    <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.id}')">
+                        <i class="uk-icon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </volist>
+    </table>
+</div>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>{$Think.lang.action_name}</td>
+                    <td>
+                        <input type="text" name="title" class="form-control" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.action}</td>
+                    <td>
+                        <input type="text" name="name" class="form-control" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.module}</td>
+                    <td>
+                        <input type="text" name="module" class="form-control" required />
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,31 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <table class="uk-table">
+        <tr>
+            <td width=180>{$Think.lang.config_name}</td>
+            <td>
+                <input type="text" name="conf_name" readonly value="{$conf_name}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.config_value}</td>
+            <td>
+                <textarea type="text" name="conf_value" required style="height:100px;">{$conf_value}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea type="text" name="conf_remark" style="height:100px;">{$conf_remark}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

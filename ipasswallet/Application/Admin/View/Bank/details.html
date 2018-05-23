@@ -1,0 +1,87 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="bank_id" value="{$bank_id}" />
+    <table class="uk-table">
+        <tr>
+            <td width=180>{$Think.lang.mh_id}</td>
+            <td>
+                <input type="text" name="bank_mid" required value="{$bank_mid}" />
+            </td>
+        </tr>
+        <tr>
+            <td width=180>{$Think.lang.bank_name}</td>
+            <td>
+                <input type="text" name="bank_name" required value="{$bank_name}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.currency}</td>
+            <td>
+                <input type="text" name="bank_currency" value="{$bank_currency}" required />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_country}</td>
+            <td>
+                <input type="text" name="bank_country" value="{$bank_country}" required />&nbsp;<em>{:getCountryArr($bank_country)['name']}</em>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_address}</td>
+            <td>
+                <input type="text" name="bank_address" value="{$bank_address}" required />
+            </td>
+        </tr>
+        <tr>
+            <td width=180>{$Think.lang.bank_account}</td>
+            <td>
+                <input type="text" name="bank_account" required value="{$bank_account}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_name}</td>
+            <td>
+                <input type="text" name="bank_client" value="{$bank_client}" required />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_country}</td>
+            <td>
+                <input type="text" name="bank_client_country" value="{$bank_client_country}" required /> &nbsp;
+                <em>{:getCountryArr($bank_client_country)['name']}</em>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_address}</td>
+            <td>
+                <input type="text" name="bank_client_address" value="{$bank_client_address}" required />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_branch}</td>
+            <td>
+                <textarea type="text" name="bank_branch" required style="height:100px;">{$bank_branch}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_swift}</td>
+            <td>
+                <input type="text" name="bank_swift" value="{$bank_swift}" required />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea type="text" name="bank_remark" style="height:100px;">{$bank_remark}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

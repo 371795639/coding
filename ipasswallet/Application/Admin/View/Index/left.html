@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>
+        {$Think.lang.backoffice_title}
+    </title>
+    <!-- Bootstrap -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.almost-flat.min.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media
+        queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file://
+        -->
+    <!--[if lt IE 9]>
+            <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js">
+            </script>
+            <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js">
+            </script>
+        <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files
+        as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <style>
+    * {
+        font-size: 12px;
+    }
+
+    .s-bg {
+        max-width: 100%;
+        background: #333 none repeat scroll 0% 0%;
+        overflow-y: auto;
+    }
+    </style>
+
+    <body>
+        <div class="s-bg">
+            <ul class="uk-nav uk-nav-offcanvas  uk-nav-parent-icon " data-uk-nav>
+                <li>
+                    <a target="main" href="__MODULE__/Index/right">
+                            {$Think.lang.home}
+                        </a>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                       常用项
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                            汇率
+                        </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        待处理
+                        </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        已激活
+                        </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        已冻结
+                        </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        已禁用
+                        </a>
+                        </li>
+                    </ul>
+                    <li class="uk-parent">
+                        <a href="#">
+                       客户列表
+                    </a>
+                        <ul class="uk-nav-sub">
+                            <li>
+                                <a target="main" href="__MODULE__/Users/index">
+                            所有客户
+                        </a>
+                            </li>
+                            <volist name="Think.lang.user_status" id="vo">
+                                <li>
+                                    <a target="main" href="__MODULE__/Users/index/user_status/{$key}">
+                        {$vo}
+                        </a>
+                                </li>
+                            </volist>
+                            <li>
+                                <a target="main" href="__MODULE__/Bank/index">
+                        客户银行列表
+                        </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <a href="#">
+                       转账列表
+                    </a>
+                        <ul class="uk-nav-sub">
+                            <li>
+                                <a target="main" href="__MODULE__/Transfer/index">
+                            所有转账
+                        </a>
+                            </li>
+                            <volist name="Think.lang.transfer_status" id="vo">
+                                <li>
+                                    <a target="main" href="__MODULE__/Transfer/index/ts_status/{$key}">
+                        {$vo}
+                        </a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <a href="#">
+                       提现列表
+                    </a>
+                        <ul class="uk-nav-sub">
+                            <li>
+                                <a target="main" href="__MODULE__/Withdraw/index">
+                            所有提现
+                        </a>
+                            </li>
+                            <volist name="Think.lang.withdraw_status" id="vo">
+                                <li>
+                                    <a target="main" href="__MODULE__/Withdraw/index/wd_status/{$key}">
+                        {$vo}
+                        </a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <a href="#">
+                       充值列表
+                    </a>
+                        <ul class="uk-nav-sub">
+                            <li>
+                                <a target="main" href="__MODULE__/Deposit/index">
+                            所有充值
+                        </a>
+                            </li>
+                            <volist name="Think.lang.deposit_status" id="vo">
+                                <li>
+                                    <a target="main" href="__MODULE__/Deposit/index/dp_status/{$key}">
+                        {$vo}
+                        </a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <a href="#">
+                       对账单列表
+                    </a>
+                        <ul class="uk-nav-sub">
+                            <li>
+                                <a target="main" href="__MODULE__/Statement/index">
+                            所有对账单
+                        </a>
+                            </li>
+                    </li>
+                    <volist name="Think.lang.st_type" id="vo">
+                        <li>
+                            <a target="main" href="__MODULE__/Statement/index/st_type/{$key}">
+                        {$vo}
+                        </a>
+                        </li>
+                    </volist>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                       第三方支付相关
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li>
+                            <a target="main" href="__MODULE__/Category/index">
+                                   微信
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Document/index">
+                                   支付宝
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Article/index">
+                                   信用卡
+                                </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                       文本中心
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li>
+                            <a target="main" href="__MODULE__/Category/index">
+                                   分类
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Document/index">
+                                   单页
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Article/index">
+                                   文章
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        系统通知
+                        </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        IPS通知
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                       杂项
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li>
+                            <a target="main" href="__MODULE__/Autoperform/index">
+                                   自动执行
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Document/index">
+                                   批量操作
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Article/index">
+                                   数据统计
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Index/right">
+                        自动统计
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                       {$Think.lang.admin_module}
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li>
+                            <a target="main" href="__MODULE__/Member/index">
+                                    {$Think.lang.admin_list}
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Group/index">
+                                    {$Think.lang.admin_group}
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Access/index">
+                                    {$Think.lang.access_list}
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Editor/index">
+                                   编辑人员组
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Advance/index">
+                                    {$Think.lang.senior_operation}
+                                </a>
+                        </li>
+                        <li>
+                            <a target="main" href="__MODULE__/Weblog/index">
+                                    {$Think.lang.admin_log}
+                                </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+
+</html>

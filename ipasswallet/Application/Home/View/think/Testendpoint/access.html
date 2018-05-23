@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>网关授权访问</title>
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.min.css" />
+</head>
+<style>
+input[type=text] {
+    width: 350px;
+}
+</style>
+
+<body>
+    <div class="uk-container uk-container-center">
+        <div class="uk-grid">
+            <form class="uk-form uk-form-stacked" method="post" action="__CONTROLLER__/auth">
+                <fieldset data-uk-margin>
+                    <legend>进入授权</legend>
+                    <div class="uk-form-row">
+                        <input type="text" name="usr_name" placeholder="用户名">
+                    </div>
+                    <div class="uk-form-row">
+                        <input type="password" name="usr_pwd" placeholder="2因子密码">
+                    </div>
+                    <div class="uk-form-row">
+                        <button type="submit" class="uk-button uk-button-primary">确认</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

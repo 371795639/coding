@@ -1,0 +1,1180 @@
+﻿<layout name="layout" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/sticky.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/sticky.min.js" />
+<div class="tm-section-color-1">
+    <div class="uk-container uk-container-center">
+        <div class="uk-block uk-contrast">
+            <h1 class="uk-article-title">{$cms_title|htmlspecialchars_decode}</h1>
+        </div>
+    </div>
+</div>
+<div class="tm-section-20"></div>
+<div class="uk-container uk-container-center">
+    <blockquote>
+        <p><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i> {$cms_desc}
+        </p>
+    </blockquote>
+    <div class="tm-section-20"></div>
+    <div class="uk-grid">
+        <div class="uk-width-1-1">
+            <div data-uk-sticky>
+                <!-- This is the nav containing the toggling elements -->
+                <div class="uk-alert">
+                    <ul class="uk-breadcrumb">
+                        <li><a href="#first" data-uk-smooth-scroll>Doc. Explaination</a></li>
+                        <li><a href="#second" data-uk-smooth-scroll>Prepare</a></li>
+                        <li><a href="#third" data-uk-smooth-scroll>Payment Interface (direct)</a></li>
+                        <li><a href="#fourth" data-uk-smooth-scroll>Refund interface</a></li>
+                        <li><a href="#fourth-2" data-uk-smooth-scroll>Refund Cancellation Interface</a></li>
+                        <li><a href="#fourth-1" data-uk-smooth-scroll>Pre-auth Cancellation Interface</a></li>
+                        <li><a href="#fifth" data-uk-smooth-scroll>Order Query Endpoint</a></li>
+                        <li><a href="#sixth" data-uk-smooth-scroll>Tracking Number Upload Interface</a></li>
+                        <li><a href="#seventh" data-uk-smooth-scroll>Currency Support</a></li>
+                        <li><a href="#eighth" data-uk-smooth-scroll>Express Support</a></li>
+                        <li><a href="#ninth" data-uk-smooth-scroll>Appendix 1. Country Code</a></li>
+                        <li><a href="#tenth" data-uk-smooth-scroll>Appendix 2. State Code</a></li>
+                        <li><a href="#tenth-1" data-uk-smooth-scroll>Appendix 3. Order Status Code Instructions</a></li>
+                        <li><a href="#tenth-2" data-uk-smooth-scroll>Appendix 4. Download the developer kit package</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <p>
+                <article class="uk-article">
+                    <h1 id="first" class="uk-article-title">Doc. Explaination</h1>
+                    <p>
+                        {$Think.lang.web_name} provides this doc. for you to standardize internet payment gateway for our merchant.Final interpretation belongs to {$Think.lang.web_name}，we keep the right to modify.
+                    </p>
+                    <p>
+                        Instructions of the following functions is including in this doc.: how to accept internet credit card payment,order query,refund and upload tracking number.
+                    </p>
+                    <p>
+                        Merchant administrator,devoloper and maintainer can use this doc.
+                    </p>
+                    <p>
+                        Need tech-support,click <a href="{:U('Rpage/contactus')}" target=_blank>HERE.</a>
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="second" class="uk-article">
+                    <h1 class="uk-article-title">Prepare</h1>
+                    <p>
+                        1.Read all
+                        <br> 2.All info about interface integration,including mid,site_id,api_key.
+                        <br>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <tr>
+                                <td>mid</td>
+                                <td>Merchant ID,an integer,the unique ID for merchant login the platform.You can find it in the "My Account" page after loging in.</td>
+                            </tr>
+                            <tr>
+                                <td>site_id</td>
+                                <td>Site ID,when you add a new site to the platform successfully, you wil get a unqiue site ID which is an integer.
+                                    <tr>
+                                        <td>api_key</td>
+                                        <td>
+                                            API_key,you will find it in the "My Account" page after loging in.
+                                        </td>
+                                    </tr>
+                        </table>
+                        All this document encryption method is sha256 encryption generate hash value.not clear,please google.
+                        <br> 3.Site status has to be activated after added or test and processing will be failed.if the site can pass our compliance, will notify by email.
+                        <br> 4.If you want to do enough test before live processing,you can ask for a sandbox account.In sandbox environment,you can test almost all functions like API integration.
+                        <br> 5.All gateway mentioned here use standard HTTPS protocol.
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="third" class="uk-article">
+                    <h1 class="uk-article-title">Payment Gateway(direct)</h1>
+                    <p class="uk-alert">
+                        Payment gateway URL:{$web_config.web_domain}/index.php/Gateway/securepay
+                    </p>
+                    <p>
+                        Merchant can accept credit card payment online via the gateway.Please use the standard HTTPS protocol to POST following parameters.
+                    </p>
+                    <p>
+                        <em>25 Madantory parameters & 5 optional parameters</em>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>Parameters
+                                    </th>
+                                    <th width=100>Data Type</th>
+                                    <th width=100>isRequired </th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>merchantID，how to get，please read former preparation</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>merchant order id</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>site ID，how to get,please read former preparation</td>
+                                </tr>
+                                <tr>
+                                    <td>order_amount</td>
+                                    <td>decimal(12,2)</td>
+                                    <td>Yes</td>
+                                    <td>order amount.must be in an appropriate format.Format is xx.xx.For example,5.50 is represented as "5.50", not "5.5".can't lower than 0.</td>
+                                </tr>
+                                <tr>
+                                    <td>order_currency</td>
+                                    <td>char(3)</td>
+                                    <td>Yes</td>
+                                    <td>three international currency code，like USD，GBP，CNY，specific currency type ,check "currency support"</td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>
+                                        cryptographic hash strings of processing is calculated by sha256 algorithm. Combine merchant id,site id,order id,order amount ,order currency and site key all together,using Sha256 algorithm to generate the hash value.
+                                        <p>
+                                            PHP demonstration code as follows:
+                                            <br> $hash_info=hash("sha256",$mid.$site_id.$oid.$order_amount.$order_currency.$api_key);
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>card_no</td>
+                                    <td>number</td>
+                                    <td>Yes</td>
+                                    <td>credit card NO.</td>
+                                </tr>
+                                <tr>
+                                    <td>card_ex_month</td>
+                                    <td>number</td>
+                                    <td>Yes</td>
+                                    <td>expiry month of credit card must be a double digits,eg,08 , 11 mean Aug.and Nov.</td>
+                                </tr>
+                                <tr>
+                                    <td>card_ex_year</td>
+                                    <td>number</td>
+                                    <td>Yes</td>
+                                    <td>expiry year of credit card must be a double digits,choose last 2 digits of the year.eg,18，21 mean 2018 and 2021.</td>
+                                </tr>
+                                <tr>
+                                    <td>card_cvv</td>
+                                    <td>number</td>
+                                    <td>Yes</td>
+                                    <td>credit card CVV,4 numbers at most</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_email</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer billing name</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_phone</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer billing telephone</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_country</td>
+                                    <td>char(2)</td>
+                                    <td>Yes</td>
+                                    <td>customer billing country,international digits code,please do check Appendix 1. The country code</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_state</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer billing state,except United States, Canada, Australia need to use two digits contraction state code,others no special requests,if no state,input"--"（Some interfaces need merchants to provide the state information of Japan.） State code data can refer to appendix 2: state code
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>bill_city</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer billing city</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_street</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>street of customer billing address</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_zip</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer billing post code</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_firstname</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer first name</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_lastname</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>customer last name</td>
+                                </tr>
+                                <tr>
+                                    <td>syn_url</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>Synchronous notification URL. Customers will be redirected to the page with the payment result sent by using the standard HTTP GET method.
+                                        <em>No use in direct payment gateway</em>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>asyn_url</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td> Asynchronous notification URL. The URL should be accessed on the internet,and canot be a local URL.
+                                        <BR> Our platform will forward the payment result of each transaction to this URL.
+                                        <ul>
+                                            <li>If merchants receive the request,please output "100".</li>
+                                            <li>If our platform doesn't receive the "100",we will re-send the result 3 times at the most.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>source_ip</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>the client's IP address</td>
+                                </tr>
+                                <tr>
+                                    <td>source_url</td>
+                                    <td>string</td>
+                                    <td>yes</td>
+                                    <td>the client's source URL</td>
+                                </tr>
+                                <tr>
+                                    <td>gateway_version</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>the gateway version,now it is 1.0.</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>uuid</td>
+                                    <td>string</td>
+                                    <td>yes</td>
+                                    <td>UUID,Universally Unique Identifier,format：xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (8-4-4-4-12),each program language has its own implementation。</td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="uk-alert uk-alert-danger">Parameters for rebilling</div>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <tr>
+                                <td width=100>rebill_flag</td>
+                                <td>int</td>
+                                <td>No</td>
+                                <td>Set it to 1 if it's a rebilling transaction</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_cycle</td>
+                                <td>int</td>
+                                <td>No</td>
+                                <td>Rebilling cycle days,should be an integar and larger than 1;When "rebill_flag" is 1,the parameter is mandatory</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_amount</td>
+                                <td>decimal(12,2)</td>
+                                <td>No</td>
+                                <td>
+                                    Rebilling amount,the format should be like 9.00;When "rebill_flag" is 1,the parameter is mandatory</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_count</td>
+                                <td>int</td>
+                                <td>No</td>
+                                <td>
+                                    Rebilling count,should be an integar,bigger or equal than 0;When "rebill_flag" is 1,the parameter is mandatory
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_firstdate</td>
+                                <td>date</td>
+                                <td>No</td>
+                                <td>
+                                    The first rebilling date,the format should be like "2016-04-01";When "rebill_flag" is 1,the parameter is mandatory
+                                </td>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>The processing result of transaction from direct interface will return directly to the gateway address which initiate requests in JSON format.as following:</p>
+                        <p>
+                            If the transaction has been blocked,the data returned is similar to:
+                            <br>
+                            <pre>
+<code>
+    {
+        "status": 0,
+        "data": 10018,
+        "info": "Billing street cannot be NULL"
+    }
+</code> 
+</pre> If the transaction was failed,the data returned is similar to:
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "payment declined",
+    "data": 
+    {
+        "order_status": 6,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+         "cascading":0
+    }
+
+}
+</code> 
+</pre> If the transaction has been approved,the data returned is similar to:
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "payment success",
+    "data": 
+    {
+        "order_status": 2,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+         "cascading":0
+    }
+
+}
+</code> 
+</pre> If the transaction was abnormal,the data returned is similar to:
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "processing,please wait...",
+    "data": 
+    {
+        "order_status": 1,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+         "cascading":0
+    }
+
+}
+</code> 
+</pre> If the transaction has been pre-authorized successful. (pre-auth transaction only),the data returned is similar to:
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "authorized success",
+    "data": 
+    {
+        "order_status": 3,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+         "cascading":0
+    }
+
+}
+</code> 
+</pre>
+                        </p>
+                        <p>
+                            It means that the transaction has been blocked by system when "status" is 0 in the returned JSON statements.The data field is the code of this block,the info field is the instruction of this block.There are lots of reasons for blocking transaction data by system,such as: have null value in submitted data,incorrect email address format,black list,have limitation on trasaction times. Concrete analysis should be made according to concrete circumstance.The backoffice of platform can not find the corresponding record after the transaction had been blocked.At this time,merchant can ask help from tech support with sending returned code and instruction.
+                        </p>
+                        <p>
+                            It means that the transaction has been recorded into system when "status" is 1 in the returned JSON statements.Merchant can check the payment current status according to the data of "order_status".There are 4 return status suppored by platform for now,as following：
+                            <dl class="uk-description-list-horizontal">
+                                <dt>1=>{:order_status(1,true)}</dt>
+                                <dd>It means that this transaction has already submitted to the bank but has not received the return data yet.Or the bank returned infomation did not including effective payment status instruction,still need waiting for status delay changes.</dd>
+                                <dt>6=>{:order_status(6,true)}</dt>
+                                <dd>It means that this transaction has already failed,The failure reason returned from bank shows in "info" field.</dd>
+                                <dt>2=>{:order_status(2,true)}</dt>
+                                <dd>It means that this transaction has been approved.</dd>
+                                <dt>3=>{:order_status(3,true)}</dt>
+                                <dd>It means that this transaction is pre-authorized successed.</dd>
+                            </dl>
+                            At this point, the meaning of other parameters is as follows,
+                            <br>
+                            <dl class="uk-description-list-horizontal">
+                                <dt>oid</dt>
+                                <dd>order number from transaction data that merchant submitted</dd>
+                                <dt>pid</dt>
+                                <dd>the only id for querying order that generated by {$Think.lang.web_name} platform ,please keep this pid.Other interface below do need this information</dd>
+                                <dt>order_amount</dt>
+                                <dd>order amount from transaction data that merchant submitted</dd>
+                                <dt>order_currency</dt>
+                                <dd>order currency from transaction data that merchant submitted</dd>
+                                <dt>hash_info</dt>
+                                <dd>this hash value is as same as it in original transaction data that merchant submitted.Developers can determine whether trading data effectively by comparing the value</dd>
+                                <dt>syn_url</dt>
+                                <dd>URL Synchronous notification from transaction data that merchant submitted</dd>
+                                <dt>cascading</dt>
+                                <dd>
+                                    Cascading post times in each channels for the website.0 means we submit only once;1 means we submitted one more time,and so on.
+                                </dd>
+                            </dl>
+                        </p>
+                        <p>
+                            <div class="uk-alert uk-alert-primary">
+                                PHP demonstration code as follows:
+                            </div>
+                            <pre>
+<code>
+
+    //encrypted the sensitive data
+    $hash_info=hash("sha256",$params['merchantid'].$params['siteid'].
+    $params['invoiceid'].$params['amount'].$params['currency'].$api_key);
+    
+    
+    
+    $curlPost="order_amount=".$params['amount'];
+    $curlPost.="&order_currency=".$params['currency'];
+    $curlPost.="&mid=".$params['merchantid'];//merchant ID
+    $curlPost.="&site_id=".$params['siteid'];//site ID
+    $curlPost.="&oid=".$params['invoiceid'];//order ID
+    $curlPost.="&hash_info=".$hash_info;
+    
+    $curlPost.="&card_no=".$params["card_number"]; //credit card number
+    $curlPost.="&card_ex_year=".$params["expiry_year"];//expiry year of credit card
+    $curlPost.="&card_ex_month=".$params["expiry_month"];//expiry month of credit card
+    $curlPost.="&card_cvv=".$params["cvv"];//CVV
+    
+    $curlPost.='&bill_firstname='.$params['firstname'];
+    $curlPost.='&bill_lastname='.$params['lastname'];
+    $curlPost.='&bill_street='.$params['address1'];
+    $curlPost.='&bill_city='.$params['city'];
+    $curlPost.='&bill_state='.$params['state'];
+    $curlPost.='&bill_country='.$params['country'];
+    $curlPost.='&bill_zip='.$params['postcode'];
+    $curlPost.='&bill_phone='.$params['phonenumber'];
+    $curlPost.='&bill_email='.$params['email'];
+    
+    $curlPost.='&syn_url='.$params['syn_url'];
+    $curlPost.='&asyn_url='.$params['asyn_url'];
+    
+    $curlPost.='&source_ip='.$params['client_ip']; //source IP address
+    $curlPost.='&source_url='.$_SERVER["HTTP_REFERER"]; //source URL address
+    $curlPost.='&gateway_version=1.0'; //gateway version
+    $curlPost.='&uuid='.create_guid(); //uuid
+
+    /*If it's a rebilling transaction*/
+    $curlPost.='&rebill_flag=1'; 
+    $curlPost.='&rebill_cycle='.$params['rebill_cycle']; 
+    $curlPost.='&rebill_amount='.$params['rebill_amount'];
+    $curlPost.='&rebill_count='.$params['rebill_count']; 
+    $curlPost.='&rebill_firstdate='.$params['rebill_firstdate'];    
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $gateway_url);
+    curl_setopt($ch,CURLOPT_POST,1);
+    curl_setopt($ch,CURLOPT_POSTFIELDS,$curlPost);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    //process $response
+    $result = json_decode($response,true);
+
+/**
+* the function for creating uuid in PHP
+*/
+function create_guid() {
+    $charid = strtoupper(md5(uniqid(mt_rand(), true)));
+    $hyphen = chr(45); // "-"
+    $uuid = substr($charid, 0, 8) . $hyphen
+    . substr($charid, 8, 4) . $hyphen
+    . substr($charid, 12, 4) . $hyphen
+    . substr($charid, 16, 4) . $hyphen
+    . substr($charid, 20, 12);
+    return $uuid;
+}     
+</code>
+</pre> The code above is for reference only.
+                            <div class="uk-alert uk-alert-danger">
+                                Developer Kit sample code(PHP)
+                            </div>
+                            <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "order_amount"=>I("order_amount"),
+            "order_currency"=>I("order_currency"),
+            "card_no"=>I("card_no"),
+            "card_cvv"=>I("card_cvv"),
+            "card_ex_year"=>I("card_ex_year"),
+            "card_ex_month"=>I("card_ex_month"),
+            "bill_email"=>I("bill_email"),
+            "bill_phone"=>I("bill_phone"),
+            "bill_country"=>I("bill_country"),
+            "bill_state"=>I("bill_state"),
+            "bill_city"=>I("bill_city"),
+            "bill_street"=>I("bill_street"),
+            "bill_zip"=>I("bill_zip"),
+            "bill_firstname"=>I("bill_firstname"),
+            "bill_lastname"=>I("bill_lastname"),
+            "syn_url"=>I("syn_url"),
+            "asyn_url"=>I("asyn_url"),
+            "uuid"=>create_guid()
+            );
+        //If it's a rebilling transaction
+        $rebill_arr=array(
+            "rebill_amount"=>I("rebill_amount"),
+            "rebill_cycle"=>I("rebill_cycle"),
+            "rebill_count"=>I("rebill_count"),
+            "rebill_firstdate"=>I("rebill_firstdate")
+        );
+        $oop->setRebill($rebill_arr);   
+        $result=$oop->sendGateway($arr);
+        $arr_result=json_decode($result,true);
+
+/**
+* the function for creating uuid in PHP
+*/
+function create_guid() {
+    $charid = strtoupper(md5(uniqid(mt_rand(), true)));
+    $hyphen = chr(45); // "-"
+    $uuid = substr($charid, 0, 8) . $hyphen
+    . substr($charid, 8, 4) . $hyphen
+    . substr($charid, 12, 4) . $hyphen
+    . substr($charid, 16, 4) . $hyphen
+    . substr($charid, 20, 12);
+    return $uuid;
+}          
+</code>
+</pre>
+                        </p>
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth" class="uk-article">
+                    <h1 class="uk-article-title">Refund Interface</h1>
+                    <div class="uk-alert">
+                        Refund interface gateway：{$web_config.web_domain}/index.php/Openapi/Orders/refund
+                    </div>
+                    Users can make a refund process for approved transaction by using refund interface gateway.This gateway accepts 5 parameters which must use the standard HTTP GET method to submit,The 5 parameters are as following:
+                    <p>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>Parameters</th>
+                                    <th width=100>Data Type</th>
+                                    <th width=100>isRquired</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>merchant ID generated by {$Think.lang.web_name} platform,merchant use this ID to login in</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>site ID generated by {$Think.lang.web_name} platform,it is the ID for the website that processed this transation</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>order ID generated by {$Think.lang.web_name} platform,it is the pid parameter returned from payment interface,not the order ID sumbitted from merchant</td>
+                                </tr>
+                                <tr>
+                                    <td>refund_amount</td>
+                                    <td>decimal(12,2)</td>
+                                    <td>Yes</td>
+                                    <td>refund amount.must be in an appropriate format.Format is xx.xx.For example,5.50 is represented as "5.50", not "5.5".Refund amount can not less than 0 and not greater than order amount,otherwise this refund process is invalid.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>
+                                        the encryption authentication information of refund interface is use sha256 encryption method to encrypt,String encryption after the above four parameters along with api_key connect seamlessly.
+                                        <br> $mid.$site_id.$oid.$refund_amount.$api_key，api_key is the key generated for the website that processed this transation.
+                                        <br> PHP demonstration code as follows:$hash_info=hash("sha256",$mid.$site_id.$oid.$refund_amount.$api_key);
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        This interface will return data in JSON format to initiate request address the result after receiving refund request.Returned code is as following:
+                    </p>
+                    If the refund has been failed,the data returned is similar to:
+                    <pre>
+<code>
+{
+    "status": 0,
+    "info": "invalid refund amount"
+}
+</code>
+</pre> If this refund has been successed,the data returned is similar to:
+                    <pre>
+<code>
+{
+    "status": 1,
+    "info": "refund request successfully sent"
+}
+</code>
+</pre> It means the refund has been failed when "status" is 0 in the returned JSON statements.the info field will account for tht fail reason.
+                    <br> when "status" is 1,it means the refund has been successed.The status of this transaction will shows like{:order_status(7,true)}in the platform after this refund has been successed.Our system will process this refund request automatically after 12 hours.
+                    <div class="uk-alert uk-alert-danger">
+                        Developer Kit sample code(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "refund_amount"=>I("order_amount"),
+            );
+        $result=$oop->sendRefund($arr["oid"],$arr["refund_amount"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth-2" class="uk-article">
+                    <h1 class="uk-article-title">Refund Cancellation Interface</h1>
+                    <div class="uk-alert">
+                        Refund cancellation interface gateway：{$web_config.web_domain}/index.php/Openapi/Orders/cancelRefund
+                    </div>
+                    User can cancel refunds for the pending refund transactions by using refund interface gateway.This gateway accepts 4 parameters which must use the standard HTTP GET method to submit.The 4 parameters are as following:
+                    <p>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>Parameters</th>
+                                    <th width=100>Data Type</th>
+                                    <th width=100>isRquired</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>merchant ID generated by {$Think.lang.web_name} platform,merchant use this ID to login in</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>site ID generated by {$Think.lang.web_name} platform,it is the ID for the website that processed this transation</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>int</td>
+                                    <td>Yes</td>
+                                    <td>order ID generated by {$Think.lang.web_name} platform,it is the pid parameter returned from payment interface,not the order ID sumbitted from merchant</td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>Yes</td>
+                                    <td>
+                                        the encryption authentication information of refund cancellation interface is use sha256 encryption method to encrypt,String encryption after the above four parameters along with api_key connect seamlessly.
+                                        <br> $mid.$site_id.$oid.$api_key，api_key is the key generated for the website that processed this transation.
+                                        <br> PHP demonstration code as follows:$hash_info=hash("sha256",$mid.$site_id.$oid.$api_key);
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        This interface will return data in JSON format to initiate request address the result after receiving refund cancel request.Returned code is as following:
+                    </p>
+                    If the refund cancellation has been failed,the data returned is similar to:
+                    <pre>
+<code>
+{
+    "status": 0,
+    "info": "invalid order status"
+}
+</code>
+</pre> If the refund cancellation has been successed,the data returned is similar to:
+                    <pre>
+<code>
+{
+    "status": 1,
+    "info": "cancel refund request successfully sent"
+}
+</code>
+</pre> It means the refund cancellation has been failed when "status" is 0 in the returned JSON statements.the info field will account for tht fail reason.
+                    <br> If "status" is 1,it means the refund cancellation has beensuccessed.The status of this transaction will shows like{:order_status(2,true)}or{:order_status(4,true)}in the platform after this refund cancellation has been successed.
+                    <div class="uk-alert uk-alert-danger">
+                        Developer Kit sample code(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid")
+            );
+        $result=$oop->cancelRefund($arr["oid"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth-1" class="uk-article">
+                    <h1 class="uk-article-title">Pre-auth Cancellation Interface</h1>
+                    <p>
+                        <div class="uk-alert">
+                            Pre-auth cancellation interface gateway{$web_config.web_domain}/index.php/Openapi/Orders/void
+                        </div>
+                        Users can cancel a pre-auth transaction before it has been aotumatically successed by using pre-auth cancellation interface gateway.
+                        <br> This gateway accepts 4 parameters which must use the standard HTTP GET method to submit.The 4 parameters are as following:
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>Parameters</th>
+                                        <th width=100>Data Type</th>
+                                        <th width=100>isRquired</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>merchant ID generated by {$Think.lang.web_name} platform,merchant use this ID to login in</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>site ID generated by {$Think.lang.web_name} platform,it is the ID for the website that processed this transation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>order ID generated by {$Think.lang.web_name} platform,it is the pid parameter returned from payment interface,not the order ID sumbitted from merchant</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>
+                                            the encryption authentication information of pre-auth cancellation interface interface is use sha256 encryption method to encrypt,String encryption after the above four parameters along with api_key connect seamlessly.
+                                            <br> $mid.$site_id.$oid.$api_key，api_key is the key generated for the website that processed this transation.
+                                            <br> PHP demonstration code as follows:$hash_info=hash("sha256",$mid.$site_id.$oid.$api_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            This interface will return data in JSON format to initiate request address the result after receiving request of cancel pre-auth transactions.Returned code is as following:
+                        </p>
+                        If cancelling pre-auth transaction has been failed,the data returned is similar to:
+                        <pre>
+<code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}
+</code>
+</pre> If cancelling pre-auth transaction has beensuccessed,the data returned is similar to:
+                        <pre>
+<code>
+{
+    "status": 1,
+    "info": "voided successfully"
+}
+</code>
+</pre> It means the pre-auth cancellation has been failed when "status" is 0 in the returned JSON statements.the info field is instruction of tht fail reason.
+                        <br> If "status" is 1,it means the pre-auth cancellation has been successed!
+                        <br>
+                        <div class="uk-alert uk-alert-warning">
+                            This interface only for pre-auth transactions.
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        Developer Kit sample code(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid")
+            );
+        $result=$oop->void($arr["oid"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fifth" class="uk-article">
+                    <h1 class="uk-article-title">Order Query Endpoint</h1>
+                    <div class="uk-alert">
+                        Order Query Endpoint:{$web_config.web_domain}/index.php/Openapi/Orders/getInfo
+                    </div>
+                    <p>
+                        Users can query basic information of a transaction (such as order id,order amount,billing address,payment status,exchange rate and so on) through this endpoint.
+                    </p>
+                    <p>
+                        This endpoint accepts 5 parameters,and they should be posted by means of the standard HTTP GET method.
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>Parameters</th>
+                                        <th width=100>Data Type</th>
+                                        <th width=100>isRquired</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>merchant ID generated by {$Think.lang.web_name} platform,merchant use this ID to login in</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>site ID generated by {$Think.lang.web_name} platform,it is the ID for the website that processed this transation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>Optional</td>
+                                        <td>order ID generated by {$Think.lang.web_name} platform,it is the pid parameter returned from payment interface,not the order ID sumbitted from merchant</td>
+                                    </tr>
+                                    <tr>
+                                        <td>mh_oid</td>
+                                        <td>int</td>
+                                        <td>Optional</td>
+                                        <td>Merchant Order ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>
+                                            The encryption authentication information of query interface is use sha256 encryption method to encrypt,String encryption after the above four parameters along with site_key connect seamlessly.
+                                            <br> $mid.$site_id.$oid.$site_key，site_key is the key generated for the website that processed this transation.
+                                            <br> PHP demonstration code as follows:$hash_info=hash("sha256",$mid.$site_id.$oid.$mh_oid.$site_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            This endpoint will return data in JSON format to initiated request URL:
+                        </p>
+                        If failed to query,the response will be similar to:
+                        <pre><code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}</code></pre> If succeed to query,the response will be similar to:
+                        <pre><code>
+{
+
+    "status": 1,
+    "info": "success",
+    "data": 
+    {
+        "order_id": 3,
+        "merchant_oid": "3",
+        "order_time": "2014-12-10 11:18:24",
+        "order_status": 1,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "card_type": "visa",
+        "order_site": "http://www.test.com",
+        "billing_email": "test@test.com",
+        "billing_country": "US",
+        "billing_state": "CA",
+        "billing_city": "test",
+        "billing_street": "test",
+        "billing_phone": "18888888888",
+        "process_mode": "sales",
+        "process_type":"production"
+    }
+
+}
+</code></pre> The "status" node shows the query result. "0" means failed,"1" means success.
+                        <br> For "order_status" code,Users can refer to Appendix 3. Order Status Code Instructions.
+                        <div class="uk-alert uk-alert-warning">Notice：
+                            <br>The "oid" and "mh_oid" parameter are not required to post at the same time,you can post either one. If you post both of them,the mh_oid will be ignored.
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        Developer Kit sample code(PHP)
+                    </div>
+                    <pre>
+<code>
+
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$site_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "mh_oid"=>I("mh_oid")
+            );
+        $result=$oop->getOrderInfo($arr["oid"],$arr['mh_oid']);
+        $arr_result=json_decode($result,true);
+
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="sixth" class="uk-article">
+                    <h1 class="uk-article-title">Tracking Number Upload Interface</h1>
+                    <div class="uk-alert">
+                        Tracking number upload interface gateway:{$web_config.web_domain}/index.php/Openapi/Tracking/upload
+                    </div>
+                    <p>
+                        Users can upload tracking number to the corresponding transaction directly without login to the front office by using query interface gateway.
+                    </p>
+                    <p>
+                        This gateway accepts 4 parameters which must use the standard HTTP GET method to submit. The 4 parameters are as following:
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>Parameters</th>
+                                        <th width=100>Data Type</th>
+                                        <th width=100>isRquired</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>merchant ID generated by {$Think.lang.web_name} platform,merchant use this ID to login in</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>site ID generated by {$Think.lang.web_name} platform,it is the ID for the website that processed this transation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>Yes</td>
+                                        <td>order ID generated by {$Think.lang.web_name} platform,it is the pid parameter returned from payment interface,not the order ID sumbitted from merchant</td>
+                                    </tr>
+                                    <tr>
+                                        <td>track_company</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>
+                                            Please refer to the Express Support below here to check currently supported express company.Only these company listed can use this interface to upload tracking number,If the express company you work with isn't in the list,please contact our merchant service support to add.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>track_number</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>tracking number</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>
+                                            The encryption authentication information of tracking number upload interface is use sha256 encryption method to encrypt,String encryption after the above four parameters along with api_key connect seamlessly.
+                                            <br> $mid.$site_id.$oid.$track_company.$track_number.$api_key，api_key is the key generated for the website that processed this transation. PHP demonstration code as follows:
+                                            <br> $hash_info=hash("sha256",$mid.$site_id.$oid.$track_company.$track_number.$api_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            This interface will return data in JSON format to initiate request address the result after receiving upload request.Returned code is as following:
+                        </p>
+                        If upload failed,the data returned is similar to:
+                        <pre>
+<code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}
+</code>
+</pre> If upload successed,the data returned is similar to:
+                        <pre>
+<code>
+{
+    "status": 1,
+    "info": "tracking uploaded"
+}
+</code>
+</pre> It means the upload failed when "status" is 0 in the returned JSON statements.the info field is instruction of tht fail reason.
+                        <br> "1" means upload successed.
+                        <br>
+                        <div class="uk-alert uk-alert-warning">
+                            1.Only the system support express company can be uploaded, must use the correct code.
+                            <br> 2.Interface takes the traking number of last time uploaded
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        Developer Kit sample code(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "tracking_company"=>I("tracking_company"),
+            "tracking_number"=>I("tracking_number")
+            );
+        $result=$oop->uploadTracking($arr["oid"],$arr["tracking_company"],$arr["tracking_number"]);
+        $arr_result=json_decode($result,true);
+</code>
+</article>
+<hr class="uk-article-divider">
+
+<article id="seventh" class="uk-article">
+    <h1  class="uk-article-title">Support Currency</h1>
+<p>
+What listed here are the currency and their code supported by current system.
+</p>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead><tr><th width=200>Currency Code</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>CNY</td><td>Chinese Yuan</td></tr>
+<tr><td>GBP</td><td>United Kingdom Pound</td></tr>
+<tr><td>USD</td><td>United States Dollar</td></tr>
+<tr><td>EUR</td><td>Euro</td></tr>
+<tr><td>CAD</td><td>Canadian Dollar</td></tr>
+<tr><td>JPY</td><td>Japanese Yen</td></tr>
+<tr><td>AUD</td><td>Australia Dollar</td></tr>
+</tbody>
+</table>
+
+</article>
+<hr class="uk-article-divider">
+
+<article id="eighth" class="uk-article">
+    <h1  class="uk-article-title">Support Express Company</h1>
+<p>
+What listed here are the express companys and corresponding ID number supported by current system.
+</p>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead><tr><th>Company Name</th><th>Website</th></tr></thead>
+<tbody>
+<volist name=":getObjectList('tracking')" id="vo">
+<tr><td>{$vo.tk_company}</td><td>{$vo.tk_url}</td></tr>
+</volist>
+</tbody>
+</table>
+<div class="uk-alert uk-alert-warning">
+Please provide express company you work with before use the tracking number upload interface.
+</div>
+</article>
+<hr class="uk-article-divider">
+
+<article id="ninth" class="uk-article">
+    <h1  class="uk-article-title">Appendix 1. The Country Code</h1>
+<p>
+All the country code supportted by platform gateway,use ISO2 code.
+
+<include file="Public:country_list"/>
+
+</article>
+<hr class="uk-article-divider">
+
+<article id="tenth" class="uk-article">
+    <h1  class="uk-article-title">Appendix 2. State Code</h1>
+<p>
+ISO 2 states code,only for the United States, Canada, Australia. Part of the interface need to support Japan.
+</p>
+<p>
+<include file="Public:state_list"/>
+</p>
+</article>
+
+<hr class="uk-article-divider">
+<article id="tenth-1" class="uk-article">
+    <h1  class="uk-article-title">Appendix 3. Order Status Code Instructions</h1>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead>
+<tr>
+<th>Order Status Code</th>
+<th>Explaination</th>
+</tr>
+</thead>
+<tbody>
+<volist name=":order_status()" id="vo">
+<tr><td>{$key}</td><td>{$vo}</td></tr>
+</volist>
+</tboby>
+</table>     
+</article>
+
+<hr class="uk-article-divider">
+<article id="tenth-2" class="uk-article">
+    <h1  class="uk-article-title">Appendix 4. Download the developer kit package</h1>
+ <a class="uk-icon-file-zip-o uk-icon-medium uk-icon-hover" href="__PUBLIC__/API/developerkit.zip">&nbsp;Developerkit.zip</a>
+</article>
+
+</p>
+</div>
+</div>
+
+</div>
+ <div class="tm-section-20"></div>

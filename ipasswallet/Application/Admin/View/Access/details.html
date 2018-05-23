@@ -1,0 +1,42 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<div class="table-responsive">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+        <input type="hidden" name="id" value="{$id}" />
+        <table class="uk-table">
+            <tr>
+                <td width=180>{$Think.lang.action_name}</td>
+                <td>
+                    <input type="text" class="form-control" name="title" value="{$title}" />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.action}
+                </td>
+                <td>
+                    <input type="text" class="form-control" required name="name" value="{$name}" />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.module}
+                </td>
+                <td>
+                    <input type="text" class="form-control" required name="module" value="{$module}" />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.status}</td>
+                <td>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq> > {$Think.lang.yes}
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq> > {$Think.lang.no}
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+    </form>
+</div>

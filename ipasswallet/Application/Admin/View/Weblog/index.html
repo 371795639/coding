@@ -1,0 +1,52 @@
+<layout name="layout" />
+<p>
+    <button type="button" onclick="bulkdel('__CONTROLLER__/batchDelete')" class="uk-button uk-button-default">{$Think.lang.batch_delete}</button>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.account}:
+            <input type="text" name="log_admin" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.action}:
+            <input type="text" name="log_action" placeholder="" class="uk-width-1-1">
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<div class="uk-alert uk-alert-warning">{$Think.lang.weblog_notice}</div>
+{$page}
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>
+                <input id="checkall" type="checkbox" />
+            </th>
+            <th>#</th>
+            <th>{$Think.lang.account}</th>
+            <th>{$Think.lang.action}</th>
+            <th>{$Think.lang.add_time}</th>
+            <th>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>
+                        <input name="check_child" value="{$vo.log_id}" type="checkbox" />
+                    </td>
+                    <td><a href="__CONTROLLER__/details/{$vo.log_id}">{$vo.log_id}</a></td>
+                    <td>{$vo.log_admin}</td>
+                    <td>{$vo.log_action}</td>
+                    <td>{$vo.log_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" class="uk-icon-trash uk-icon-hover" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.log_id}')">
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<div style="clear:both"></div>

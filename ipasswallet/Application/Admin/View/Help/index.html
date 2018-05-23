@@ -1,0 +1,69 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">常见问题:
+            <input type="text" name="hp_title" placeholder="" class="uk-width-1-1">
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+{$page}
+<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+    <thead>
+        <th>#</th>
+        <th>常见问题</th>
+        <th width=80>点击次数</th>
+        <th width=80>管理员</th>
+        <th width=150>{$Think.lang.add_time}</th>
+    </thead>
+    <tbody>
+        <volist name="list" id="vo">
+            <tr>
+                <td><a href="__CONTROLLER__/details/{$vo.hp_id}">{$vo.hp_id}</a></td>
+                <td>{$vo.hp_title}</td>
+                <td>{$vo.hp_count}</td>
+                <td>{$vo.hp_admin}</td>
+                <td>{$vo.hp_time}</td>
+            </tr>
+        </volist>
+    </tbody>
+</table>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <input type="hidden" name="hp_admin" value="{$authInfo.account}" />
+        <div class="uk-modal-dialog uk-modal-dialog-large">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>问题</td>
+                    <td>
+                        <input type="text" name="hp_title" required value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>说明
+                    </td>
+                    <td>
+                        <script id="container" name="hp_content" style="height:230px;width:100%;" type="text/plain"></script>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--引入ueditor-->
+<include file="Public:ueditor_mini" />

@@ -1,0 +1,62 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+</p>
+<div class='uk-alert uk-alert-warning'>将管理员纳入不同的编辑组，可以让该编辑组成员看不到其他的组管理员发布的文章。</div>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>编辑组名</th>
+            <th>{$Think.lang.remark}</th>
+            <th width=180>{$Think.lang.add_time}</th>
+            <th width=100>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>
+                        <a href="__CONTROLLER__/details/{$vo.ed_id}">{$vo.ed_id}</a></td>
+                    <td>{$vo.ed_name}</td>
+                    <td>{$vo.ed_remark}</td>
+                    <td>{$vo.ed_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.ed_id}')">
+                            <i class="uk-icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>组名</td>
+                    <td>
+                        <input type="text" name="ed_name" required value="{$ed_name}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.remark}</td>
+                    <td>
+                        <textarea type="text" name="ed_remark" style="height:100px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

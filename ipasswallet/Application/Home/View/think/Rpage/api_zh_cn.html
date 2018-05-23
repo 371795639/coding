@@ -1,0 +1,1163 @@
+<layout name="layout" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/sticky.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/sticky.min.js" />
+<div class="tm-section-color-1">
+    <div class="uk-container uk-container-center">
+        <div class="uk-block uk-contrast">
+            <h1 class="uk-article-title">{$cms_title|htmlspecialchars_decode}</h1>
+        </div>
+    </div>
+</div>
+<div class="tm-section-20"></div>
+<div class="uk-container uk-container-center">
+    <blockquote>
+        <p><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i> {$cms_desc}
+        </p>
+    </blockquote>
+    <div class="tm-section-20"></div>
+    <div class="uk-grid">
+        <div class="uk-width-1-1">
+            <div data-uk-sticky>
+                <!-- This is the nav containing the toggling elements -->
+                <div class="uk-alert">
+                    <ul class="uk-breadcrumb">
+                        <li><a href="#first" data-uk-smooth-scroll>文档说明</a></li>
+                        <li><a href="#second" data-uk-smooth-scroll>准备工作</a></li>
+                        <li><a href="#third" data-uk-smooth-scroll>支付接口（直连）</a></li>
+                        <li><a href="#fourth" data-uk-smooth-scroll>退款接口</a></li>
+                        <li><a href="#fourth-2" data-uk-smooth-scroll>取消退款接口</a></li>
+                        <li><a href="#fourth-1" data-uk-smooth-scroll>预授权取消接口</a></li>
+                        <li><a href="#fifth" data-uk-smooth-scroll>查询接口</a></li>
+                        <li><a href="#sixth" data-uk-smooth-scroll>运单号上传接口</a></li>
+                        <li><a href="#seventh" data-uk-smooth-scroll>货币支持</a></li>
+                        <li><a href="#eighth" data-uk-smooth-scroll>快递公司支持</a></li>
+                        <li><a href="#ninth" data-uk-smooth-scroll>附录1.国家代码</a></li>
+                        <li><a href="#tenth" data-uk-smooth-scroll>附录2.州代码</a></li>
+                        <li><a href="#tenth-1" data-uk-smooth-scroll>附录3.订单状态代码说明</a></li>
+                        <li><a href="#tenth-2" data-uk-smooth-scroll>附录4.开发者工具包下载</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <p>
+                <article class="uk-article">
+                    <h1 id="first" class="uk-article-title">文档说明</h1>
+                    <p>
+                        本文档的提供者为{$Think.lang.web_name}，旨在为使用我们接口的商户集成互联网支付网关提供一个规范。本文档的最终解释权归{$Think.lang.web_name}所有，并保留 随时修改的权利。
+                    </p>
+                    <p>
+                        使用本文档，您可以实现以下功能：接受网上信用卡支付，查询订单信息，订单退款以及上传物流单号的功能。
+                    </p>
+                    <p>
+                        本文档的使用者为商户的管理员，维护人员及开发人员。
+                    </p>
+                    <p>
+                        如需技术支持，请点击 <a href="{:U('Rpage/contactus')}" target=_blank>这里</a>
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="second" class="uk-article">
+                    <h1 class="uk-article-title">准备工作</h1>
+                    <p>
+                        1.你需要通读本文档的所有内容
+                        <br> 2.获取接口集成所需要的重要信息，包括mid,site_id,api_key。
+                        <br>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <tr>
+                                <td>mid</td>
+                                <td>商户ID，商户登录{$Think.lang.web_name}的唯一整形数字，你可以登录前台，在"我的账户"页面可以获得。。</td>
+                            </tr>
+                            <tr>
+                                <td>site_id</td>
+                                <td>网站ID，开户成功以后，商户可以自行登录前台添加希望集成的网站到{$Think.lang.web_name}，一旦添加成功，系统会自动生成一个site_id,唯一标识该网站。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>api_key</td>
+                                <td>
+                                    API_KEY，开户成功以后，你可以登录前台，在"我的账户"页面可以获得。
+                                </td>
+                            </tr>
+                        </table>
+                        本文档所有的加密方法都是sha256加密生成哈希值。如不知道如何实现，请自行查找。
+                        <br> 3.请确保添加网站之后，网站状态是激活的状态，未激活的网站无法进行交易和测试。如果添加的网站无法通过我们审核部门审核，我们会在第一时间通过邮件等方式 通知商户进行整改。
+                        <br> 4.如果希望进行测试，商户可以要求管理员开启沙箱账户，在沙箱环境中，商户可以随意进行测试交易和网关集成。
+                        <br> 5.本文涉及的所有网关，均使用标准的HTTPS协议进行数据的传输工作。
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="third" class="uk-article">
+                    <h1 class="uk-article-title">支付接口(直连)</h1>
+                    <p class="uk-alert">
+                        交易网关地址：{$web_config.web_domain}/index.php/Gateway/securepay
+                    </p>
+                    <p>
+                        使用本支付接口，商户可以在线接受顾客的信用卡付款。请使用标准的HTTP POST方法将以下列表中的参数提交上到以上网关，
+                    </p>
+                    <p>
+                        <em>25个必填参数和5个可选参数</em>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>参数名</th>
+                                    <th width=100>数据类型</th>
+                                    <th width=100>是否必须</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>商户ID，如何获取，请阅读前面准备工作</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>商户订单号</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>网站ID，如何获取，请阅读前面准备工作</td>
+                                </tr>
+                                <tr>
+                                    <td>order_amount</td>
+                                    <td>decimal(12,2)</td>
+                                    <td>是</td>
+                                    <td>订单金额，订单金额格式必须是xx.xx，如果订单金额为整数或者小数点后只有1位，应该在后面补0， 如订单金额为5，或者5.5，则提交格式必须为5.00，5.50才行 。订单金额不能小于0.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>order_currency</td>
+                                    <td>char(3)</td>
+                                    <td>是</td>
+                                    <td>3位的国际货币代码，如USD，GBP，CNY，具体支持的货币类型，请参照后面的货币支持。</td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>
+                                        交易加密哈希字符串，通过sha256算法算出，防止交易信息被篡改。 将商户ID，网站ID，订单ID，订单金额，订单货币，api_key6个参数无缝连接，然后使用sha256算法生成哈希值。
+                                        <p>
+                                            PHP示范代码如下:
+                                            <br> $hash_info=hash("sha256",$mid.$site_id.$oid.$order_amount.$order_currency.$api_key);
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>card_no</td>
+                                    <td>number</td>
+                                    <td>是</td>
+                                    <td>信用卡卡号</td>
+                                </tr>
+                                <tr>
+                                    <td>card_ex_month</td>
+                                    <td>number</td>
+                                    <td>是</td>
+                                    <td>信用卡过期月份,必须是两位数，如08,11分别表示8月和11月</td>
+                                </tr>
+                                <tr>
+                                    <td>card_ex_year</td>
+                                    <td>number</td>
+                                    <td>是</td>
+                                    <td>信用卡过期年，必须是两位数，取过期年份的后2两位，如18，21分别表示2018年，2021年。</td>
+                                </tr>
+                                <tr>
+                                    <td>card_cvv</td>
+                                    <td>number</td>
+                                    <td>是</td>
+                                    <td>信用卡CVV，最多不超过4位数字</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_email</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单邮件</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_phone</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单电话</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_country</td>
+                                    <td>char(2)</td>
+                                    <td>是</td>
+                                    <td>顾客账单国家，2位数的国际代码，具体请参考附录1.国家代码</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_state</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单州，目前，除了美国,加拿大，澳大利亚需要强制使用2位缩略州代码，其他国家无特别要求，如果没有州，可以输入 "--" 代替之。（部分接口要求商家提供日本的州信息。） 州代码数据可以参考附录2：州代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>bill_city</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单城市</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_street</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单详细街道地址</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_zip</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客账单邮编</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_firstname</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客名</td>
+                                </tr>
+                                <tr>
+                                    <td>bill_lastname</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>顾客姓</td>
+                                </tr>
+                                <tr>
+                                    <td>syn_url</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>同步通知URL，在跳转非直连接口中，该参数用于支付结束后的跳转显示页面，在直连接口中，没有用途。 同步通知地址需要处理的返回数据需要以标准HTTP GET方式接受支付返回数据。
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>asyn_url</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>异步通知URL，异步通知地址必须是互联网上能够访问的地址，不能是本地地址。异步通知 地址用于解决因网络等问题导致的数据返回延迟，中断，丢失问题。
+                                        <br>商户的异步通知地址必须使用标准的HTTP POST方式接收支付数据，同时只需要输出"100"到页面即可。 异步通知地址由{$Think.lang.web_name}平台主动调用，过程对于商户并不知晓，平台一旦收到该地址输出"100"信息的时候，就默认商户已经完成订单状态的处理。
+                                        <br> 平台如果判断商户的异步通知地址没有输出或者返回不是"100"的时候，会每隔10分钟通知一次，最多通知三次。
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>source_ip</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>客户端的IP地址</td>
+                                </tr>
+                                <tr>
+                                    <td>source_url</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>客户端提交的URL地址</td>
+                                </tr>
+                                <tr>
+                                    <td>gateway_version</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>网关版本号，目前固定为1.0</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>uuid</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>UUID,通用唯一标识码，格式如：xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (8-4-4-4-12),每个语言都有自己的实现方法。</td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="uk-alert uk-alert-danger">周期交易参数</div>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <tr>
+                                <td width=100>rebill_flag</td>
+                                <td>int</td>
+                                <td>否</td>
+                                <td>是否为周期交易，如果是，则固定提交1</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_cycle</td>
+                                <td>int</td>
+                                <td>否</td>
+                                <td>周期交易天数，必须是大于0的正整数，当rebill_flag为1时，该参数必填</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_amount</td>
+                                <td>decimal(12,2)</td>
+                                <td>否</td>
+                                <td>周期交易金额，必须是大于0的浮点数，当rebill_flag为1时，该参数必填</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_count</td>
+                                <td>int</td>
+                                <td>否</td>
+                                <td>周期交易次数，必须大于等于0的整数，当为0的时候，表示不限制周期交易的次数；当rebill_flag为1时，该参数必填</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>rebill_firstdate</td>
+                                <td>date</td>
+                                <td>否</td>
+                                <td>第一次的扣款日期，格式为2016-04-01这种，当rebill_flag为1时，该参数必填</td>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>直连接口的交易处理结果会以JSON格式直接返回到发起请求的网关地址。如下：</p>
+                        <p>
+                            如果交易被拦截，返回的数据类似于：
+                            <br>
+                            <pre>
+<code>
+    {
+        "status": 0,
+        "data": 10018,
+        "info": "Billing street cannot be NULL"
+    }
+</code> 
+</pre> 如果交易失败，则返回的数据类似于：
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "payment declined",
+    "data": 
+    {
+        "order_status": 6,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+        "cascading":0
+    }
+
+}
+</code> 
+</pre> 如果交易成功，返回的数据类似于：
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "payment success",
+    "data": 
+    {
+        "order_status": 2,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+        "cascading":0
+    }
+
+}
+</code> 
+</pre> 如果交易异常，返回的数据类似于：
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "processing,please wait...",
+    "data": 
+    {
+        "order_status": 1,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+        "cascading":0
+    }
+
+}
+</code> 
+</pre> 如果交易预授权成功（仅针对预授权交易），返回的数据类似于：
+                            <br>
+                            <pre>
+<code>
+{
+    "status": 1,
+    "info": "authorized success",
+    "data": 
+    {
+        "order_status": 3,
+        "oid": "1",
+        "pid": 2879,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "hash_info": "be17b8c545f13cddca1dd7ed05defb93",
+        "syn_url": "http%3A%2F%2Fwww.baidu.com",
+        "cascading":0
+    }
+
+}
+</code> 
+</pre>
+                        </p>
+                        <p>
+                            总而言之，当返回的JSON中，status的值为0时，表明该交易被系统拦截。其中data部分是拦截的代码，info部分是拦截的说明。系统拦截交易数据的原因有很多， 如提交的数据中有空值，邮箱格式不正确，黑名单，交易次数限制等等，需要根据具体情况来分析，交易一旦被拦截，这个时候，平台后台是无法找到相应的记录的，可通过提交拦截代码，或 拦截说明给平台技术支持来寻求帮助。
+                        </p>
+                        <p>
+                            如果返回的JSON中，status的值为1，表明该笔交易已经进入系统，可根据data中的order_status的值来判断该笔交易的支付状态。目前，平台支持的返回状态值包括以下4种，分别是：
+                            <dl class="uk-description-list-horizontal">
+                                <dt>1=>{:order_status(1,true)}</dt>
+                                <dd>表明该笔交易虽然已经提交，但是没有收到银行的返回，或者是银行返回的信息中不包括有效的支付状态说明，需要继续等待状态延迟变更。</dd>
+                                <dt>6=>{:order_status(6,true)}</dt>
+                                <dd>表明该笔交易已经失败,info字段会提供该笔交易失败的银行返回原因。</dd>
+                                <dt>2=>{:order_status(2,true)}</dt>
+                                <dd>表明该笔交易支付成功。</dd>
+                                <dt>3=>{:order_status(3,true)}</dt>
+                                <dd>表明该笔交易预授权成功。</dd>
+                            </dl>
+                            此时，其他参数表示的意思分别如下，
+                            <br>
+                            <dl class="uk-description-list-horizontal">
+                                <dt>oid</dt>
+                                <dd>商户提交的订单号</dd>
+                                <dt>pid</dt>
+                                <dd> {$Think.lang.web_name}平台生成的唯一查询订单号，请妥善保管好该订单号，后面的其他接口需要该信息</dd>
+                                <dt>order_amount</dt>
+                                <dd>商户提交交易数据时的订单金额</dd>
+                                <dt>order_currency</dt>
+                                <dd>商户提交交易数据的是订单货币</dd>
+                                <dt>hash_info</dt>
+                                <dd>此哈希值为提交订单数据后的原样返回，开发者可以通过比对该值，确定交易数据是否有效。</dd>
+                                <dt>syn_url</dt>
+                                <dd>商户提交数据时的同步通知URL</dd>
+                                <dt>cascading</dt>
+                                <dd>交易多通道串联提交的标志，0表示只提交了一次，1表示提交到其他通道1次等等。</dd>
+                            </dl>
+                        </p>
+                        <p>
+                            <div class="uk-alert uk-alert-primary">
+                                示例代码（PHP）
+                            </div>
+                            <pre>
+<code>
+
+    //encrypted the sensitive data
+    $hash_info=hash("sha256",$params['merchantid'].$params['siteid'].
+    $params['invoiceid'].$params['amount'].$params['currency'].$api_key);
+    
+    
+    
+    $curlPost="order_amount=".$params['amount'];
+    $curlPost.="&order_currency=".$params['currency'];
+    $curlPost.="&mid=".$params['merchantid'];//商户ID
+    $curlPost.="&site_id=".$params['siteid'];//网站ID
+    $curlPost.="&oid=".$params['invoiceid'];//订单ID
+    $curlPost.="&hash_info=".$hash_info;
+    
+    $curlPost.="&card_no=".$params["card_number"]; //信用卡卡号
+    $curlPost.="&card_ex_year=".$params["expiry_year"];//信用卡过期年
+    $curlPost.="&card_ex_month=".$params["expiry_month"];//信用卡过期月
+    $curlPost.="&card_cvv=".$params["cvv"];//信用卡CVV
+    
+    $curlPost.='&bill_firstname='.$params['firstname'];
+    $curlPost.='&bill_lastname='.$params['lastname'];
+    $curlPost.='&bill_street='.$params['address1'];
+    $curlPost.='&bill_city='.$params['city'];
+    $curlPost.='&bill_state='.$params['state'];
+    $curlPost.='&bill_country='.$params['country'];
+    $curlPost.='&bill_zip='.$params['postcode'];
+    $curlPost.='&bill_phone='.$params['phonenumber'];
+    $curlPost.='&bill_email='.$params['email'];
+    
+    $curlPost.='&syn_url='.$params['syn_url'];
+    $curlPost.='&asyn_url='.$params['asyn_url'];
+    
+    $curlPost.='&source_ip='.$params['client_ip']; //来源IP地址
+    $curlPost.='&source_url='.$_SERVER["HTTP_REFERER"]; //来源URL地址
+    $curlPost.='&gateway_version=1.0'; //网关版本号
+    $curlPost.='&uuid='.create_guid(); //uuid
+
+    /*If it's a rebilling transaction*/
+    $curlPost.='&rebill_flag=1'; 
+    $curlPost.='&rebill_cycle='.$params['rebill_cycle']; 
+    $curlPost.='&rebill_amount='.$params['rebill_amount'];
+    $curlPost.='&rebill_count='.$params['rebill_count']; 
+    $curlPost.='&rebill_firstdate='.$params['rebill_firstdate'];    
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $gateway_url);
+    curl_setopt($ch,CURLOPT_POST,1);
+    curl_setopt($ch,CURLOPT_POSTFIELDS,$curlPost);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    //process $response
+    $result = json_decode($response,true);
+
+/**
+* the function for creating uuid in PHP
+*/
+function create_guid() {
+    $charid = strtoupper(md5(uniqid(mt_rand(), true)));
+    $hyphen = chr(45); // "-"
+    $uuid = substr($charid, 0, 8) . $hyphen
+    . substr($charid, 8, 4) . $hyphen
+    . substr($charid, 12, 4) . $hyphen
+    . substr($charid, 16, 4) . $hyphen
+    . substr($charid, 20, 12);
+    return $uuid;
+}    
+</code>
+</pre> 以上代码，仅供参考。
+                            <div class="uk-alert uk-alert-danger">
+                                开发工具包示例代码(PHP)
+                            </div>
+                            <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "order_amount"=>I("order_amount"),
+            "order_currency"=>I("order_currency"),
+            "card_no"=>I("card_no"),
+            "card_cvv"=>I("card_cvv"),
+            "card_ex_year"=>I("card_ex_year"),
+            "card_ex_month"=>I("card_ex_month"),
+            "bill_email"=>I("bill_email"),
+            "bill_phone"=>I("bill_phone"),
+            "bill_country"=>I("bill_country"),
+            "bill_state"=>I("bill_state"),
+            "bill_city"=>I("bill_city"),
+            "bill_street"=>I("bill_street"),
+            "bill_zip"=>I("bill_zip"),
+            "bill_firstname"=>I("bill_firstname"),
+            "bill_lastname"=>I("bill_lastname"),
+            "syn_url"=>I("syn_url"),
+            "asyn_url"=>I("asyn_url"),
+             "uuid"=>create_guid()
+            );
+        //If it's a rebilling transaction
+        $rebill_arr=array(
+            "rebill_amount"=>I("rebill_amount"),
+            "rebill_cycle"=>I("rebill_cycle"),
+            "rebill_count"=>I("rebill_count"),
+            "rebill_firstdate"=>I("rebill_firstdate")
+        );
+        $oop->setRebill($rebill_arr);
+        $result=$oop->sendGateway($arr);
+        $arr_result=json_decode($result,true);
+
+ /**
+* the function for creating uuid in PHP
+*/
+function create_guid() {
+    $charid = strtoupper(md5(uniqid(mt_rand(), true)));
+    $hyphen = chr(45); // "-"
+    $uuid = substr($charid, 0, 8) . $hyphen
+    . substr($charid, 8, 4) . $hyphen
+    . substr($charid, 12, 4) . $hyphen
+    . substr($charid, 16, 4) . $hyphen
+    . substr($charid, 20, 12);
+    return $uuid;
+}          
+</code>
+</pre>
+                        </p>
+                    </p>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth" class="uk-article">
+                    <h1 class="uk-article-title">退款接口</h1>
+                    <div class="uk-alert">
+                        退款接口网关：{$web_config.web_domain}/index.php/Openapi/Orders/refund
+                    </div>
+                    使用退款网关接口，用户可以交易成功的订单进行退款处理。本网关接受5个参数，必须使用标准的HTTP GET方法提交以下参数，他们分别是：
+                    <p>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>参数名</th>
+                                    <th width=100>数据类型</th>
+                                    <th width=100>是否必须</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的商户号，即商户用于登录使用ID</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的网站号,即该笔交易产生的网站ID</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的订单号，即支付接口中返回参数中的pid,非商户订单ID</td>
+                                </tr>
+                                <tr>
+                                    <td>refund_amount</td>
+                                    <td>decimal(12,2)</td>
+                                    <td>是</td>
+                                    <td>退款的金额，格式必须为xx.xx，如果金额为整数，或小数点只有1位，需补0至小数点后两位。 如5，5.1，应该提交为5.00，5.10，退款金额不能小于0，且不能大于订单本身的金额，否则退款操作无效。
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>
+                                        退款接口加密验证信息，使用sha256加密方法，将上面4个参数连同api_key无缝连接之后的字符串加密。
+                                        <br> $mid.$site_id.$oid.$refund_amount.$api_key，api_key为该笔交易的产生网站密钥。 PHP示例方法：$hash_info=hash("sha256",$mid.$site_id.$oid.$refund_amount.$api_key);
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        本接口在收到退款请求后，会返回JSON格式的数据到发起请求的地址告知退款请求结果。返回参考代码如下：
+                    </p>
+                    如果退款失败，则返回数据类似于：
+                    <pre>
+<code>
+{
+    "status": 0,
+    "info": "invalid refund amount"
+}
+</code>
+</pre> 如退款成功，则返回数据为：
+                    <pre>
+<code>
+{
+    "status": 1,
+    "info": "refund request successfully sent"
+}
+</code>
+</pre> 根据返回json中status的值，即可判断退款请求是否发送成功，如果status为0，则退款请求失败，info字段会显示退款失败的原因。
+                    <br> 如果status为1，则说明退款请求成功，这个时候，该笔订单在平台将以{:order_status(7,true)}状态显示，12个小时内，系统会自动处理该笔退款请求。
+                    <div class="uk-alert uk-alert-danger">
+                        开发工具包示例代码(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "refund_amount"=>I("order_amount"),
+            );
+        $result=$oop->sendRefund($arr["oid"],$arr["refund_amount"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth-2" class="uk-article">
+                    <h1 class="uk-article-title">取消退款接口</h1>
+                    <div class="uk-alert">
+                        取消退款接口网关：{$web_config.web_domain}/index.php/Openapi/Orders/cancelRefund
+                    </div>
+                    使用取消退款网关接口，用户可以对等待退款状态的订单进行取消退款处理。本网关接受4个参数，必须使用标准的HTTP GET方法提交以下参数，他们分别是：
+                    <p>
+                        <table class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+                                    <th width=100>参数名</th>
+                                    <th width=100>数据类型</th>
+                                    <th width=100>是否必须</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mid</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的商户号，即商户用于登录使用ID</td>
+                                </tr>
+                                <tr>
+                                    <td>site_id</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的网站号,即该笔交易产生的网站ID</td>
+                                </tr>
+                                <tr>
+                                    <td>oid</td>
+                                    <td>int</td>
+                                    <td>是</td>
+                                    <td>{$Think.lang.web_name}平台的订单号，即支付接口中返回参数中的pid,非商户订单ID</td>
+                                </tr>
+                                <tr>
+                                    <td>hash_info</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>
+                                        退款接口加密验证信息，使用sha256加密方法，将上面4个参数连同api_key无缝连接之后的字符串加密。
+                                        <br> $mid.$site_id.$oid.$api_key，api_key为该笔交易的产生网站密钥。 PHP示例方法：$hash_info=hash("sha256",$mid.$site_id.$oid.$api_key);
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        本接口在收到取消退款的请求后，会返回JSON格式的数据到发起请求的地址告知请求结果。返回参考代码如下：
+                    </p>
+                    如果取消退款失败，则返回数据类似于：
+                    <pre>
+<code>
+{
+    "status": 0,
+    "info": "invalid order status"
+}
+</code>
+</pre> 如取消退款成功，则返回数据为：
+                    <pre>
+<code>
+{
+    "status": 1,
+    "info": "cancel refund request successfully sent"
+}
+</code>
+</pre> 根据返回json中status的值，即可判断退款请求是否发送成功，如果status为0，则退款请求失败，info字段会显示取消退款失败的原因。
+                    <br> 如果status为1，则说明取消退款请求成功，这个时候，该笔订单在平台将以{:order_status(2,true)}或者{:order_status(4,true)}状态显示。
+                    <div class="uk-alert uk-alert-danger">
+                        开发工具包示例代码(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid")
+            );
+        $result=$oop->cancelRefund($arr["oid"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fourth-1" class="uk-article">
+                    <h1 class="uk-article-title">预授权取消接口</h1>
+                    <p>
+                        <div class="uk-alert">
+                            预取消接口网关：{$web_config.web_domain}/index.php/Openapi/Orders/void
+                        </div>
+                        使用该接口，用户可以对一笔预授权成功的交易进行取消，防止该交易被自动捕捉成功。
+                        <br> 本接口接收4个参数，请使用标准HTTP GET方法将这些参数提交到以上网关。提交的参数说明如下：
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>参数名</th>
+                                        <th width=100>数据类型</th>
+                                        <th width=100>是否必须</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的商户号，即商户用于登录使用ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的网站号,即该笔交易产生的网站ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的订单号，即支付接口中返回参数中的pid,非商户订单ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>是</td>
+                                        <td>
+                                            预授权取消接口加密验证信息，使用sha256加密方法，将上面3个参数连同api_key无缝连接之后的字符串加密。
+                                            <br> $mid.$site_id.$oid.$api_key，api_key为该笔交易的产生网站密钥。 PHP示例方法：$hash_info=hash("sha256",$mid.$site_id.$oid.$api_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            本接口在收到预授权取消请求后，会以JSON格式返回是否取消成功的信息到发起请求的地址。返回参考代码如下：
+                        </p>
+                        如果交易取消失败，返回的代码类似于:
+                        <pre>
+<code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}
+</code>
+</pre> 如果交易取消成功，则返回的代码为：
+                        <pre>
+<code>
+{
+    "status": 1,
+    "info": "voided successfully"
+}
+</code>
+</pre> 即根据返回JSON中status的值判断是否取消成功，为0的时候表示取消交易失败，info字段为失败的原因。
+                        <br> 为1表示交易取消成功！
+                        <br>
+                        <div class="uk-alert uk-alert-warning">
+                            只有预授权交易才需要调用此接口。
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        开发工具包示例代码(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid")
+            );
+        $result=$oop->void($arr["oid"]);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="fifth" class="uk-article">
+                    <h1 class="uk-article-title">查询接口</h1>
+                    <div class="uk-alert">
+                        查询接口地址：{$web_config.web_domain}/index.php/Openapi/Orders/getInfo
+                    </div>
+                    <p>
+                        查询接口允许用户查询某笔交易的一些基础信息，如订单号，金额，账单地址，交易状态，汇率，记账金额等。
+                    </p>
+                    <p>
+                        查询接口接收4个参数，用户需要使用标准HTTP GET方法将这些参数提交到以上网关。 提交的参数说明如下：
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>参数名</th>
+                                        <th width=100>数据类型</th>
+                                        <th width=100>是否必须</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的商户号，即商户用于登录使用ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的网站号,即该笔交易产生的网站ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的订单号，即支付接口中返回参数中的pid,非商户订单ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>mh_oid</td>
+                                        <td>int</td>
+                                        <td>否</td>
+                                        <td>来自商户网站的订单号，商户订单ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>是</td>
+                                        <td>
+                                            退款接口加密验证信息，使用sha256加密方法，将上面4个参数连同site_key无缝连接之后的字符串加密。
+                                            <br> $mid.$site_id.$oid.$site_key，site_key为该笔交易的产生网站密钥。 PHP示例方法：$hash_info=hash("sha256",$mid.$site_id.$oid.$mh_oid.$site_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            本接口在收到查询请求后，会以JSON格式返回是否取消成功及订单的基础信息到发起请求的地址。返回参考代码如下：
+                        </p>
+                        如果交易查询失败，返回的代码类似于:
+                        <pre><code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}</code></pre> 如果交易查询成功，则返回的代码为：
+                        <pre><code>
+{
+
+    "status": 1,
+    "info": "success",
+    "data": 
+    {
+        "order_id": 3,
+        "merchant_oid": "3",
+        "order_time": "2014-12-10 11:18:24",
+        "order_status": 1,
+        "order_amount": "1.00",
+        "order_currency": "USD",
+        "card_type": "visa",
+        "order_site": "http://www.test.com",
+        "billing_email": "test@test.com",
+        "billing_country": "US",
+        "billing_state": "CA",
+        "billing_city": "test",
+        "billing_street": "test",
+        "billing_phone": "18888888888",
+        "process_mode": "sales",
+        "process_type": "production"
+    }
+
+}
+</code></pre> 即根据返回JSON中status的值判断是否查询成功，为0的时候表示查询失败，info字段为失败的原因。 为1表示查询成功，可以通过data字段获得需要的订单信息！其中order_status中的订单状态代码的意思，可以参考附录3的订单状态代码说明。
+                        <div class="uk-alert uk-alert-warning">特别注意：
+                            <br> oid和mh_oid不必同时存在，但是至少应提交一个，如果同时提交，系统优先使用oid查询而忽略mh_oid.
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        开发工具包示例代码(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$site_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "mh_oid"=>I("mh_oid")
+            );
+        $result=$oop->getOrderInfo($arr["oid"],$arr['mh_oid']);
+        $arr_result=json_decode($result,true);
+</code>
+</pre>
+                </article>
+                <hr class="uk-article-divider">
+                <article id="sixth" class="uk-article">
+                    <h1 class="uk-article-title">运单号上传接口</h1>
+                    <div class="uk-alert">
+                        运单号上传接口网关：{$web_config.web_domain}/index.php/Openapi/Tracking/upload
+                    </div>
+                    <p>
+                        使用本接口，用户可以无需登录前台，直接将运单号上传至对应的订单。
+                    </p>
+                    <p>
+                        运单号上传接口接收4个参数，分别是订单号，货运公司ID，物流单号,hash_info。顾客需要使用标准的HTTP GET方法将此四个参数提交至上面的网关。 提交的参数说明如下：
+                        <p>
+                            <table class="uk-table uk-table-hover uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width=100>参数名</th>
+                                        <th width=100>数据类型</th>
+                                        <th width=100>是否必须</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>mid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的商户号，即商户用于登录使用ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>site_id</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的网站号,即该笔交易产生的网站ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>oid</td>
+                                        <td>int</td>
+                                        <td>是</td>
+                                        <td>{$Think.lang.web_name}平台的订单号，即支付接口中返回参数中的pid,非商户订单ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>track_company</td>
+                                        <td>string</td>
+                                        <td>是</td>
+                                        <td>
+                                            平台支持的货运公司名，请参考后面的”快递公司支持“，只有被平台列出的快递公司才可使用该接口来上传运单号。如果您使用的物流公司不再列表中， 请联系我们商户服务支持添加。
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>track_number</td>
+                                        <td>string</td>
+                                        <td>是</td>
+                                        <td>运单号</td>
+                                    </tr>
+                                    <tr>
+                                        <td>hash_info</td>
+                                        <td>string</td>
+                                        <td>是</td>
+                                        <td>
+                                            退款接口加密验证信息，使用sha256加密方法，将上面5个参数连同api_key无缝连接之后的字符串加密。
+                                            <br> $mid.$site_id.$oid.$track_company.$track_number.$api_key，api_key为该笔交易的产生网站密钥。 PHP示例方法：$hash_info=hash("sha256",$mid.$site_id.$oid.$track_company.$track_number.$api_key);
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        <p>
+                            本接口在收到上传运单号请求后，会以JSON格式返回是否上传成功的信息到发起请求的地址。返回参考代码如下：
+                        </p>
+                        如果上传运单号失败，返回的代码类似于:
+                        <pre>
+<code>
+{
+    "status": 0,
+    "info": "transaction not found"
+}
+</code>
+</pre> 如果上传运单号成功，则返回的代码为：
+                        <pre>
+<code>
+{
+    "status": 1,
+    "info": "tracking uploaded"
+}
+</code>
+</pre> 即根据返回JSON中status的值判断是否上传成功，为0的时候表示上传运单号失败，info字段为失败的原因。
+                        <br> 为1表示交易取消成功！
+                        <br>
+                        <div class="uk-alert uk-alert-warning">
+                            1.只有被系统支持的快递公司并且使用对应的名称，才能上传成功
+                            <br> 2.接口对于多次上传运单号，以最后一次上传为准，前面的上传结果会被覆盖。
+                        </div>
+                    </p>
+                    <div class="uk-alert uk-alert-danger">
+                        开发工具包示例代码(PHP)
+                    </div>
+                    <pre>
+<code>
+    require_once("Directpaykit.class.php");
+    $oop=new \Directpaykit($mid,$site_id,$api_key);
+            $arr=array(
+            "oid"=>I("oid"),
+            "tracking_company"=>I("tracking_company"),
+            "tracking_number"=>I("tracking_number")
+            );
+        $result=$oop->uploadTracking($arr["oid"],$arr["tracking_company"],$arr["tracking_number"]);
+        $arr_result=json_decode($result,true);
+</code>
+</article>
+<hr class="uk-article-divider">
+
+<article id="seventh" class="uk-article">
+    <h1  class="uk-article-title">货币支持</h1>
+<p>
+这里列举的是目前系统所支持的所有支付货币及其代码。
+</p>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead><tr><th width=100>货币代码</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>CNY</td><td>人民币</td></tr>
+<tr><td>GBP</td><td>英镑</td></tr>
+<tr><td>USD</td><td>美元</td></tr>
+<tr><td>EUR</td><td>欧元</td></tr>
+<tr><td>CAD</td><td>加币</td></tr>
+<tr><td>JPY</td><td>日元</td></tr>
+<tr><td>AUD</td><td>澳元</td></tr>
+</tbody>
+</table>
+
+</article>
+<hr class="uk-article-divider">
+
+<article id="eighth" class="uk-article">
+    <h1  class="uk-article-title">快递公司支持</h1>
+<p>
+这里列举的是目前系统支持的所有快递公司及对应ID号。
+</p>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead><tr><th>公司名</th><th>网址</th></tr></thead>
+<tbody>
+<volist name=":getObjectList('tracking')" id="vo">
+<tr><td>{$vo.tk_company}</td><td>{$vo.tk_url}</td></tr>
+</volist>
+</tbody>
+</table>
+<div class="uk-alert uk-alert-warning">
+要使用运单号上传接口，必须使用此处提供的快递公司名。
+</div>
+</article>
+<hr class="uk-article-divider">
+
+<article id="ninth" class="uk-article">
+    <h1  class="uk-article-title">附录1.国家代码</h1>
+<p>
+平台网关支持的所有国家代码，提交的国家使用ISO2code即可。
+</p>
+<include file="Public:country_list"/>
+</article>
+<hr class="uk-article-divider">
+
+<article id="tenth" class="uk-article">
+    <h1  class="uk-article-title">附录2.州代码</h1>
+<p>
+ISO 2位州代码,仅针对美国，加拿大，澳大利亚。部分接口需要支持日本。
+</p>
+<p>
+<include file="Public:state_list"/>
+
+</p>
+</article>
+
+<hr class="uk-article-divider">
+<article id="tenth-1" class="uk-article">
+    <h1  class="uk-article-title">附录3.订单状态代码说明</h1>
+<table class="uk-table uk-table-hover uk-table-striped">
+<thead>
+<tr>
+<th>订单状态代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<volist name=":order_status()" id="vo">
+<tr><td>{$key}</td><td>{$vo}</td></tr>
+</volist>
+</tboby>
+</table>     
+</article>
+
+<hr class="uk-article-divider">
+<article id="tenth-2" class="uk-article">
+    <h1  class="uk-article-title">附录4.开发者工具包下载</h1>
+ <a class="uk-icon-file-zip-o uk-icon-medium uk-icon-hover" href="__PUBLIC__/API/developerkit.zip">&nbsp;Developerkit.zip</a>
+</article>
+
+</p>
+</div>
+</div>
+
+</div>
+ <div class="tm-section-20"></div>

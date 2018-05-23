@@ -1,0 +1,83 @@
+<layout name="layout" />
+<p>
+    <a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form class="uk-form" id="validate_form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="id" value="{$id}" />
+    <input type="hidden" name="update_time" value="{:date('Y-m-d H:i:s')}" />
+    <table class="uk-table">
+        <tr>
+            <td width=180>{$Think.lang.account}</td>
+            <td>
+                <input type="text" class="form-control" name="account" value="{$account}" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.pwd}</td>
+            <td>
+                <input type="password" class="form-control" minlength="6" name="new_pwd" value="" />
+                <small class="text-muted">{$Think.lang.null_notice}</small>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.email}</td>
+            <td>
+                <input type="email" class="form-control" name="email" value="{$email}" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>编辑组</td>
+            <td>
+                <select name="type_id">
+                    <option value="">--</option>
+                    <volist name=":getObjectList('editor')" id="vo">
+                        <option <eq name='vo.ed_id' value="$type_id">selected</eq> value="{$vo.ed_id}">{$vo.ed_name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea class="form-control" name="remark">{$remark}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.status}</td>
+            <td>
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq> > {$Think.lang.yes}
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq>> {$Think.lang.no}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.add_time}</td>
+            <td>{$create_time}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.last_login_time}</td>
+            <td>{$last_login_time}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.login_count}</td>
+            <td>{$login_count}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.last_login_ip}</td>
+            <td>{$last_login_ip}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.update_time}</td>
+            <td>{$update_time}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="uk-button uk-button-danger">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,26 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="ed_id" value="{$ed_id}" />
+    <table class="uk-table">
+        <tr>
+            <td width=180>编辑组名</td>
+            <td>
+                <input type="text" name="ed_name" value="{$ed_name}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea type="text" name="ed_remark" style="height:100px;">{$ed_remark}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,29 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="id" value="{$id}" />
+    <div class="table-responsive">
+        <table class="uk-table">
+            <tr>
+                <td width=180>{$Think.lang.group_name}</td>
+                <td>
+                    <input type="text" required class="form-control" name="title" value="{$title}" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {$Think.lang.status}</td>
+                <td>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq> > {$Think.lang.yes}
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq> > {$Think.lang.no}
+                    </label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+</form>

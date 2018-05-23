@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="{:LANG_SET}" ng-app="App">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$brand_title}-{$Think.lang.web_title}</title>
+    <link rel="shortcut icon" href="{$brand_icon}" />
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.min.css" />
+    <load href="__PUBLIC__/Home/css/common.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <load href="__PUBLIC__/Common/dist/jquery.validate.min.js" />
+    <load href="__PUBLIC__/{:ANGULARJS}/angular.min.js" />
+    <load href="__PUBLIC__/App/CommonDirective.js" />
+    <script>
+    App.controller("loginCtrl", ["$http", "$interval", "$scope", function($http, $interval, $scope) {
+
+        $scope.login_data = {
+            hash_code: "{$Think.session.hash_code}",
+            default_time: 120,
+            disable: false,
+            id: "",
+            pholder: "Merchant ID",
+            type: 1
+        };
+
+        $scope.email_code = function() {
+            post_url = "__CONTROLLER__/postmail/hash_code/" + $scope.login_data.hash_code + "/type/" + $scope.login_data.type + "/id/" + $scope.login_data.id;
+            $.getJSON(post_url, function(data) {
+                UIkit.notify(data.info);
+            });
+        }
+
+        $scope.showModel = function(type) {
+            if (type == 1) {
+                $scope.login_data.pholder = "Merchant ID";
+                $scope.login_data.type = 1;
+            } else {
+                $scope.login_data.pholder = "Affiliate ID";
+                $scope.login_data.type = 2;
+            }
+            var modal = UIkit.modal("#chpwd-model");
+            modal.show();
+        }
+
+
+    }]);
+
+    $(function() {
+        //验证FORM
+        $("form").each(function() {
+            $(this).validate();
+        })
+    })
+    </script>
+</head>
+
+<body ng-controller="loginCtrl">
+    <div class="uk-container uk-container-center uk-margin-large-top">
+        <div class="uk-grid">
+            <div class="uk-width-1-1"> <img title="{$brand_title}" style="height:55px;" src="__PUBLIC__/Common/{$brand_logo}" />
+                <a href="#my-id" data-uk-offcanvas class="uk-icon-dashboard" title="Affiliate login"></a>
+            </div>
+        </div>
+        <div class="uk-grid uk-margin-large-top">
+            <div class="uk-width-medium-1-2 uk-flex uk-flex-center uk-flex-middle uk-flex-column uk-text-center uk-hidden-small">
+                <img class='uk-align-center' title="{$brand_title}" src="__PUBLIC__/Home/digipayz/img/left_img.png" />
+                <h2 class="uk-text-primary">We accept all 
+                 credit and debit cards</h2>
+            </div>
+            <div class="uk-width-medium-1-2 uk-flex uk-flex-center uk-flex-middle uk-flex-column">
+                <form class="uk-form " method="post" action="{:U('Public/checkin')}" id="validate_form">
+                    <h1 class="uk-text-primary">{$Think.lang.login_title}</h1>
+                    <p class="uk-text-muted uk-margin-top-remove">{$Think.lang.login_desc}</p>
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-user"></span>
+                            <input type="text" name="mid" required placeholder="Merchant ID" />
+                        </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-key"></span>
+                            <input type="password" name="pwd" required placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-exchange"></span>
+                            <input type="text" name="verify" required placeholder="Captcha" />
+                        </div>
+                        <div verify-directive img-src="__CONTROLLER__/verify" style="margin-top:3px;"></div>
+                    </div>
+                    <div class="uk-form-row">
+                        <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-check"></i>&nbsp;Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class='uk-text-center'>
+            {$brand_copy}
+            <ul class="uk-subnav uk-subnav-line uk-flex-center">
+                <li> <a href="?l=en-us">English <eq name="LANG_SET" value="en-us"><i class="uk-icon-check"></i></eq></a></li>
+                <li> <a href="?l=zh-cn">中文<eq name="LANG_SET" value="zh-cn"><i class="uk-icon-check"></i></eq></a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="my-id" class="uk-offcanvas uk-contrast">
+        <div class="uk-offcanvas-bar">
+            <div class="uk-panel">
+                <h3 class="uk-text-primary">{$Think.lang.login_title}</h3>
+                <form class="uk-form" action="{:U('Reseller/Public/checkin')}" method="post" id="validate_form1">
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-user"></span>
+                            <input type="text" required name="username" placeholder="Affiliate ID">
+                        </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-key"></span>
+                            <input type="password" required name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <span class="uk-icon-exchange"></span>
+                            <input type="text" required name="verify" placeholder="Captcha">
+                        </div>
+                        <div verify-directive img-src="__CONTROLLER__/verify" style="margin-top:3px;"></div>
+                    </div>
+                    <div class="uk-form-row">
+                        <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-check"></i>&nbsp;Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

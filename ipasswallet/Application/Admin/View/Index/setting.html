@@ -1,0 +1,138 @@
+<layout name="layout"/>
+        <div class="uk-overflow-container">
+<table class="uk-table uk-table-striped">
+
+  <tr >
+    <td width="50%">{$Think.lang.current_version}：{:C('BO_VERSION')} {$Think.lang.release_date}：{:C("BO_RELEASE")}</td>
+    <td>{$Think.lang.server_name_ip}：{$_SERVER['SERVER_NAME']}	({:gethostbyname($_SERVER['SERVER_NAME'])})</td>
+  </tr>
+  <tr >
+  	<td>{$Think.lang.server_time}：{:date("Y年n月j日 H:i:s")}</td>
+  	<td>{$Think.lang.beijing_time}：{:gmdate("Y年n月j日 H:i:s",time()+8*3600)}</td>
+  	</tr>
+  <tr >
+  	<td>{$Think.lang.server_os}：{~$os = explode(" ", php_uname())}{$os[0]}&nbsp;(内核版本：{$os[2]})</td>
+  	<td>{$Think.lang.server_name}：{$os[1]}</td>
+  	</tr>
+  <tr >
+  	<td>{$Think.lang.server_engine}：{$_SERVER['SERVER_SOFTWARE']}</td>
+  	<td>{$Think.lang.web_port}：{$_SERVER['SERVER_PORT']}</td>
+  	</tr>
+  <tr >
+  	<td>{$Think.lang.physical_dir}：{:dirname(dirname($_SERVER['SCRIPT_FILENAME']))}</td>
+  	<td>{$Think.lang.php_run}：{:strtoupper(php_sapi_name())}</td>
+  	</tr>
+  <tr >
+  	<td>{$Think.lang.php_version}：{:phpversion()}</td>
+  	<td>{$Think.lang.php_run_safe_mode}：{:getcon("safe_mode")}</td>
+  	</tr>
+
+  <tr >
+  	<td>{$Think.lang.zend_run}：<?php echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend_extension_ts")) ?'<font color="green">√</font>':'<font color="red">×</font>';?></td>
+  	<td>自动定义全局变量(register_globals)：{:getcon("register_globals")}</td>
+  	</tr>
+  <tr >
+  	<td>允许使用URL打开文件(allow_url_fopen)：{:getcon("allow_url_fopen")}</td>
+  	<td>允许动态加载链接库(enable_dl)：{:getcon("enable_dl")}</td>
+  	</tr>
+  <tr >
+  	<td>显示错误信息(display_errors)：{:getcon("display_errors")}</td>
+  	<td>程序最多允许使用内存量(memory_limit)：{:getcon("memory_limit")}</td>
+  	</tr>
+  <tr >
+  	<td>POST最大字节数(post_max_size)：{:getcon("post_max_size")}</td>
+  	<td>允许最大上传文件(upload_max_filesize)：{:getcon("upload_max_filesize")}</td>
+  	</tr>
+  <tr >
+  	<td>程序最长运行时间(max_execution_time)：{:getcon("max_execution_time")} 秒</td>
+  	<td>magic_quotes_gpc：
+<?php echo (1===get_magic_quotes_gpc()) ? '<font color="green">√</font>':'<font color="red">×</font>';?>
+	</td>
+  	</tr>
+  <tr >
+  	<td>magic_quotes_runtime：<?php echo (1===get_magic_quotes_runtime()) ? '<font color="green">√</font>':'<font color="red">×</font>';?></td>
+  	<td>被禁用的函数：<?php echo (""==($disFuns=get_cfg_var("disable_functions")))?"无":FSubstr($disFuns,0,20) ?></td>
+  	</tr>
+	  <tr >
+  	<td>整数运算能力测试：正在进行50万次加法运算…… 已完成！<font color="#FF0000">{:test_int()}</font></td>
+  	<td>浮点运算能力测试：正在进行50万次开方运算…… 已完成！<font color="#FF0000">{:test_float()}</font></td>
+    </tr>	
+	
+</table>
+
+
+<h3>{$Think.lang.server_component}</h3>
+<table class="uk-table uk-table-striped">
+
+
+  <tr >
+  	<td width="33%">Session支持：
+  		{:isfun("session_start")}</td>
+    <td width="34%">拼写检查(ASpell Library)：{:isfun("aspell_check_raw")}</td>
+    <td width="33%">高精度数学运算(BCMath)：{:isfun("bcadd")}</td>
+  </tr>
+  <tr >
+  	<td>Socket支持：
+  		{:isfun("fsockopen")}</td>
+  	<td>历法运算(Calendar)：{:isfun("cal_days_in_month")}</td>
+  	<td>DBA数据库：{:isfun("dba_close")} (DBM数据库：{:isfun("dbmclose")})</td>
+  	</tr>
+  <tr >
+  	<td>FTP：
+  		{:isfun("ftp_login")}</td>
+  	<td>dBase数据库：{:isfun("dbase_close")}</td>
+  	<td>ODBC数据库连接：
+  		{:isfun("odbc_close")}</td>
+  	</tr>
+  <tr >
+  	<td>压缩文件支持(Zlib)：
+  		{:isfun("gzclose")}</td>
+  	<td>FDF表单资料格式：{:isfun("fdf_get_ap")}</td>
+  	<td>FilePro数据库：{:isfun("filepro_fieldcount")}</td>
+  	</tr>
+  <tr >
+  	<td>XML解析：
+  		{:isfun("xml_set_object")}</td>
+  	<td>Hyperwave数据库：{:isfun("hw_close")}</td>
+  	<td>图形处理(GD Library)：{:isfun("gd_info")}</td>
+  	</tr>
+  <tr >
+  	<td>WDDX支持：
+  		{:isfun("wddx_add_vars")}</td>
+  	<td>IMAP电子邮件系统：{:isfun("imap_close")}</td>
+  	<td>Informix数据库：{:isfun("ifx_close")}</td>
+  	</tr>
+  <tr >
+  	<td>VMailMgr邮件处理：
+  		{:isfun("vm_adduser")}</td>
+  	<td>LDAP目录协议：{:isfun("ldap_close")}</td>
+  	<td>MCrypt加密处理：{:isfun("mcrypt_cbc")}</td>
+  	</tr>
+  <tr >
+  	<td>SNMP网络管理协议：
+  		{:isfun("snmpget")}</td>
+  	<td>Postgre SQL数据库：
+  		{:isfun("pg_close")}</td>
+  	<td>mSQL数据库：{:isfun("msql_close")}</td>
+  	</tr>
+  <tr >
+  	<td>PDF文档支持：
+  		{:isfun("pdf_close")}</td>
+  	<td>SQL Server数据库：{:isfun("mssql_close")}</td>
+  	<td>MySQL数据库：{:isfun("mysql_close")}</td>
+  	</tr>
+  <tr >
+  	<td>PREL相容语法 PCRE：
+  		{:isfun("preg_match")}</td>
+  	<td>SyBase数据库：{:isfun("sybase_close")}</td>
+  	<td>Yellow Page系统：{:isfun("yp_match")}</td>
+  	</tr>
+  <tr >
+  	<td>哈稀计算(MHash)：
+  		{:isfun("mhash_count")}</td>
+  	<td>Oracle数据库：{:isfun("ora_close")}</td>
+  	<td>Oracle 8 数据库：{:isfun("OCILogOff")}</td>
+  	</tr>
+    </table>
+
+</div>	

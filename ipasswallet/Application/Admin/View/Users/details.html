@@ -1,0 +1,169 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="user_id" value="{$user_id}" />
+    <input type="hidden" name="user_salt" value="{$user_salt}" />
+    <table class="uk-table">
+        <tr>
+            <td width=180>#</td>
+            <td>
+                {$user_id}
+            </td>
+        </tr>
+        <tr>
+            <td>API_KEY</td>
+            <td>
+                {$user_api_key}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.balance}</td>
+            <td>
+                <ul class="uk-breadcrumb uk-text-danger">
+                    <li><span>{$user_balance_usd}&nbsp;USD</span></li>
+                    <li><span>{$user_balance_cny_out}&nbsp;CNY&nbsp;在岸</span></li>
+                    <li><span>{$user_balance_cny_in}&nbsp;CNY&nbsp;离岸</span></li>
+                    <li><span>{$user_balance_gbp}&nbsp;GBP</span></li>
+                    <li><span>{$user_balance_eur}&nbsp;EUR</span></li>
+                    <li><span>{$user_balance_hkd}&nbsp;HKD</span></li>
+                    <li><span>{$user_balance_cad}&nbsp;CAD</span></li>
+                    <li><span>{$user_balance_aud}&nbsp;AUD</span></li>
+                    <li><span>{$user_balance_jpy}&nbsp;JPY</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.pwd}</td>
+            <td>
+                <input type="text" name="new_pwd" value="" />&nbsp;<span class="uk-text-muted">留空表示不修改</span>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.pay_pwd}</td>
+            <td>
+                <input type="text" name="new_pay_pwd" value="" />&nbsp;<span class="uk-text-muted">留空表示不修改</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>
+                <input type="text" email=true required name="user_email" value="{$user_email}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.phone}</td>
+            <td>
+                <input type="text" required name="user_phone" value="{$user_phone}" />
+            </td>
+        </tr>
+        <tr>
+            <td>SKYPE</td>
+            <td>
+                <input type="text" name="user_contact_skype" required="" value="{$user_contact_skype}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.name}</td>
+            <td>
+                <input type="text" required name="user_name" value="{$user_name}" value="{$user_name}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.country}</td>
+            <td>
+                <select name="user_country" required>
+                    <option value="">--</option>
+                    <volist name=":getCountryList()" id="vo">
+                        <option value="{$vo.countries_iso_code_2}" <eq name="vo['countries_iso_code_2']" value="$user_country">selected</eq>>{$vo.countries_name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.state}</td>
+            <td>
+                <input type="text" required name="user_state" value="{$user_state}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.city}</td>
+            <td>
+                <input type="text" required name="user_city" value="{$user_city}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.street}</td>
+            <td>
+                <input type="text" required name="user_street" value="{$user_street}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.user_type}</td>
+            <td>
+                <label>
+                    <input type="radio" name="user_type" value="0" <eq name="user_type" value="0">checked</eq> >&nbsp;{:user_type(0)}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" name="user_type" value="1" <eq name="user_type" value="1">checked</eq> >&nbsp;{:user_type(1)}</label>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.status}</td>
+            <td>
+                <label>
+                    <input type="radio" name="user_status" <eq name="user_status" value="1">checked</eq> value="1">&nbsp;{:user_status(1)}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" name="user_status" <eq name="user_status" value="2">checked</eq> value="2">&nbsp;{:user_status(2)}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" name="user_status" <eq name="user_status" value="3">checked</eq> value="3">&nbsp;{:user_status(3)}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" name="user_status" <eq name="user_status" value="4">checked</eq> value="4">&nbsp;{:user_status(4)}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea name="user_remark" required>{$user_remark}</textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="uk-alert">费率相关</div>
+    <table class='uk-table'>
+        <tr>
+            <td width=180>{$Think.lang.process_rate}</td>
+            <td>
+                <input type="text" required name="user_discount_rate" min="0.01" number="true" value="{$user_discount_rate}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.fixed_fee}</td>
+            <td>
+                <input type="text" name="user_fixed_fee" required value="{$user_fixed_fee}" min="0" number="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.min_withdraw}</td>
+            <td>
+                <input type="text" required name="user_min_withdraw" number="true" min="0" value="{$user_min_withdraw}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.hold_days}</td>
+            <td>
+                <input type="text" required name="user_hold_days" isIntGteZero="true" min="0" value="{$user_hold_days}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.withdrawal_fee}</td>
+            <td>
+                <input type="text" required name="user_withdraw_fee" isIntGteZero="true" min="0" value="{$user_withdraw_fee}" />
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

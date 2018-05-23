@@ -1,0 +1,25 @@
+<layout name="layout" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/accordion.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/accordion.min.js" />
+<p>
+    <!-- Button trigger modal -->
+    <a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+    <p>{$Think.lang.current_group}：{$title}</p>
+</p>
+<div class="uk-alert uk-alert-info">{$Think.lang.assign_notice}
+    <label>
+        <input type="checkbox" id="checkall" />{$Think.lang.select_all}</label>&nbsp;&nbsp;
+    <button class="uk-button uk-button-danger" onclick="bulkdel('__CONTROLLER__/updateRules/id/{$id}/check_child/')" type="button">{$Think.lang.save}</button>
+</div>
+<div class="uk-accordion" data-uk-accordion="{collapse: false}">
+    <volist name="list" id="vo">
+        <h3 class="uk-accordion-title">{$vo.module}</h3>
+        <div class="uk-accordion-content">
+            <volist name=":group_to_rule($id,$vo['module'])" id="vo1">
+                <label>
+                    <input type="checkbox" name="check_child" value="{$vo1.id}" {$vo1.checked} />{$vo1.title}
+                </label>
+            </volist>
+        </div>
+    </volist>
+</div>

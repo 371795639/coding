@@ -1,0 +1,101 @@
+* {
+    font-family: Palatino;
+}
+
+.s-bg {
+    max-width: 100%;
+    background: #333 none repeat scroll 0% 0%;
+    overflow-y: auto;
+}
+
+.uk-navbar-toggle {
+    text-shadow: none;
+    color: #CCC;
+}
+
+.tm-article-subtitle {
+    padding-left: 6px;
+    border-left: 3px solid #1FA2D6;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.tm-navbar {
+    padding: 9px 0;
+    border: none;
+    background: #333;
+    border-radius: 0px !important;
+}
+
+.tm-uk-active {
+    /*border-bottom: 2px solid #2ba3d4;*/
+    background-color: #2ba3d4;
+    text-shadow: none;
+    font-color: white;
+}
+
+.tm-uk-active>a {
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.uk-navbar-brand,
+.uk-navbar-content {
+    text-shadow: none;
+    color: white;
+}
+
+.tm-navbar .uk-navbar-nav>li>a {
+    height: 40px;
+    margin: 0;
+    border: none;
+    text-shadow: none;
+    font-size: 15px;
+    color: #CCC;
+}
+
+html .uk-nav.uk-nav-offcanvas>li.uk-active>a {
+    /* background-color: #2ba3d4;*/
+    border-bottom: 2px red solid;
+    color: white;
+}
+
+.breadcrumb-active a {
+    color: #9b59b6;
+}
+
+.tm-navbar .uk-navbar-nav>li {
+    margin-left: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Hover */
+
+.tm-navbar .uk-navbar-nav>li:hover>a,
+.tm-navbar .uk-navbar-nav>li>a:focus,
+.tm-navbar .uk-navbar-nav>li.uk-open>a {
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+.uk-table-hover {
+    min-width: 1200px;
+}

@@ -1,0 +1,31 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <tr>
+            <td width=180>{$Think.lang.account}</td>
+            <td>
+                {$log_admin}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.add_time}</td>
+            <td>
+                {$log_time}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.action}</td>
+            <td>
+                {$log_action}
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.action_sql}</td>
+            <td>
+                {$log_sql}
+            </td>
+        </tr>
+    </table>
+</div>

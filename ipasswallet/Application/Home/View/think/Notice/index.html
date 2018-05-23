@@ -1,0 +1,12 @@
+<layout name="inner" />
+<div class="uk-overflow-container">
+    <ul class="uk-nav uk-nav-side">
+        <volist name="list" id="vo">
+            <li>
+                <div class="uk-navbar-flip">{$vo.nt_date}
+                </div>
+                <a class="uk-icon-paper-plane-o" href="__CONTROLLER__/details/{$vo.nt_id}">&nbsp;{$vo.nt_title|cutStr='50'}</a></li>
+        </volist>
+    </ul>
+    {$page}
+</div>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$Think.lang.backoffice_title}</title>
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.almost-flat.min.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+</head>
+<style>
+/*
+ * Navbar
+ */
+
+* {
+    font-size: 12px;
+}
+
+.tm-navbar {
+    padding: 9px 0;
+    border: none;
+    background: #333;
+    min-width: 1100px;
+}
+
+.uk-navbar-brand,
+.uk-navbar-content {
+    text-shadow: none;
+    color: white;
+}
+
+.tm-navbar .uk-navbar-nav>li>a {
+    height: 40px;
+    margin: 0;
+    border: none;
+    border-radius: 3px !important;
+    text-shadow: none;
+    font-size: 12px;
+    color: #CCC;
+}
+
+.tm-navbar .uk-navbar-nav>li {
+    margin-left: 20px;
+}
+
+
+
+
+
+/* Hover */
+
+.tm-navbar .uk-navbar-nav>li:hover>a,
+.tm-navbar .uk-navbar-nav>li>a:focus,
+.tm-navbar .uk-navbar-nav>li.uk-open>a {
+    border: none;
+    background: transparent;
+    color: white;
+}
+</style>
+<script language=JavaScript>
+function logout() {
+    if (confirm("Are you sure to exit？"))
+        parent.location.href = "__MODULE__/Public/logout";
+    else
+        return false;
+}
+</script>
+
+<body>
+    <nav class="tm-navbar uk-navbar">
+        <img class="uk-navbar-brand" src="__PUBLIC__/Common/img/logo_mini.png" style="height:40px;" />
+        <div class="uk-navbar-content">
+            <i class="uk-icon-user"></i>&nbsp;{$Think.lang.welcome}，{$authInfo.account}
+        </div>
+        <div class="uk-navbar-flip">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a target="main" href="__MODULE__/Help/index">
+                        <i class="uk-icon-send-o"></i>&nbsp;使用指南
+                    </a>
+                </li>
+                <li>
+                    <a target="main" href="__MODULE__/Config/index">
+                        <i class="uk-icon-cog"></i>&nbsp;{$Think.lang.config}
+                    </a>
+                </li>
+                <li>
+                    <a target="main" href="__MODULE__/DB/index">
+                        <i class="uk-icon-bookmark"></i>&nbsp;{$Think.lang.db_backup}
+                    </a>
+                </li>
+                <li>
+                    <a target="main" href="__MODULE__/Index/setting">
+                        <i class="uk-icon-table"></i>&nbsp;{$Think.lang.setting}
+                    </a>
+                </li>
+                <li><a target="main" href="__MODULE__/Config/phpinfo"><i class="uk-icon-code"></i>&nbsp;PHPINFO</a></li>
+                <li><a href="javascript:void(0)" onclick="javascript:parent.main.location.reload()"><i class="uk-icon-refresh"></i>&nbsp;
+            {$Think.lang.refresh}</a></li>
+                <li><a target=_blank href="__APP__"><i class="uk-icon-th"></i>&nbsp;{$Think.lang.front-office}</a></li>
+                <li>
+                    <a href="javascript:void(0)" onclick="logout()">
+                        <i class="uk-icon-power-off"></i>&nbsp;{$Think.lang.logout}</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+
+</html>

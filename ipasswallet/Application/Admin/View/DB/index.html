@@ -1,0 +1,43 @@
+<layout name="layout" />
+<p>
+    <button type="button" onclick="bulkdel('__CONTROLLER__/export')" class="uk-button uk-button-primary">{$Think.lang.backup}</button>
+</p>
+<p>
+    {$Think.lang.total_table}：{$tables}
+    <br> {$Think.lang.total_size}：{$total}
+</p>
+<div class="uk-alert uk-alert-warning">
+    {$Think.lang.db_notice}
+</div>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    <input id="checkall" type="checkbox" checked />
+                </th>
+                <th>{$Think.lang.table}</th>
+                <th>{$Think.lang.rows}</th>
+                <th>{$Think.lang.engine}</th>
+                <th>{$Think.lang.collation}</th>
+                <th>{$Think.lang.size}</th>
+                <th>{$Think.lang.remark}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>
+                        <input name="check_child" value="{$vo.name}" checked type="checkbox" />
+                    </td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.rows}</td>
+                    <td>{$vo.engine}</td>
+                    <td>{$vo.collation}</td>
+                    <td>{$vo.size}</td>
+                    <td>{$vo.comment}</td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>

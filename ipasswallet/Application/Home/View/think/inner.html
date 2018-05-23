@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<taglib name="html" />
+<html ng-app="App">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$brand_title}-{$Think.lang.front_title}</title>
+    <link rel="shortcut icon" href="{$brand_icon}" />
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.almost-flat.min.css" />
+    <load href="__PUBLIC__/Home/css/inner.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <load href="__PUBLIC__/Common/dist/jquery.validate.min.js" />
+    <load href="__PUBLIC__/Common/dist/define_methods.js" />
+    <load href="__PUBLIC__/{:UIKIT}/css/components/sticky.min.css" />
+    <load href="__PUBLIC__/{:UIKIT}/js/components/sticky.min.js" />
+    <style>
+    form select {
+        width: 100%;
+    }
+
+    label.error {
+        color: #D85030;
+        font-size: 12px;
+        display: block;
+    }
+    </style>
+    <script language="JavaScript">
+    function logout() {
+        UIkit.modal.confirm("Are you sure?", function() {
+            location.href = "__MODULE__/Public/logout";
+        })
+    }
+
+    $(function() {
+        //验证FORM
+        $("form").each(function() {
+            $(this).validate();
+        })
+
+    })
+    //确认删除  
+    function confirmDelete(url, notice) {
+        if (notice === undefined) notice = "{$Think.lang.confirm_delete}";
+        UIkit.modal.confirm(notice, function() {
+            location.href = url;
+        });
+    }
+    </script>
+</head>
+
+<body>
+    <nav class="tm-navbar uk-navbar" data-uk-sticky>
+        <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas>
+        </a>
+        <img class="uk-navbar-brand uk-hidden-small" title="{$brand_title}" src="__PUBLIC__/Common/{$brand_logo}" style="height:40px;" />
+        <div class="uk-navbar-flip">
+            <ul class="uk-navbar-nav">
+                <li class="uk-parent" data-uk-dropdown>
+                    <a href="">{$Think.lang.welcome}&nbsp;,&nbsp;{$user_info.user_name} <i class="uk-icon-caret-down"></i></a>
+                    <div class="uk-dropdown uk-dropdown-navbar">
+                        <ul class="uk-nav uk-nav-navbar">
+                            <li> <a href="#lang" data-uk-offcanvas>{$Think.lang.choose_lan}</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li>
+                                <a href="javascript:void(0)" onclick="logout()">
+                                    <i class="uk-icon-power-off"></i>&nbsp;{$Think.lang.logout}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <p>
+    </p>
+    <div id="offcanvas" class="uk-offcanvas">
+        <div class="uk-offcanvas-bar">
+            <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon " data-uk-nav>
+                <include file="Public:merchant_navlist" />
+            </ul>
+        </div>
+    </div>
+    <div id="lang" class="uk-offcanvas">
+        <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+            <div class="uk-panel">
+                <h3 class="uk-panel-title">{$Think.lang.choose_lan}</h3>
+            </div>
+            <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon " data-uk-nav>
+                <volist name=":getLangName()" id="vo">
+                    <li> <a class="uk-icon-hover" href="?l={$key}">{$vo} <eq name='LANG_SET' value='$key'><i class="uk-icon-check"></i></eq></a></li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+    <div class="uk-grid">
+        <div class="uk-width-large-1-5 uk-width-medium-1-4  ">
+            <div class="s-bg uk-hidden-small">
+                <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon " data-uk-nav>
+                    <include file="Public:merchant_navlist" />
+                </ul>
+            </div>
+            <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                <div> {$Think.lang.balance}：<i class='uk-icon-usd'></i>&nbsp;<em>{$user_info.user_balance_usd|number_format='2'}&nbsp;</em></div>
+                <div class="uk-button-group uk-width-1-1">
+                    <a href='__MODULE__/Deposit/index' class='uk-button uk-button-primary uk-width-1-2'>
+                <i class='uk-icon-level-down'></i>&nbsp;{$Think.lang.deposit}</a>
+                    <a href='__MODULE__/Withdraw/index' class='uk-button uk-button-success  uk-width-1-2'>
+                <i class='uk-icon-level-up'></i>&nbsp;{$Think.lang.withdraw}</a>
+                </div>
+            </div>
+            <p></p>
+        </div>
+        <div class="uk-width-large-4-5 uk-width-medium-3-4 uk-width-small-1-1">
+            <div class="uk-panel uk-panel-box uk-panel-box-secondary uk-panel-header">
+                <h3 class="uk-panel-title">{$main_title|default="Dashboard"}</h3> {__CONTENT__}
+                <div style="height:25px;">
+                </div>
+            </div>
+            <eq name="brand_mode" value="1">
+                <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                    <b><i class='uk-icon-lightbulb-o'></i>&nbsp;Tips:</b>
+                    <ul>
+                        {$Think.lang.inner_tips}
+                    </ul>
+                </div>
+            </eq>
+            <div class='uk-margin-large'></div>
+        </div>
+        <include file="Public:gotop" />
+</body>
+
+</html>

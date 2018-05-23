@@ -1,0 +1,3 @@
+1.UNZIP the file,and copy all the files to your website root directory
+2.You should modify the config.php in the config folder.
+3.Configure the development environment to open the index.html locally, input the parameters and submit the form.

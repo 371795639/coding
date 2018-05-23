@@ -1,0 +1,72 @@
+<layout name="layout" />
+<a class="uk-button uk-button-primary" href="__MODULE__/Users/add">{$Think.lang.user_add}</a>
+<a class="uk-button uk-button-primary" href="__MODULE__/Bank/index">{$Think.lang.bank_index}</a>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">#:
+            <input type="text" name="user_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.name}:
+            <input type="text" name="user_name" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.email}:
+            <input type="text" name="user_email" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.status}:
+            <select name="user_status">
+                <option value="">--</option>
+                <volist name="Think.lang.user_status" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<span class="uk-text-bold">{$Think.lang.search_condition}</span>
+<volist name="cookie_arr" id="vo"> {$vo[0]}:{$vo[2]}
+    <a href="__CONTROLLER__/cleancon/{$vo[1]}" class="uk-close uk-close-alt"> </a>&nbsp;&nbsp;
+</volist>
+{$page}
+<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+    <thead>
+        <th>#</th>
+        <th>{$Think.lang.name} /{$Think.lang.email}
+        </th>
+        <th>{$Think.lang.balance}</th>
+        <th>{$Think.lang.fee}</th>
+        <th>{$Think.lang.country}</th>
+        <th>{$Think.lang.status}</th>
+        <th>{$Think.lang.user_type}</th>
+        <th>{$Think.lang.add_time}</th>
+        <th>--</th>
+    </thead>
+    <tbody>
+        <volist name="list" id="vo">
+            <tr>
+                <td><a href="__CONTROLLER__/details/{$vo.user_id}">{$vo.user_id}</a>
+                </td>
+                <td>{$vo.user_name}
+                    <br> {$vo.user_email|cutStr="20"}
+                </td>
+                <td>{$vo.user_balance_usd}&nbsp;USD</td>
+                <td>{$vo['user_discount_rate']*100}%&nbsp;+&nbsp;{$vo.user_fixed_fee}</td>
+                <td>
+                    {$vo.user_country}
+                </td>
+                <td>
+                    {$vo.user_status|user_status=true}</td>
+                <td>{$vo.user_type|user_type}</td>
+                <td>{$vo.user_time}
+                    <br><a href="__MODULE__/Reseller/index/aff_id/{$vo.mh_main_affid}"> {$vo.mh_main_affid}</a>
+                </td>
+                <td>
+                    <a target=_blank href="__CONTROLLER__/logas/{$vo.user_id}" title="以该身份登录前台" class="uk-icon-user"></a>
+                </td>
+            </tr>
+        </volist>
+    </tbody>
+</table>
+{$page}

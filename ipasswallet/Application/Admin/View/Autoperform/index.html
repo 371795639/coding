@@ -1,0 +1,83 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+</p>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>{$Think.lang.auto_method}</th>
+            <th>{$Think.lang.remark}</th>
+            <th>{$Think.lang.status}</th>
+            <th>{$Think.lang.email}</th>
+            <th>{$Think.lang.add_time}</th>
+            <th>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.id}">{$vo.id}</a>
+                        <br>
+                        <a target="_blank" href="__APP__/Autohandle/{$vo.name}" class="uk-icon-bolt" title="手动提交"></a>
+                    </td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.remark|cutStr="20"}</td>
+                    <td>{$vo.isactive|displayIcon}</td>
+                    <td>{$vo.email}</td>
+                    <td>{$vo.auto_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.id}')">
+                            <i class="uk-icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form ng-controller="Autoctrl" id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=150>{$Think.lang.auto_method}</td>
+                    <td>
+                        <input type="text" name="name" required ng-blur="tolower()" ng-model="name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.email}
+                    </td>
+                    <td>
+                        <textarea name="email" required style="height:100px;"></textarea>
+                        <div class="uk-text-muted">{$Think.lang.auto_notice}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.remark}</td>
+                    <td>
+                        <textarea type="text" name="remark" required style="height:100px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<include file="Public:angular" />
+<script style="javascript">
+App.controller("Autoctrl", function($scope) {
+    $scope.tolower = function() {
+        $scope.name = $scope.name.toLowerCase();
+    }
+})
+</script>

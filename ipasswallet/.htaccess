@@ -1,0 +1,20 @@
+# http转向https
+RewriteEngine on
+#RewriteBase /
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+
+#如果你的文件夹没有首页文件，服务器会显示文件列表，你可以设置不显示
+IndexIgnore *
+
+#禁止访问一些目录
+RewriteRule ^.git - [F,L]
+RewriteRule ^Public/Csv - [F,L]
+RewriteRule ^Public/dbbackup - [F,L]
+RewriteRule ^other - [F,L]
+
+#禁止直接访问以下后缀的文件
+<FilesMatch (.*)\.(exe|bat|bak|com|sql|zip|rar|7z|cab|jar|tar|gz|iso|bz2|z|csv)$>
+Order allow,deny
+deny from all
+</FilesMatch>

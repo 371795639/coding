@@ -1,0 +1,97 @@
+<layout name="inner" />
+<p>
+    <!-- Button trigger modal -->
+    <a class="uk-button" href="__CONTROLLER__/mybank">{$Think.lang.back}
+    </a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateBank">
+    <input type="hidden" name="bank_id" value="{$bank_id}" />
+    <table class="uk-table">
+        <tr>
+            <td width=160>{$Think.lang.bank_name}</td>
+            <td>
+                <input type="text" name="bank_name" required value="{$bank_name}" class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.currency}</td>
+            <td>
+                <select name="bank_currency" required class="uk-width-small-1-1 uk-width-medium-1-2">
+                    <volist name=":getObjectList('exchange')" id="vo">
+                        <option value="{$vo.ex_currency_name}" <eq name="bank_currency" value="$vo.ex_currency_name">selected</eq>>{$vo.ex_currency_name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_country}</td>
+            <td>
+                <select name="bank_country" required="" class="uk-width-small-1-1 uk-width-medium-1-2">
+                    <option value="">--Please choose--</option>
+                    <volist name=":getCountryList()" id="vo">
+                        <option value="{$vo.countries_iso_code_2}" <eq name="bank_country" value="$vo.countries_iso_code_2">selected</eq>>{$vo.countries_name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_address}</td>
+            <td>
+                <input type="text" name="bank_address" value="{$bank_address}" required class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td width=180>{$Think.lang.bank_account}</td>
+            <td>
+                <input type="text" name="bank_account" required value="{$bank_account}" class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_name}</td>
+            <td>
+                <input type="text" name="bank_client" value="{$bank_client}" required class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_country}</td>
+            <td>
+                <select name="bank_client_country" required="" class="uk-width-small-1-1 uk-width-medium-1-2">
+                    <option value="">--Please choose--</option>
+                    <volist name=":getCountryList()" id="vo">
+                        <option value="{$vo.countries_iso_code_2}" <eq name="bank_client_country" value="$vo.countries_iso_code_2">selected</eq>>{$vo.countries_name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.payee_address}</td>
+            <td>
+                <input type="text" name="bank_client_address" value="{$bank_client_address}" required class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_branch}(If any)</td>
+            <td>
+                <textarea type="text" name="bank_branch" style="height:100px;" class="uk-width-small-1-1 uk-width-medium-1-2">{$bank_branch}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.bank_swift}</td>
+            <td>
+                <input type="text" name="bank_swift" value="{$bank_swift}" minlength="8" required class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.pay_pwd}</td>
+            <td>
+                <input type="password" name="pay_pwd" placeholder="Input payment password" required value="" class="uk-width-small-1-1 uk-width-medium-1-2" />
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

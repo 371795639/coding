@@ -1,0 +1,161 @@
+<table width="600" cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+        <tr>
+            <td>
+                <div style="width:600px;text-align:left;font:12px/15px simsun;color:#000;background:#fff;">
+                    <p> Dear {$mh_list.mh_name},</p>
+                    <p>
+                        We’re so happy to inform you that your merchant account with iPasspay has been set up correctly.We do our best to streamline the communication flow so we can focus on the business we’re running.The following is your account details, please keep them confidential.</p>
+                    <p>
+                        <h2>1)Merchant account details&nbsp;<font color=red>({$mh_list['mh_islive']?'Production A/C':'Sandbox A/C'})</font></h2>
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <b>Merchant ID(MID)</b></td>
+                                    <td>{$mh_list.mh_id}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Login Password</b></td>
+                                    <td>{$login_pwd}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Payment Password</b></td>
+                                    <td>{$pay_pwd}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>API_KEY</b></td>
+                                    <td>{$mh_list.mh_api_key}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Gateway Version</b></td>
+                                    <td>{$mh_list.mh_gateway_version}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Login Url</b></td>
+                                    <td>https://www.ipasspay.biz/index.php/Public/login.html</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        <h2>2)Fee Structure(Base Currency: CNY)</h2>
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <b>Buy rate(discount rate)</b></td>
+                                    <td>{$mh_list['mh_process_rate']*100}%</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Setup fee</b></td>
+                                    <td>0.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Yearly fee</b></td>
+                                    <td>0.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Fixed fee</b></td>
+                                    <td>{$mh_list.mh_fixed_fee}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Refund fee</b></td>
+                                    <td>{$mh_list.mh_refund_fee}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Rolling reserve</b></td>
+                                    <td>10%</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Chargeback fee</b></td>
+                                    <td>{$mh_list.mh_cb_fee}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Pre-dispute fee</b></td>
+                                    <td>{$mh_list.mh_predispute_fee}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Withdrawal fee</b></td>
+                                    <td>{$mh_list.mh_withdraw_fee}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Holding period</b></td>
+                                    <td>{$mh_list.mh_covered_days}(days)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Min withdrawal amount</b></td>
+                                    <td>{$mh_list.mh_min_withdraw_amount}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        <h2>3)Bank Information</h2>
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <b>Bank Name</b></td>
+                                    <td>{$bank_list.bank_name}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Bank Country</b></td>
+                                    <td>{$bank_list.bank_country}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Bank Address</b></td>
+                                    <td>{$bank_list.bank_address}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Account NO.</b></td>
+                                    <td>{$bank_list.bank_account}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Account Name.</b></td>
+                                    <td>{$bank_list.bank_client}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Swift Code</b></td>
+                                    <td>{$bank_list.bank_swift}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Currency</b></td>
+                                    <td>{$bank_list.bank_currency}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>
+                        <h2>4)API doc</h2> Please access the following URL:
+                        <br> https://www.ipasspay.com/index.php/Rpage/developer.html
+                    </p>
+                    <p>
+                        <h2>5)Glossary</h2> Please access the following URL:
+                        <br> https://www.ipasspay.com/index.php/Rdoc/support.html
+                    </p>
+                    <p>
+                        <h2>6)Terms of use</h2> Please access the following URL:
+                        <br> https://www.ipasspay.com/index.php/Home/Rdoc/42.html
+                    </p>
+                    <p>
+                        <h2>7)Payment plugin for shopping-cart</h2> Please access the following URL:
+                        <br> https://www.ipasspay.com/index.php/Rdownload/index.html
+                    </p>
+                    <p>
+                        <h2>8)Privacy Policy</h2> Please access the following URL:
+                        <br> https://www.ipasspay.com/index.php/Home/Rpage/privacy.html
+                    </p>
+                    --------------
+                    <p>
+                        This is an auto email,please don't reply it directly.
+                        <br>Please feel free to contact us when you have any questions regarding account or tech.
+                        <br>Merchant services email：merchant@ipasspay.com
+                        <br>Tech support email：tech@ipasspay.com
+                        <br>Finance support email: finance@ipasspay.com
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

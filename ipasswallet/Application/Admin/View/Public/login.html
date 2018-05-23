@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="App" class="uk-height-1-1">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$Think.lang.backoffice_title}</title>
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.almost-flat.min.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <load href="__PUBLIC__/{:ANGULARJS}/angular.min.js" />
+    <load href="__PUBLIC__/App/CommonDirective.js" />
+    <script>
+    App.controller("loginCtrl", ['$scope', function($scope) {
+        $scope.flag = false;
+        $scope.sendCode = function() {
+            $scope.flag = true;
+            //alert($scope.username);return;
+            $.getJSON("__CONTROLLER__/sendConfirmCode/username/" + $scope.username, function(data) {
+                $scope.info = data.info;
+                $scope.status = data.status;
+                $scope.flag = false;
+                $scope.$apply();
+            });
+        }
+    }]);
+    </script>
+</head>
+
+<body class="uk-height-1-1">
+    <div ng-controller="loginCtrl" class="uk-vertical-align uk-height-1-1">
+        <div class="uk-vertical-align-middle" style="width:100%;">
+            <div class="uk-block uk-block-secondary">
+                <div style="margin:0 auto; width:300px;">
+                    <div class="uk-text-center">
+                        <img src="__PUBLIC__/Common/img/logo_mini.png" />
+                        <br>
+                        <br>
+                    </div>
+                    <div ng-show="status==1" class="uk-alert uk-alert-success">{{info}}</div>
+                    <div ng-show="status==0" class="uk-alert uk-alert-danger">{{info}}</div>
+                    <form action="__CONTROLLER__/checkin" method="post" class="uk-panel uk-panel-box uk-form" name="validate_form">
+                        <div class="uk-form-row uk-form-icon uk-width-1-1">
+                            <i class="uk-icon-user"></i>
+                            <input class="uk-width-1-2" type="text" ng-model="username" required name="username" placeholder="{$Think.lang.login_account}">
+                            <eq name="web_config.web_confirm_code" value="1">
+                                <button type="button" ng-click="sendCode()" ng-disabled="validate_form.username.$invalid || flag" class="uk-button uk-button-success">{$Think.lang.confirm_code}</button>
+                            </eq>
+                        </div>
+                        <div class="uk-form-row uk-form-icon uk-width-1-1">
+                            <i class="uk-icon-lock"></i>
+                            <input class="uk-width-1-1" type="password" ng-model="passworld" required name="password" placeholder="{$Think.lang.login_pwd}">
+                        </div>
+                        <eq name="web_config.web_verify_code" value="1">
+                            <div class="uk-form-row">
+                                <input class="uk-width-1-3" type="text" ng-model="verify" required name="verify" placeholder="{$Think.lang.verify}">
+                                <div verify-directive img-src="__CONTROLLER__/verify"></div>
+                            </div>
+                        </eq>
+                        <eq name="web_config.web_confirm_code" value="1">
+                            <div class="uk-form-row">
+                                <input class="uk-width-1-3" type="text" ng-model="confirm_code" required name="confirm_code" placeholder="{$Think.lang.confirm_code}">
+                            </div>
+                        </eq>
+                        <eq name="web_config.web_2fa_code" value="1">
+                            <div class="uk-form-row">
+                                <input class="uk-width-1-3" type="text" ng-model="twofa_code" required name="twofa_code" placeholder="2因子验证">
+                            </div>
+                        </eq>
+                        <div class="uk-form-row">
+                            <button ng-disabled="validate_form.$invalid" class="uk-width-1-1 uk-button uk-button-primary" type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

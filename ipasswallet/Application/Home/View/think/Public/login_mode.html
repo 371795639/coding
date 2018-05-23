@@ -1,0 +1,65 @@
+<layout name="login_layout" />
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2 uk-width-small-1-1  uk-contrast">
+        <h3>{$Think.lang.login_title}</h3>
+        <div class="uk-panel">
+            <p>{$Think.lang.login_desc}</p>
+            <br>
+        </div>
+    </div>
+    <div class="uk-width-medium-1-2 uk-width-small-1-1">
+        <ul data-uk-tab="{connect:'#my-id'}" class="uk-tab" data-uk-tab>
+            <li class="uk-active"><a href="">{$Think.lang.merchant_login}</a></li>
+        </ul>
+        <!-- This is the container of the content items -->
+        <ul id="my-id" class="uk-switcher uk-margin">
+            <li>
+                <form class="uk-form " method="post" action="{:U('Public/checkin')}" id="validate_form">
+                    <div class="uk-form-row uk-form-icon uk-width-1-1">
+                        <i class="uk-icon-envelope"></i>
+                        <input type="email" name="user_email" required placeholder="{$Think.lang.user_email}" />
+                    </div>
+                    <div class="uk-form-row uk-form-icon uk-width-1-1">
+                        <i class="uk-icon-lock"></i>
+                        <input type="password" name="user_pwd" required placeholder="{$Think.lang.pwd}" />
+                    </div>
+                    <div class="uk-form-row uk-form-icon uk-width-1-1">
+                        <i class="uk-icon-exchange"></i>
+                        <input type="text" name="verify" maxlength="4" required placeholder="{$Think.lang.captcha}" />
+                        <div verify-directive img-src="__CONTROLLER__/verify" style="margin-top:3px;"></div>
+                    </div>
+                    <div class="uk-form-row">
+                        <button class="uk-button uk-button-success"><i class="uk-icon-check"></i>&nbsp;{$Think.lang.sign_in}</button>
+                        &nbsp;&nbsp;<a class='uk-text-contrast uk-text-small' href="#" ng-click='showModel()'>{$Think.lang.forget_pwd}</a>
+                    </div>
+                </form>
+            </li>
+        </ul>
+        <hr>
+        <a href="__CONTROLLER__/signup" class='uk-button uk-button-success'><i class='uk-icon-user'></i>&nbsp;{$Think.lang.sign_up}</a>
+    </div>
+</div>
+<div id="chpwd-model" class="uk-modal">
+    <form class="uk-form" method="post" action="__CONTROLLER__/updatePwd">
+        <input type="hidden" name="hash_code" value="{{login_data.hash_code}}" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <fieldset>
+                <legend>{$Think.lang.forget_pwd}</legend>
+                <div class="uk-form-row">
+                    <input type="text" name="id" ng-model="login_data.id" required placeholder="{{login_data.pholder}}" />
+                    <button class='uk-button' ng-disabled='!login_data.id' type="button" ng-click="email_code()">{$Think.lang.send_email_code}</button>
+                </div>
+                <div class="uk-form-row">
+                    <input type="text" name="code" required placeholder="Email code" />
+                </div>
+                <div class="uk-form-row">
+                    <input type="password" name="pwd" minlength="6" required placeholder="New Password" />
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button type="submit" class="uk-button uk-button-primary">{$Think.lang.confirm}</button>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,54 @@
+<layout name="inner" />
+<include file="public/angular" />
+<load href="__PUBLIC__/Common/dist/jquery.form.js" />
+<p> <a class="uk-button" href="__CONTROLLER__/index">{$Think.lang.back}</a></p>
+<p></p>
+<h3 class="tm-article-subtitle">{$Think.lang.send_money_now}</h3>
+<div class="uk-panel">
+    <form class="uk-form" method="post" action="__CONTROLLER__/process">
+        <input type="hidden" name="ts_uuid" value="{:create_guid()}" />
+        <table class="uk-table">
+            <tr>
+                <td width="120">{$Think.lang.transfer_type}</td>
+                <td>
+                    <label>
+                        <i class="uk-icon-lock uk-text-success"></i>&nbsp;
+                        <input type="radio" value="0" name="ts_type" checked />&nbsp; {$Think.lang.secured_transfer}</label>&nbsp;&nbsp;
+                    <label>
+                        <i class="uk-icon-paper-plane uk-text-danger"></i>&nbsp;
+                        <input type="radio" value="1" name="ts_type" />&nbsp;{$Think.lang.instant_transfer}</label>
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.payee_email}</td>
+                <td>
+                    <input type="email" class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-3" required name="ts_target_email" placeholder="{$Think.lang.payee_email}" />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.amount}({$web_config.web_currency})</td>
+                <td>
+                    <input type="text" class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-3" name="ts_amt" min="5" required placeholder="{$Think.lang.input_ts_amt}" max="{$user_info.user_balance_usd}" number='true' />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.pay_pwd}</td>
+                <td>
+                    <input type="password" class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-3" name="pay_pwd" placeholder="{$Think.lang.input_ppwd}" required value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>{$Think.lang.remark}</td>
+                <td>
+                    <textarea name="ts_remark" class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-3" placeholder="{$Think.lang.optional}"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>
+                    <button class="uk-button uk-button-success uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-3" type="submit"> <i class='uk-icon-check-circle'></i>&nbsp;{$Think.lang.confirm}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

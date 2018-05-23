@@ -1,0 +1,68 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<!-- This is the tabbed navigation containing the toggling elements -->
+<ul class="uk-tab" data-uk-tab="{connect:'#my-id'}">
+    <li><a href="">查看</a></li>
+    <li><a href="">编辑</a></li>
+</ul>
+<!-- This is the container of the content items -->
+<ul id="my-id" class="uk-switcher uk-margin">
+    <li>
+        <article class="uk-article">
+            <h1 class="uk-article-title">{$hp_title}</h1>
+            <p class="uk-article-meta">{$hp_time}</p>
+            <hr class="uk-article-divider"> {$hp_content|htmlspecialchars_decode}
+        </article>
+    </li>
+    <li>
+        <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+            <input type="hidden" name="hp_id" value="{$hp_id}" />
+            <table class="uk-table">
+                <tr>
+                    <td width=180>问题</td>
+                    <td>
+                        <input type="text" name="hp_title" required value="{$hp_title}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>说明</td>
+                    <td>
+                        <textarea id="container" name="hp_content" style="height:230px;width:100%;" type="text/plain">{$hp_content}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.count}</td>
+                    <td>
+                        <input type="text" name="hp_count" value="{$hp_count}" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.add_time}</td>
+                    <td>
+                        {$hp_time}
+                    </td>
+                </tr>
+                <tr>
+                    <td>--</td>
+                    <td>
+                        <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <!--引入ueditor-->
+        <include file="Public:ueditor_mini" />
+        <!-- This is the modal -->
+        <div id="my-id" class="uk-modal">
+            <div class="uk-modal-dialog uk-modal-dialog-large">
+                <a class="uk-modal-close uk-close"></a>
+                <article class="uk-article">
+                    <h1 class="uk-article-title">{$hp_title}</h1>
+                    <p class="uk-article-meta">{$hp_time}</p>
+                    <hr class="uk-article-divider"> {$hp_content|htmlspecialchars_decode}
+                </article>
+            </div>
+        </div>
+    </li>
+</ul>

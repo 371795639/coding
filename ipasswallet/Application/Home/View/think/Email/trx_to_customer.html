@@ -1,0 +1,49 @@
+<table width="600" cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+        <tr>
+            <td>
+                <div style="width:600px;text-align:left;font:12px/15px simsun;color:#000;background:#fff;">
+                    <p>Dear {$bill_firstname}&nbsp;{$bill_lastname},</p>
+                    <p>Thank you for your order.Here is your payment summary.</p>
+                    <ul>
+                        <li><b>ORD ID:&nbsp;</b>{$order_id}</li>
+                        <li><b>MERCH ORD ID:&nbsp;</b>{$mh_oid}</li>
+                        <li><b>ORD AMT*:&nbsp;</b>
+                            <font color=red>{$order_amount}&nbsp;{$order_currency}&nbsp;</font>
+                        </li>
+                        <li><b>ORD Time:&nbsp;</b>{$order_time}</li>
+                        <li><b>From:&nbsp;</b>{$order_site_domain}</li>
+                        <li><b>Card NO.:&nbsp;</b>{$cc_card_prefix}******{$cc_card_affix}&nbsp;({$card_type})</li>
+                        <li><b>Token:&nbsp;</b>{$order_signature_info}</li>
+                    </ul>
+                    **<b>Please note:</b>
+                    <ol>
+                        <li>
+                            Your merchant name displayed on billing statement will be :
+                            <font color=red><b>{$order_bill_desc}</b></font>
+                        </li>
+                        <li>
+                            As the merchant's payment service provider,you can reach us directly via
+                            <b>support@ipasspay.com</b> if there is no response from your merchant or you have a dispute with your merchant or the charge's not aurthorized by the cardholder.
+                        </li>
+                        <li>This is an auto email,please don't reply it directly.</li>
+                    </ol>
+                    <p>
+                        To get your order issues resolved soon,you can check <a href='https://www.ipasspay.com/index.php/Query/index/oid/{$order_id}/token/{$order_signature_info}' title='Order authentication'><b>Here</b></a>;
+                        <br> If the link is unavailable,please copy the following URL in your brower:
+                        <br>
+                        <b>https://www.ipasspay.com/index.php/Query/index/oid/{$order_id}/token/{$order_signature_info}</b>
+                    </p>
+                    <p>
+                        Thanks for your time.
+                        <hr>
+                        <p>Kind regards,
+                            <br><a href="https://www.ipasspay.com">www.ipasspay.com</a>
+                            <br><span style="font-weight: bold;">Secure,Fast and Stable.<br>Your reliable credit card payment solution provider.<br></span>
+                        </p>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

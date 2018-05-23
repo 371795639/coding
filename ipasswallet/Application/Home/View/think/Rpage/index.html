@@ -1,0 +1,35 @@
+<layout name="layout"/>
+<div class="tm-section-20"></div>
+
+<div class="tm-section-color-1">
+<div class="uk-container uk-container-center">
+<div class="uk-block uk-contrast">
+    <h1 class="uk-article-title">{$cms_title|htmlspecialchars_decode}</h1>
+</div>	
+</div>
+ </div>   
+ <div class="tm-section-20"></div>
+
+ 
+ <div class="uk-container uk-container-center">
+ 
+ <div class="tm-section-20"></div> 
+ 
+ <div class="uk-grid uk-grid-divider">
+<div class="uk-width-1-4">
+
+       <!-- This is the nav containing the toggling elements -->
+        <ul class="uk-nav uk-nav-side" >
+<volist name=":getObjectPro('cms','cms_sort desc','','cms_isactive',1,'cms_cat','bottom','cms_lang',LANG_SET)" id="vo">
+	<li <eq name="ACTION_NAME" value="$vo.cms_unique">class="uk-active"</eq>><a href="__MODULE__/Rpage/{$vo.cms_unique}.html">{$vo.cms_title}</a></li>	
+	</volist>
+        </ul>
+
+</div>
+<div class="uk-width-3-4">
+<notempty name="cms_img"><p><img src="__PUBLIC__/Uploads/{$cms_img_dir}/{$cms_img}"/></p></notempty>
+{$cms_content|htmlspecialchars_decode}
+</div>
+</div>
+</div>
+ <div class="tm-section-20"></div>

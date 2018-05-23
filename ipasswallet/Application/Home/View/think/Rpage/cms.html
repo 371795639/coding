@@ -1,0 +1,14 @@
+<layout name="layout" />
+<div class="uk-container uk-container-center">
+    <hr>
+    <article class="uk-article">
+        <h2>{$cms_title}</h2>
+        <hr>
+        <notempty name="cms_img">
+            <img class="uk-thumbnail" src="__PUBLIC__/Uploads/{$cms_img_dir}/{$cms_img}" />
+        </notempty>
+        {$cms_content|htmlspecialchars_decode}
+    </article>
+</div>
+</div>
+<div class="tm-section-20"></div>

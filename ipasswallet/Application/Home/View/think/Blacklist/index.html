@@ -1,0 +1,167 @@
+<layout name="inner" />
+<script type="text/javascript">
+function delBank(id) {
+    var modal = UIkit.modal("#bank-md");
+    $("#bk-id").val(id);
+    if (modal.isActive()) {
+        modal.hide();
+    } else {
+        modal.show();
+    }
+}
+</script>
+<include file="nav" />
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">{$Think.lang.add_new}
+    </button>
+</p>
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addBank">
+        <input type="hidden" name="bank_flag" value="0" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=160>{$Think.lang.bank_name}</td>
+                    <td>
+                        <input type="text" name="bank_name" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.currency}</td>
+                    <td>
+                        <select name="bank_currency" required class="uk-width-1-1">
+                            <volist name=":getObjectList('exchange')" id="vo">
+                                <option value="{$vo.ex_currency_name}" <eq name="vo.ex_currency_name" value="USD">selected</eq>>{$vo.ex_currency_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_country}</td>
+                    <td>
+                        <select name="bank_country" required="" class="uk-width-1-1">
+                            <option value="">--Please choose--</option>
+                            <volist name=":getCountryList()" id="vo">
+                                <option value="{$vo.countries_iso_code_2}">{$vo.countries_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_address}</td>
+                    <td>
+                        <input type="text" name="bank_address" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width=180>{$Think.lang.bank_account}</td>
+                    <td>
+                        <input type="text" name="bank_account" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_name}</td>
+                    <td>
+                        <input type="text" name="bank_client" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_country}</td>
+                    <td>
+                        <select name="bank_client_country" required="" class="uk-width-1-1">
+                            <option value="">--Please choose--</option>
+                            <volist name=":getCountryList()" id="vo">
+                                <option value="{$vo.countries_iso_code_2}">{$vo.countries_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_address}</td>
+                    <td>
+                        <input type="text" name="bank_client_address" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_branch}(If any)</td>
+                    <td>
+                        <textarea type="text" name="bank_branch" style="height:100px;" class="uk-width-1-1"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_swift}</td>
+                    <td>
+                        <input type="text" name="bank_swift" minlength="8" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.pay_pwd}</td>
+                    <td>
+                        <input type="password" name="pay_pwd" placeholder="Input payment password" required class="uk-width-1-1" />
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th>{$Think.lang.bank_account}</th>
+                <th>{$Think.lang.bank_name}</th>
+                <th>{$Think.lang.bank_user}</th>
+                <th>{$Think.lang.currency}</th>
+                <th>{$Think.lang.swift}</th>
+                <th width=180>{$Think.lang.add_time}</th>
+                <th>--</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/bankinfo/{$vo.bank_id}">{$vo.bank_account|cardHidden=6}</a>
+                    </td>
+                    <td>{$vo.bank_name}</td>
+                    <td>{$vo.bank_client}</td>
+                    <td>
+                        {$vo.bank_currency}
+                    </td>
+                    <td>{$vo.bank_swift}</td>
+                    <td>{$vo.bank_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="delBank('{$vo.bank_id}')"> <i  class="uk-icon-trash"></i></a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    {$page}
+</div>
+<div id="bank-md" class="uk-modal">
+    <form class="uk-form" method="post" action="__CONTROLLER__/delBank">
+        <input type="hidden" name="bank_id" id="bk-id" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.confirm_del_bank}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>{$Think.lang.pay_pwd}</td>
+                    <td>
+                        <input type="password" name="pay_pwd" placeholder="Input payment password" required value="" />
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,3 @@
+bin,brand,bank_name,sub_brand,country_code,country_name,card_type,card_category,latitude,longitude,remark
+400023,Business,null,US,United States of America,debit,visa,38,-97
+null,null,null,null,null,null,null,null,null

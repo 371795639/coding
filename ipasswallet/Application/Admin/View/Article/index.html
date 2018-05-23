@@ -1,0 +1,57 @@
+<layout name="layout" />
+<p>
+    <!-- Button trigger modal -->
+    <a href="__CONTROLLER__/add" class="uk-button uk-button-success">
+        {$Think.lang.add_new}
+    </a>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">文章标题:
+            <input type="text" name="doc_title" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">分类:
+            <select name="doc_cat" required>
+                <option value="">--</option>
+                <volist name=":getCategoryList()" id="vo">
+                    <option value="{$vo.cat_id}">{$vo.level|levelshow}{$vo.cat_name}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+{$page}
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>文章标题</th>
+            <th>分类</th>
+            <th>是否可用</th>
+            <th>排序</th>
+            <th>{$Think.lang.add_time}</th>
+            <th>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.doc_id}">{$vo.doc_id}</a></td>
+                    <td>{$vo.doc_title|cutStr="30"}</td>
+                    <td>{$vo.cat_name}</td>
+                    <td>{$vo.doc_status|displayIcon}</td>
+                    <td>{$vo.doc_sort}</td>
+                    <td>{$vo.doc_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" class="uk-icon-trash uk-icon-hover" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.doc_id}')">
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<div style="clear:both"></div>

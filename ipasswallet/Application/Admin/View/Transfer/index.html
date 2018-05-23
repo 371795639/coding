@@ -1,0 +1,101 @@
+<layout name="layout" />
+<notempty name="Think.get.gen_csv">
+    <p>
+        <a class="uk-button uk-button-primary uk-width-1-1" href="__CONTROLLER__/downloadCsv">Download CSV file</a>
+    </p>
+</notempty>
+<load href="__PUBLIC__/{:UIKIT}/css/components/datepicker.almost-flat.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/datepicker.min.js" />
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">#:
+            <input type="text" name="tf_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.sr_amt}:
+            <input type="text" name="tf_amount" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.remark}:
+            <input type="text" name="tf_remark" placeholder="" class="uk-width-1-1">
+        </div>
+                <div class="uk-width-medium-1-4 uk-width-small-1-2">主账户ID:
+            <input type="text" name="tf_acc_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.sr_id}:
+            <input type="text" name="tf_other_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.start_time}:
+            <input type="text" name="tf_time_start" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.end_time}:
+            <input type="text" name="tf_time_end" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.sr_type}:
+            <select name="tf_type">
+                <option value="">--</option>
+                <volist name="Think.lang.transfer_type" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+            <div class="uk-width-1-1">
+            <p>
+                <br>
+                <label>
+                    <input type="checkbox" name="gen_csv">{$Think.lang.create_csv}</label>
+            </p>
+        </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<blockquote>
+    总额：{$tf_amount|number_format="2"}
+</blockquote>
+{$page}
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th width=80>#</th>
+                <th width=180>{$Think.lang.add_time}</th>
+                 <th>主账户ID</th>
+                <th>{$Think.lang.sr_amt}</th>
+                <th>{$Think.lang.fees}</th>
+                <th>{$Think.lang.sr_type}</th>
+                <th>{$Think.lang.sr_id}</th>
+                <th width=450>{$Think.lang.remark}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.tf_id}</td>
+                    <td>{$vo.tf_time}</td>
+                    <td>
+                        <eq name="vo.tf_other_type" value="0">
+                            {$Think.lang.merchant}
+                            <else/> {$Think.lang.affiliate}
+                        </eq> ID: {$vo.tf_acc_id}</td>
+                    <td>
+                        <eq name="vo.tf_type" value="0">
+                            <font color=red> {$vo.tf_amount}</font>
+                            <else/>
+                            <font color=green> {$vo.tf_amount}</font>
+                        </eq>
+                    </td>
+                    <td>{$vo.tf_fee}</td>
+                    <td>{$vo.tf_type|transferType}</td>
+                    <td>
+                        <eq name="vo.tf_other_type" value="0">
+                            {$Think.lang.merchant}
+                            <else/> {$Think.lang.affiliate}
+                        </eq> ID: {$vo.tf_other_id}
+                    </td>
+                    <td>
+                        {$vo.tf_remark}
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    {$page}

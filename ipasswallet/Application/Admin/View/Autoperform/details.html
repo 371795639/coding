@@ -1,0 +1,44 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+    <input type="hidden" name="id" value="{$id}" />
+    <table class="uk-table">
+        <tr>
+            <td width=180>{$Think.lang.auto_method}</td>
+            <td>
+                <input type="text" name="name" disabled style="height:30px;" value="{$name}" />
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.email}</td>
+            <td>
+                <textarea type="text" name="email" required style="height:100px;">{$email}</textarea>
+                <div class="uk-text-muted">{$Think.lang.auto_notice}</div>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.remark}</td>
+            <td>
+                <textarea type="text" name="remark" class="easyui-textbox" style="height:100px;">{$remark}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.status}</td>
+            <td>
+                <label class="radio-inline">
+                    <input type="radio" name="isactive" value="1" <eq name="isactive" value="1">checked</eq> > {$Think.lang.yes}
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="isactive" value="0" <eq name="isactive" value="0">checked</eq> > {$Think.lang.no}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </td>
+        </tr>
+    </table>
+</form>

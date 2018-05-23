@@ -1,0 +1,57 @@
+<layout name="layout" />
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.user_id}:
+            <input type="text" name="dp_user_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.reference_id}:
+            <input type="text" name="dp_reference_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.status}:
+            <select name="dp_status">
+                <option value="">--</option>
+                <volist name="Think.lang.deposit_status" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+{$page}
+<div class="uk-overflow-container">
+    <table id="wd-table" class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#/{$Think.lang.reference_id}</th>
+            <th>{$Think.lang.user_id}</th>
+            <th>{$Think.lang.amount}</th>
+            <th>{$Think.lang.amount}(real)</th>
+            <th>{$Think.lang.status}</th>
+            <th>{$Think.lang.add_time}/{$Think.lang.end_time}</th>
+            <th width=300>管理员备注</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.dp_id}">{$vo.dp_id}</a>
+                        <br> {$vo.dp_reference_id}
+                    </td>
+                    <td>
+                        <a href="__MODULE__/Users/index/dp_id/{$vo.dp_user_id}">{$vo.dp_user_id}</a></td>
+                    <td>
+                        {$vo.dp_amount}&nbsp;{$vo.dp_currency}
+                    </td>
+                    <td>{$vo.dp_amount_real}&nbsp;{$vo.dp_currency_real}</td>
+                    <td>{$vo.dp_status|deposit_status=true}</td>
+                    <td>{$vo.dp_time}/ {$vo.dp_process_time}
+                    </td>
+                    <td>{$vo.dp_remark}
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}

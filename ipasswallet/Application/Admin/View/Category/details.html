@@ -1,0 +1,62 @@
+<layout name="layout" />
+<p><a href="__CONTROLLER__/index" class="uk-button uk-button-default">{$Think.lang.back}</a>
+</p>
+<div class="uk-overflow-container">
+    <form class="uk-form" method="post" action="__CONTROLLER__/updateHandle">
+        <input type="hidden" name="cat_id" value="{$cat_id}" />
+        <table class="uk-table">
+            <tr>
+                <td width=100>分类名</td>
+                <td>
+                    <input type="text" name="cat_name" required value="{$cat_name}" />
+                </td>
+            </tr>
+            <tr>
+                <td>父类</td>
+                <td>
+                    <select name="cat_parent" required>
+                        <option value="0">顶级</option>
+                        <volist name=":getCategoryList()" id="vo">
+                            <option <eq name="vo.cat_id" value="$cat_parent">selected</eq> value="{$vo.cat_id}">{$vo.level|levelshow}{$vo.cat_name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>是否可用</td>
+                <td>
+                    <label>
+                        <input type="radio" name="cat_status" <eq name="cat_status" value="1">checked</eq> value="1" />是
+                    </label>
+                    <label>
+                        <input type="radio" name="cat_status" <eq name="cat_status" value="0">checked</eq> value="0" />否
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>列表模板</td>
+                <td>
+                    <input type="text" name="cat_index" required value="{$cat_index}" />
+                </td>
+            </tr>
+            <tr>
+                <td>详情模板</td>
+                <td>
+                    <input type="text" name="cat_details" required value="{$cat_details}" />
+                </td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td>
+                    <textarea type="text" name="cat_remark" style="height:100px;">{$cat_remark}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>
+                    <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

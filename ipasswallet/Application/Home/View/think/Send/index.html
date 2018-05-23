@@ -1,0 +1,83 @@
+<layout name="inner" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/datepicker.almost-flat.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/datepicker.min.js" />
+<p>
+    <!-- Button trigger modal -->
+    <a href="__CONTROLLER__/send" <eq name="user_info['user_status']" value="4">disabled</eq> class="uk-button uk-button-success"> {$Think.lang.send_money_now}
+    </a>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">#:
+            <input type="text" name="ts_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.send_amt}:
+            <input type="text" name="ts_amount" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.remark}:
+            <input type="text" name="ts_remark" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.payee_email}:
+            <input type="text" name="ts_receiver_email" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.start_time}:
+            <input type="text" name="time_start" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.end_time}:
+            <input type="text" name="time_end" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.transfer_type}:
+            <select name="ts_type">
+                <option value="">--</option>
+                <option value="0">{$Think.lang.secured_transfer}</option>
+                <option value="1">{$Think.lang.instant_transfer}</option>
+            </select>
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.status}:
+            <select name="ts_status">
+                <option value="">--</option>
+                <volist name="Think.lang.transfer_status" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th width=80>#</th>
+                <th width=180>{$Think.lang.add_time}</th>
+                <th>{$Think.lang.send_amt}</th>
+                <th>{$Think.lang.status}</th>
+                <th width=400>{$Think.lang.payee}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>
+                        <eq name="vo.ts_type" value="0">
+                            <i class="uk-icon-lock uk-text-success"></i>
+                            <else/> <i class="uk-icon-paper-plane uk-text-danger"></i>
+                        </eq>&nbsp;&nbsp;
+                        <a href="__CONTROLLER__/details/{$vo.ts_id}">{$vo.ts_id}</a>
+                    </td>
+                    <td>{$vo.ts_time}</td>
+                    <td>
+                        <font color=red>-&nbsp;{$vo.ts_amount|number_format=2}</font>
+                    </td>
+                    <td>{$vo.ts_status|transfer_status=true}</td>
+                    <td>
+                        {$vo.user_name} ({$vo.user_email})
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    {$page}
+</div>

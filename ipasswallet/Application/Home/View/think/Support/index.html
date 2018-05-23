@@ -1,0 +1,91 @@
+<layout name="inner" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/accordion.almost-flat.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/accordion.min.js" />
+<p>
+    <button type="button" class="uk-button" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.submit_ticket}
+    </button>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">#:
+            <input type="text" name="sp_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.ticket_title}:
+            <input type="text" name="sp_title" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-medium-1-4 uk-width-small-1-2">{$Think.lang.status}:
+            <select name="sp_status">
+                <option value="">--</option>
+                <volist name="Think.lang.sp_status" id="vo">
+                    <option value="{$key}">{$vo}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<br>
+<div class="uk-overflow-container">
+    <div class="uk-accordion" data-uk-accordion>
+        <volist name="list" id="vo">
+            <h4 class="uk-accordion-title"><small><span class="uk-text-muted">[{$vo.sp_status|ticket_status=true}]</span>&nbsp;&nbsp;<i class="uk-icon-quote-left"></i>&nbsp;{$vo.sp_title}</small>
+        	<small class="uk-align-right">{$vo.sp_time}</small>
+        </h4>
+            <div class="uk-accordion-content">
+                <div class='uk-text-muted'><i class="uk-icon-question-circle uk-icon-medium uk-text-danger"></i>&nbsp;&nbsp;{$vo.sp_question}</div>
+                <br>
+                <em>##{$vo.sp_id}##</em>
+                <eq name="vo.sp_status" value="2">
+                    <hr>
+                    <blockquote>
+                        <p> <i class="uk-icon-check-circle uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;{$vo.sp_answer}</p>
+                        <small>{$vo.sp_admin}({$vo.sp_email})</small>
+                    </blockquote>
+                </eq>
+            </div>
+        </volist>
+    </div>
+    {$page}
+</div>
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <input type="hidden" name="sp_uuid" value="{:create_guid()}">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.submit_ticket}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.ticket_title}</td>
+                    <td>
+                        <input type="text" name="sp_title" class="uk-width-1-1" required value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.ticket_type}</td>
+                    <td>
+                        <select required="" name="sp_type">
+                            <option value="">--</option>
+                            <volist name="Think.lang.sp_type" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.ticket_content}
+                    </td>
+                    <td>
+                        <textarea name="sp_question" class="uk-width-1-1" style="height:150px;" minlength="8" required></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

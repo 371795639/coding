@@ -1,0 +1,164 @@
+<layout name="layout" />
+<p>
+    <a href="__MODULE__/Merchant/index" class="uk-button">
+{$Think.lang.back}
+</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        {$Think.lang.add_new}
+    </button>
+</p>
+<form class="uk-form">
+    <div class="uk-grid">
+        <div class="uk-width-1-4">{$Think.lang.user_id}:
+            <input type="text" name="bank_user_id" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.bank_name}:
+            <input type="text" name="bank_client" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.bank_branch}:
+            <input type="text" name="bank_branch" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.bank_account}:
+            <input type="text" name="bank_account" placeholder="" class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-4">{$Think.lang.remark}:
+            <input type="text" name="bank_remakr" placeholder="" class="uk-width-1-1">
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="uk-button uk-button-danger">{$Think.lang.search}</button>
+    </p>
+</form>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <th>#</th>
+            <th>{$Think.lang.user_id}</th>
+            <th>{$Think.lang.bank_name}</th>
+            <th>{$Think.lang.bank_user}</th>
+            <th>{$Think.lang.bank_branch}</th>
+            <th>{$Think.lang.status}</th>
+            <th>是否admin操作</th>
+            <th width=180>{$Think.lang.add_time}</th>
+            <th>--</th>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><a href="__CONTROLLER__/details/{$vo.bank_id}">{$vo.bank_id}</a></td>
+                    <td>{$vo.bank_user_id}</td>
+                    <td>{$vo.bank_name}({$vo.bank_currency})</td>
+                    <td>{$vo.bank_client}</td>
+                    <td>{$vo.bank_branch}</td>
+                    <td>{$vo.bank_status|displayIcon}</td>
+                    <td>{$vo.bank_flag|displayIcon}</td>
+                    <td>{$vo.bank_time}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/copy/{$vo.bank_id}','确认复制一个银行信息？')" title="复制一个银行信息" class="uk-icon-copy"></a>&nbsp;|&nbsp;
+                        <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deleteHandle/{$vo.bank_id}')">
+                            <i class="uk-icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+</div>
+{$page}
+<!-- Modal -->
+<div class="uk-modal" id="myModal">
+    <form id="validate_form" class="uk-form" method="post" action="__CONTROLLER__/addHandle">
+        <input type="hidden" name="bank_flag" value="1" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.add_new}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=180>{$Think.lang.user_id}</td>
+                    <td>
+                        <input type="text" name="bank_user_id" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_name}</td>
+                    <td>
+                        <input type="text" name="bank_name" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.currency}</td>
+                    <td>
+                        <input type="text" name="bank_currency" value="USD" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_country}</td>
+                    <td>
+                        <input type="text" name="bank_country" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_address}</td>
+                    <td>
+                        <input type="text" name="bank_address" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_account}</td>
+                    <td>
+                        <input type="text" name="bank_account" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_name}</td>
+                    <td>
+                        <input type="text" name="bank_client" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_country}</td>
+                    <td>
+                        <input type="text" name="bank_client_country" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.payee_address}</td>
+                    <td>
+                        <input type="text" name="bank_client_address" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_branch}</td>
+                    <td>
+                        <textarea type="text" name="bank_branch" required style="height:100px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.bank_swift}</td>
+                    <td>
+                        <input type="text" name="bank_swift" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.status}</td>
+                    <td>
+                        <label>
+                            <input type="radio" name="bank_status" value="1" checked /> {$Think.lang.yes}</label>
+                        <label>
+                            <input type="radio" name="bank_status" value="0" /> {$Think.lang.no}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.remark}</td>
+                    <td>
+                        <textarea type="text" name="bank_remark" style="height:100px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+            </div>
+        </div>
+    </form>
+</div>

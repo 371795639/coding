@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<taglib name="html" />
+<html ng-app="App">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$Think.lang.backoffice_title}</title>
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.almost-flat.min.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <load href="__PUBLIC__/Common/dist/jquery.validate.min.js" />
+    <load href="__PUBLIC__/Common/dist/define_methods.js" />
+    <style>
+    * {
+        font-size: 12px;
+    }
+
+    form input[type=text],
+    input[type=password],
+    textarea,
+    select {
+        width: 400px;
+    }
+
+    body {
+        min-width: 1200px;
+    }
+
+    label.error {
+        color: red;
+        display: block;
+        font-size: 12px;
+    }
+    </style>
+    <script style="javascript">
+    $(function() {
+        //验证FORM
+
+        $("form").each(function() {
+            $(this).validate();
+        })
+
+        //全选和反选
+        $("#checkall").click(function() {
+            if ($(this).is(":checked"))
+                $("input[name='check_child']").prop("checked", true);
+            else
+                $("input[name='check_child']").prop("checked", false);
+        })
+
+    })
+
+    //弹出窗口页
+    function openwin(url) {　　
+        window.open(url, "view window", "width=800 ,scrollbars=yes"); //写成一行
+        　　
+    }
+    //批量删除
+    function bulkdel(url) {
+        var chk_value = [];
+        $('input[name="check_child"]:checked').each(function() {
+            chk_value.push($(this).val());
+        });
+        chk_value.length ? location.href = url + "/" + chk_value : UIkit.modal.alert("没有选择任何项目！");
+    }
+
+    //确认删除  
+    function confirmDelete(url, notice) {
+        if (notice === undefined) notice = "{$Think.lang.confirm_delete}";
+        UIkit.modal.confirm(notice, function() {
+            location.href = url;
+        });
+    }
+    </script>
+</head>
+
+<body>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary uk-panel-header" style="margin:0 5px 0 5px;">
+        <h3 class="uk-panel-title">{$main_title|default="Dashboard"}</h3> {__CONTENT__}
+        <hr>
+        <i class="uk-icon-lightbulb-o"></i> Tips:
+        <br>
+        <ul class="uk-list">
+            <li>1.一般来说，排序数字越大，前台显示越靠前。</li>
+            <li>2.状态，一般表示的意思是否可用，是否激活，是否显示，是否处理，是否删除，是否释放等。</li>
+            <li>3.如无特别说明，系统金额都以{$web_config.web_currency}计算。</li>
+            <li>4.系统所有限制频率，次数的值如果为0，如无特别说明，一般即表示不限制。</li>
+            <li>5.如果你编辑页面有刷新缓存按钮，建议你在编辑成功后，点击一下该功能。</li>
+        </ul>
+        <div style="height:20px;">
+        </div>
+    </div>
+</body>
+
+</html>

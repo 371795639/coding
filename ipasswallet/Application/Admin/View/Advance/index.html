@@ -1,0 +1,19 @@
+<layout name="layout" />
+<form id="validate_form" method="post" action="__CONTROLLER__/processsql" class="uk-form">
+    {$Think.lang.action_sql}
+    <p>
+        <textarea class="form-control" style="height:200px; width:80%" name="sql_string" required></textarea>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="type" value="0" checked/>Select</label>
+        <label>
+            <input type="radio" name="type" value="1" />Update,Alter,delete,insert</label>
+        <p>
+            <p>
+                <button type="submit" class="uk-button uk-button-danger">{$Think.lang.submit}</button>
+            </p>
+</form>
+<hr>
+<div class="uk-text-danger">{$Think.lang.notice}</div>
+{$Think.lang.sql_notice}

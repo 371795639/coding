@@ -1,0 +1,120 @@
+<layout name="inner" />
+<include file="Public:angular" />
+<script>
+App.controller("Wdcontroller", ["$scope", function($scope) {
+    $scope.wd_money = "{$merchant_info.mh_min_withdraw_amount}";
+    $scope.wd_fee = "{$merchant_info.mh_withdraw_fee}";
+    $scope.wd_cr = "{$USD}";
+}])
+</script>
+<empty name="bank_info">
+    <div class="uk-alert uk-alert-danger">
+        {$Think.lang.not_bind_bank_info}
+    </div>
+</empty>
+<p>
+    <!-- Button trigger modal -->
+    <button type="button" <empty name="bank_info">disabled</empty>
+        <eq name="merchant_info['mh_withdraw_status']" value="0">disabled</eq> class="uk-button uk-button-success" data-uk-modal="{target:'#myModal',center:true}">
+        <i class='uk-icon-check-circle'></i>&nbsp;{$Think.lang.withdraw_now}
+    </button>
+</p>
+<!-- Modal -->
+<div class="uk-modal" id="myModal" ng-controller="Wdcontroller">
+    <form class="uk-form" method="post" action="__CONTROLLER__/process">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.withdraw_now}</div>
+            <table class="uk-table">
+                <tr>
+                    <td>{$Think.lang.bank_account}</td>
+                    <td>
+                        <select name="wd_bank_id" required="">
+                            <option value="">--Select--</option>
+                            <volist name="bank_info" id="vo">
+                                <option value="{$vo.bank_id}"> {$vo.bank_account|cardHidden=6}&nbsp;({$vo.bank_name}-{$vo.bank_currency})</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.fee}({$web_config.web_currency})</td>
+                    <td>
+                        {$merchant_info.mh_withdraw_fee|number_format="2"}
+                        <br>
+                        <small class='uk-text-muted'>{{(wd_fee/wd_cr)|currency:"$ "}}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.amount}({$web_config.web_currency})</td>
+                    <td>
+                        <input type="text" name="wd_money" ng-model="wd_money" max="1000000" placeholder="Amount in {$web_config.web_currency}" min="{$merchant_info.mh_min_withdraw_amount}" required value="" />
+                        <br><small class='uk-text-muted'>&nbsp;&nbsp;{{(wd_money/wd_cr)|currency:"$ "}}&nbsp; - &nbsp;{{(wd_fee/wd_cr)|currency:"$ "}}&nbsp;=&nbsp;{{((wd_money/wd_cr)-(wd_fee/wd_cr))|currency:"$ "}}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.pay_pwd}</td>
+                    <td>
+                        <input type="password" name="pay_pwd" placeholder="Input payment password" required value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.remark}</td>
+                    <td>
+                        <textarea name="wd_mh_remark" maxlength="100" placeholder="{$Think.lang.optional}"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="uk-overflow-container">
+    <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+        <thead>
+            <tr>
+                <th width=180>{$Think.lang.add_time}</th>
+                <th width=250>{$Think.lang.withdraw_amount}</th>
+                <th width=150>{$Think.lang.fees}</th>
+                <th>{$Think.lang.status}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.wd_date}
+                        <notempty name="vo.wd_mh_remark">
+                            <br>
+                            <a href="javascript:void(0)" title="remark" onclick="UIkit.modal.alert('{$vo.wd_mh_remark}');"><i class='uk-icon-flag'></i></a></notempty>
+                    </td>
+                    <td>{$vo.wd_amount|number_format="2"}
+                        <notempty name="vo.bank_name">
+                            <br><small class="uk-text-muted">{$vo.bank_account|cardHidden=4}&nbsp;({$vo.bank_name})&nbsp;</small></notempty>
+                    </td>
+                    <td>{$vo.wd_fee}</td>
+                    <td>{$vo.wd_status|withdraw_status=true}
+                        <notempty name="vo.wd_desc">
+                            <br>
+                            <span class='uk-text-warning'><i class="uk-icon-info-circle"></i>&nbsp;&nbsp; {$vo.wd_desc}</span>&nbsp;
+                        </notempty>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    {$page}
+</div>
+<!-- This is the modal -->
+<div id="avail-md" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <a href="" class="uk-modal-close uk-close"></a>
+        <p class='uk-text-bold'>**&nbsp;{$Think.lang.available_balance}&nbsp;=&nbsp;{$Think.lang.balance}&nbsp;-&nbsp;{$Think.lang.hold_money}&nbsp;(N&nbsp;=&nbsp;{$merchant_info.mh_covered_days})</p>
+        <p class='uk-text-muted'>{$Think.lang.hold_money_tip}
+            <br>
+            <br> {$Think.lang.start_time}&nbsp;:&nbsp;{$pass_day}
+            <br> {$Think.lang.end_time}&nbsp;:&nbsp;{$now_day}
+        </p>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<link rel='icon' href='pic.ico ' type='image/x-ico' />
+<html>
+<head>
+    <title>Ipasspay</title>
+    <link rel="stylesheet" href="UIkit/css/uikit.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="UIkit/js/uikit.min.js"></script>
+</head>
+
+<body>
+<div class="uk-width-medium-2-3 uk-row-first">
+    <img class="uk-margin-bottom" src="image/logo_mini.png">
+    <form  class="uk-panel uk-panel-box uk-form" action="control/PaymentGateway.php" method="post">
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">OrderNumber:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Merchant Order ID" class="uk-width-1-1" name="invoiceid">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">OrderAmount:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder=" Order Amount" class="uk-width-1-1" name="amount">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">ChoiceCurrency:</label>
+            <div class="uk-form-controls">
+                <select  class="uk-width-1-1" name="currency">
+                    <option value="USD">USD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="JPY">JPY</option>
+                    <option value="INR">INR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="EUR">EUR</option>
+                    <option value="CNY">CNY</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="AED">AED</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">CardNumber:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Credit Card Number" class="uk-width-1-1" name="card_number">
+            </div>
+            <img class="uk-margin-bottom" src="image/ipasspay_pic.png">
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">ExpiryMonth:</label>
+            <div class="uk-form-controls">
+                <select  class="uk-width-1-1" name="expiry_month">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">ExpiryYear:</label>
+            <div class="uk-form-controls">
+                <select  class="uk-width-1-1" name="expiry_year">
+                    <option value="18">2018</option>
+                    <option value="19">2019</option>
+                    <option value="20">2020</option>
+                    <option value="21">2021</option>
+                    <option value="22">2022</option>
+                    <option value="23">2023</option>
+                    <option value="24">2024</option>
+                    <option value="25">2025</option>
+                    <option value="26">2026</option>
+                    <option value="27">2027</option>
+                    <option value="28">2028</option>
+                    <option value="29">2029</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">CVV:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="CVV/CVV2/CVC" class="uk-width-1-1" name="cvv">
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Email:</label>
+            <div class="uk-form-controls">
+                <input type="email" placeholder="Customer billing email " class="uk-width-1-1" name="email">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Phone:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer billing phone" class="uk-width-1-1" name="phonenumber">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Country:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Country Code" class="uk-width-1-1" name="country">
+            </div>
+            <p><span class="uk-badge">NOTE</span> please refer to  <a target="_blank" href="https://www.ipasspay.com/index.php/rpage/developer.html">Appendix 1:Country code.</a></p>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">State:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="State Code" class="uk-width-1-1" name="state">
+            </div>
+            <p><span class="uk-badge">NOTE</span> please refer to  <a target="_blank" href="https://www.ipasspay.com/index.php/rpage/developer.html">Appendix 2:State code.</a></p>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">City:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer billing city" class="uk-width-1-1" name="city">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Street:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer billing street" class="uk-width-1-1" name="address1">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Zip:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer billing zip" class="uk-width-1-1" name="postcode">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Firstname:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer first name" class="uk-width-1-1" name="firstname">
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">Lastname:</label>
+            <div class="uk-form-controls">
+                <input type="text" placeholder="Customer last name" class="uk-width-1-1" name="lastname">
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <label class="uk-form-label">GatewayMethod:</label>
+            <div class="uk-form-controls">
+                <select  class="uk-width-1-1" name="paymentStyle">
+                    <option value="direct">Payment Gateway(Direct)</option>
+                    <option value="host">Payment Gateway(Host)</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <div class="uk-form-controls">
+                <button class="uk-button uk-button-primary">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+
+</html>

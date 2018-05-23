@@ -1,0 +1,359 @@
+<layout name="inner" />
+<include file="Public:angular" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/notify.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/notify.min.js" />
+<load href="__PUBLIC__/{:UIKIT}/css/components/tooltip.min.css" />
+<load href="__PUBLIC__/{:UIKIT}/js/components/tooltip.min.js" />
+<script>
+App.controller("chpwdCtrl", ["$http", "$interval", "$scope", function($http, $interval, $scope) {
+
+    $scope.apply_data = {
+        email_button_default: "Send verification code",
+        default_time: 120,
+        disable: false,
+        api_key: "{$merchant_info.mh_api_key}"
+    };
+
+    $scope.emailSend = function(url) {
+
+        $.getJSON(url, function(data) {
+            UIkit.notify(data.info);
+        });
+
+        $scope.apply_data.disable = true;
+        var timer = $interval(function() {
+            $scope.apply_data.default_time--;
+            if ($scope.apply_data.default_time == 0) {
+                $interval.cancel(timer);
+                $scope.apply_data.disable = false;
+                $scope.apply_data.default_time = 120;
+            }
+        }, 1000);
+    }
+
+
+}]);
+</script>
+<div ng-controller="chpwdCtrl">
+    <p class="uk-text-bold">{$Think.lang.summaryoftoday}&nbsp;&nbsp;
+        <button type="button" data-uk-modal="{target:'#sum-modal'}" class='uk-button'>More...</button>
+    </p>
+    <hr>
+    <div class="uk-panel uk-panel-box">
+        <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+            <li>
+                <div>{$Think.lang.total_count}/{$Think.lang.total_amount}：{$result[0]['total_count']}/{$result[0]['total_amount']|number_format=2}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.approved_count}/{$Think.lang.approved_amount}：{$result[0]['approved_count']}/{$result[0]['approved_amount']|number_format=2}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.preauth_count}/{$Think.lang.preauth_amount}：{$result[0]['preauth_count']}/{$result[0]['preauth_amount']|number_format=2}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.captured_count}/{$Think.lang.captured_amount}：{$result[0]['captured_count']}/{$result[0]['captured_amount']|number_format=2}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.predispute_count}：{$result[0]['predispute_count']}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.refund_count}/{$Think.lang.refund_amount}：{$result[0]['refund_count']}/{$result[0]['refund_amount']|number_format=2}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.cb_count}/{$Think.lang.cb_amount}： <span class='uk-badge uk-badge-notification uk-badge-danger'>{$result[0]['cb_count']}</span>&nbsp;
+                    <a href="{:U('Chargeback/index')}" class='uk-icon-hover uk-icon-exclamation-circle'></a>/{$result[0]['cb_amount']|number_format=2}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <p class="uk-text-bold">{$Think.lang.profile} &nbsp;
+        <eq name="brand_mode" value="1">
+            <button class="uk-button" data-uk-modal="{target:'#myModal',center:true}">{$Think.lang.change_pwd}</button>
+            <button class="uk-button" data-uk-modal="{target:'#myModal1',center:true}">{$Think.lang.change_pay_pwd}</button>
+        </eq>
+    </p>
+    <hr>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+            <li>
+                <div>{$Think.lang.email}：{$merchant_info['mh_email']|maskWithStar}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.phone}：{$merchant_info['mh_phone']|maskWithStar}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.country}：{$merchant_info.mh_country}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.state}：{$merchant_info.mh_state}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.service}：{$merchant_info.mh_service}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.merchant_type}：{$merchant_info['mh_type']?'Individual':'Company'}</div>
+            </li>
+        </ul>
+    </div>
+    <p class="uk-text-bold">{$Think.lang.fee_structure}</p>
+    <hr>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+            <li>
+                <div>{$Think.lang.process_rate}：{$merchant_info['mh_process_rate']*100}%</div>
+            </li>
+            <li>
+                <div>{$Think.lang.cb_fee}：{$merchant_info.mh_cb_fee}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.predispute_fee}&nbsp;：{$merchant_info.mh_predispute_fee}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.refund_fee}：{$merchant_info.mh_refund_fee}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.failed_fee}：{$merchant_info.mh_failed_fee}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.withdraw_fee}：{$merchant_info.mh_withdraw_fee}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.rolling_rate}：{$merchant_info['mh_rolling_rate']*100}%</div>
+            </li>
+            <li>
+                <div>{$Think.lang.fixed_fee}：{$merchant_info.mh_fixed_fee}</div>
+            </li>
+            <li>
+                <div>
+                    <i data-uk-tooltip title="{$Think.lang.rolling_days_tip}" class="uk-icon-question-circle"></i>&nbsp;{$Think.lang.rolling_days}：{$merchant_info.mh_rolling_days}(days)</div>
+            </li>
+        </ul>
+    </div>
+    <p class="uk-text-bold">{$Think.lang.limits}</p>
+    <hr>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+            <li>
+                <div>{$Think.lang.vt}&nbsp;&nbsp;{$Think.lang.status}：{$merchant_info.mh_isvt|displayIcon}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.min_withdraw}：{$merchant_info.mh_min_withdraw_amount}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.max_order_amount}：{$merchant_info.mh_max_process_amount}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.card_daily}：{$merchant_info['mh_card_daily']?$merchant_info['mh_card_daily']:'Unlimited'}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.success_card_daily}：{$merchant_info['mh_card_success_daily']?$merchant_info['mh_card_success_daily']:'Unlimited'}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.failed_card_daily}：{$merchant_info['mh_card_failed_daily']?$merchant_info['mh_card_failed_daily']:'Unlimited'}</div>
+            </li>
+            <li>
+                <div>{$Think.lang.success_user_daily}：{$merchant_info['mh_user_daily']?$merchant_info['mh_user_daily']:'Unlimited'}</div>
+            </li>
+            <li>
+                <div>
+                    <i class="uk-icon-question-circle" data-uk-tooltip title="{$Think.lang.hold_days_tip}"></i>&nbsp; {$Think.lang.hold_days}：{$merchant_info.mh_covered_days}(days)
+                </div>
+            </li>
+            <li>
+                <div>{$Think.lang.wdrl_status}：{$merchant_info['mh_withdraw_status']|displayIcon}</div>
+            </li>
+        </ul>
+    </div>
+    <p class="uk-text-bold">{$Think.lang.api_info}</p>
+    <hr>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+            <li>
+                <div>{$Think.lang.mh_id}：{$merchant_info.mh_id}</div>
+            </li>
+            <li>
+                <div>API_KEY：{{apply_data.api_key}}&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </li>
+            <li>
+                <div>{$Think.lang.gateway_version}：{$merchant_info.mh_gateway_version}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <neq name="Think.session.mh_super_mode" value="1">
+        <!-- Modal -->
+        <div class="uk-modal" id="myModal">
+            <form class="uk-form" method="post" action="__CONTROLLER__/modifyPwd">
+                <div class="uk-modal-dialog">
+                    <a class="uk-modal-close uk-close"></a>
+                    <div class="uk-modal-header">{$Think.lang.change_pwd}</div>
+                    <table class="uk-table">
+                        <tr>
+                            <td width=120>{$Think.lang.old_pwd}</td>
+                            <td>
+                                <input type="password" name="old_pwd" required value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{$Think.lang.new_pwd}
+                            </td>
+                            <td>
+                                <input type="password" name="new_pwd" id="new_pwd" required minlength="6" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{$Think.lang.confirm_new_pwd}
+                            </td>
+                            <td>
+                                <input type="password" name="confirm_new_pwd" equalTo="#new_pwd" minlength="6" required value="" />
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="uk-modal-footer uk-text-right">
+                        <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal -->
+        <div class="uk-modal" id="myModal1">
+            <form class="uk-form" method="post" action="__CONTROLLER__/modifyPaypwd">
+                <div class="uk-modal-dialog">
+                    <a class="uk-modal-close uk-close"></a>
+                    <div class="uk-modal-header">{$Think.lang.change_pay_pwd}</div>
+                    <table class="uk-table">
+                        <tr>
+                            <td width=120>{$Think.lang.old_pwd}</td>
+                            <td>
+                                <input type="password" name="old_pwd" required value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{$Think.lang.new_pwd}
+                            </td>
+                            <td>
+                                <input type="password" name="new_pwd" id="new_pwd1" required minlength="6" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{$Think.lang.confirm_new_pwd}
+                            </td>
+                            <td>
+                                <input type="password" name="confirm_new_pwd" equalTo="#new_pwd1" minlength="6" required value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{$Think.lang.email_verify}
+                            </td>
+                            <td>
+                                <input type="text" name="verify" required class="uk-width-1-4" value="" />
+                                <p>
+                                    <button type="button" ng-disabled="apply_data.disable" ng-click="emailSend('__CONTROLLER__/mailTo')" class="uk-button uk-button-primary">{{apply_data.disable?apply_data.default_time+" S ...":apply_data.email_button_default}}</button>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="uk-modal-footer uk-text-right">
+                        <button class="uk-button uk-button-danger" type="submit">{$Think.lang.save}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Modal-->
+    </neq>
+    <!-- This is the modal -->
+    <div id="sum-modal" class="uk-modal">
+        <div class="uk-modal-dialog uk-modal-dialog-large">
+            <a class="uk-modal-close uk-close"></a>
+            <p class="uk-text-bold">{$Think.lang.summaryofcmonth}</p>
+            <hr>
+            <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                    <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+                        <li>
+                            <div>{$Think.lang.total_count}/{$Think.lang.total_amount}：{$result[1]['total_count']}/{$result[1]['total_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.approved_count}/{$Think.lang.approved_amount}：{$result[1]['approved_count']}/{$result[1]['approved_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.preauth_count}/{$Think.lang.preauth_amount}：{$result[1]['preauth_count']}/{$result[1]['preauth_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.captured_count}/{$Think.lang.captured_amount}：{$result[1]['captured_count']}/{$result[1]['captured_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.predispute_count}：{$result[1]['predispute_count']}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.refund_count}/{$Think.lang.refund_amount}：{$result[1]['refund_count']}/{$result[1]['refund_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.cb_count}/{$Think.lang.cb_amount}： <span class='uk-badge uk-badge-notification uk-badge-danger'>{$result[1]['cb_count']}</span>&nbsp; /{$result[1]['cb_amount']|number_format=2}
+                            </div>
+                        </li>
+                        <li class='uk-text-bold uk-text-danger'>{$Think.lang.chargeback_rate}：{$result[1]['cb_rate']*100|number_format='2'}%</li>
+                    </ul>
+                </div>
+                <p class="uk-text-bold">{$Think.lang.summaryoflmonth}</p>
+                <hr>
+                <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                    <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+                        <li>
+                            <div>{$Think.lang.total_count}/{$Think.lang.total_amount}：{$result[2]['total_count']}/{$result[2]['total_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.approved_count}/{$Think.lang.approved_amount}：{$result[2]['approved_count']}/{$result[2]['approved_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.preauth_count}/{$Think.lang.preauth_amount}：{$result[2]['preauth_count']}/{$result[2]['preauth_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.captured_count}/{$Think.lang.captured_amount}：{$result[2]['captured_count']}/{$result[2]['captured_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.predispute_count}：{$result[2]['predispute_count']}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.refund_count}/{$Think.lang.refund_amount}：{$result[2]['refund_count']}/{$result[2]['refund_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.cb_count}/{$Think.lang.cb_amount}： <span class='uk-badge uk-badge-notification uk-badge-danger'>{$result[2]['cb_count']}</span>&nbsp; /{$result[2]['cb_amount']|number_format=2}
+                            </div>
+                        </li>
+                        <li class='uk-text-bold uk-text-danger'>{$Think.lang.chargeback_rate}：{$result[2]['cb_rate']*100|number_format='2'}%</li>
+                    </ul>
+                </div>
+                <p class="uk-text-bold">{$Think.lang.summaryoftotal}</p>
+                <hr>
+                <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                    <ul class="uk-grid uk-grid-small uk-grid-width-small-1-1  uk-grid-width-medium-1-2 uk-grid-width-large-1-3 uk-text-left" data-uk-grid-margin>
+                        <li>
+                            <div>{$Think.lang.total_count}/{$Think.lang.total_amount}：{$result[3]['total_count']}/{$result[3]['total_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.approved_count}/{$Think.lang.approved_amount}：{$result[3]['approved_count']}/{$result[3]['approved_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.preauth_count}/{$Think.lang.preauth_amount}：{$result[3]['preauth_count']}/{$result[3]['preauth_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.captured_count}/{$Think.lang.captured_amount}：{$result[3]['captured_count']}/{$result[3]['captured_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.predispute_count}：{$result[3]['predispute_count']}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.refund_count}/{$Think.lang.refund_amount}：{$result[3]['refund_count']}/{$result[3]['refund_amount']|number_format=2}</div>
+                        </li>
+                        <li>
+                            <div>{$Think.lang.cb_count}/{$Think.lang.cb_amount}： <span class='uk-badge uk-badge-notification uk-badge-danger'>{$result[3]['cb_count']}</span>&nbsp; /{$result[3]['cb_amount']|number_format=2}
+                            </div>
+                        </li>
+                        <li class='uk-text-bold uk-text-danger'>{$Think.lang.chargeback_rate}：{$result[3]['cb_rate']*100|number_format='2'}%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,171 @@
+<layout name="inner" />
+<a class="uk-button" href="__CONTROLLER__/index">{$Think.lang.back}</a>
+<eq name="merchant_info.mh_isvt" value="1">
+    <eq name="site_isvt" value="1">
+        <eq name="site_pay_link_status" value="0">
+            <button data-uk-modal="{target:'#fastpayModal',center:true}" class="uk-button uk-button-primary">{$Think.lang.generate_fastpay_link}</button>
+            <else/>
+            <a href="javascript:void(0)" onclick="confirmDelete('__CONTROLLER__/deactivefastpaylink/site_id/{$site_id}','Are you sure?')" class="uk-button uk-button-danger">{$Think.lang.deactivate_fastpay_link}</a>
+        </eq>
+    </eq>
+</eq>
+<div class="uk-block uk-block-default">
+    <eq name="site_isactive" value="0">
+        <notempty name="site_desc">
+            <div class="uk-alert uk-alert-warning"><i class="uk-icon-info-circle"></i>&nbsp;&nbsp; {$site_desc}</div>
+        </notempty>
+    </eq>
+    <table class="uk-table">
+        <tr>
+            <td width=150>site_id</td>
+            <td>{$site_id}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.domain}</td>
+            <td>{$site_domain}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.product_service}</td>
+            <td>{$site_service}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.isactive}</td>
+            <td>{$site_isactive|displayIcon}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.process_mode}</td>
+            <td>{$site_process_mode?'sales':'authorize'}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.vt}&nbsp;&nbsp;{$Think.lang.status}</td>
+            <td>{$site_isvt|displayIcon}</td>
+        </tr>
+        <tr>
+            <td>{$Think.lang.support_cardtype}</td>
+            <td>
+                <eq name="site_visa" value="1">
+                    <i class="uk-icon-cc-visa uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;
+                </eq>
+                <eq name="site_mastercard" value="1">
+                    <i class="uk-icon-cc-mastercard uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;
+                </eq>
+                <eq name="site_diners" value="1">
+                    <i class="uk-icon-cc-diners-club uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;
+                </eq>
+                <eq name="site_amex" value="1">
+                    <i class="uk-icon-cc-amex uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;
+                </eq>
+                <eq name="site_jcb" value="1">
+                    <i class="uk-icon-cc-jcb uk-icon-medium uk-text-success"></i>&nbsp;&nbsp;
+                </eq>
+                <eq name="site_discover" value="1">
+                    <i class="uk-icon-cc-discover uk-icon-medium uk-text-success"></i>
+                </eq>
+            </td>
+        </tr>
+        <eq name="merchant_info.mh_child_status" value="1">
+            <tr>
+                <td>{$Think.lang.bind_to}{$Think.lang.child_account}</td>
+                <td>{$site_child_id?:"NaN"}&nbsp;&nbsp;
+                    <empty name="site_child_id">
+                        <button type="button" data-uk-modal="{target:'#myModal',center:true}" class="uk-button uk-button-danger">{$Think.lang.bind_to}...</button>
+                        <else/>
+                        <a href="__MODULE__/Child/unbind/site_id/{$site_id}" type="button" class="uk-button uk-button-danger">{$Think.lang.unbind}</a>
+                    </empty>
+                </td>
+            </tr>
+        </eq>
+        <tr>
+            <td>{$Think.lang.add_time}</td>
+            <td>{$site_regtime}</td>
+        </tr>
+        <eq name="merchant_info.mh_isvt" value="1">
+            <eq name="site_isvt" value="1">
+                <eq name="site_pay_link_status" value="1">
+                    <tr class='uk-text-bold'>
+                        <td>{$Think.lang.my_fastpay_link}</td>
+                        <td><span class='uk-text-success'><a href="{$site_pay_link}" target="_blank">{$site_pay_link}</a> </span>&nbsp;&nbsp;
+                            <neq name="site_pay_link_pwd" value="">
+                                {$Think.lang.access_pwd}:&nbsp;&nbsp;<span class='uk-text-success'>{$site_pay_link_pwd}</span>
+                            </neq>
+                        </td>
+                    </tr>
+                    <tr class='uk-text-bold'>
+                        <td>{$Think.lang.web_brand}</td>
+                        <td>{$site_title}</td>
+                    </tr>
+                    <tr class='uk-text-bold'>
+                        <td>{$Think.lang.web_contact}</td>
+                        <td>{$site_pay_contact}</td>
+                    </tr>
+                </eq>
+            </eq>
+        </eq>
+    </table>
+    <br>
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <p class="uk-text-bold"><em>**</em>&nbsp;{$Think.lang.htu_fp_link} &nbsp;</p>
+        {$Think.lang.fp_tips}
+    </div>
+</div>
+<eq name="merchant_info.mh_child_status" value="1">
+    <!-- Modal -->
+    <div class="uk-modal" id="myModal">
+        <form id="validate_form" class="uk-form" method="post" action="__MODULE__/Child/bindTo">
+            <input type="hidden" name="site_id" value="{$site_id}" />
+            <div class="uk-modal-dialog">
+                <a class="uk-modal-close uk-close"></a>
+                <div class="uk-modal-header">{$Think.lang.bind_to}...</div>
+                <table class="uk-table">
+                    <tr>
+                        <td width=120>{$Think.lang.child_account}</td>
+                        <td>
+                            <select name="child_id" required>
+                                <option value="">--</option>
+                                <volist name=":getObjectPro('child','child_id desc','','child_status',1,'child_parent_id',$merchant_info['mh_id'])" id="vo">
+                                    <option value="{$vo.child_id}">{$vo.child_name}({$vo.child_id})</option>
+                                </volist>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div class="uk-modal-footer uk-text-right">
+                    <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</eq>
+<!-- Modal -->
+<div class="uk-modal" id="fastpayModal">
+    <form id="refund_form" action="__CONTROLLER__/generatefastpaylink" class="uk-form" method="post">
+        <input type="hidden" name="site_id" value="{$site_id}" />
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <div class="uk-modal-header">{$Think.lang.generate_fastpay_link}</div>
+            <table class="uk-table">
+                <tr>
+                    <td width=120>{$Think.lang.web_brand}</td>
+                    <td>
+                        <input type="text" name="site_title" required minlength="2" maxlength="35" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.web_contact}</td>
+                    <td>
+                        <input type="email" name="site_pay_contact" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$Think.lang.access_pwd}</td>
+                    <td>
+                        <input type="password" name="site_pay_link_pwd" minlength="6" maxlength="12" value="" placeholder="optional" />
+                    </td>
+                </tr>
+            </table>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-danger" type="submit">{$Think.lang.confirm}</button>
+            </div>
+        </div>
+    </form>
+</div>

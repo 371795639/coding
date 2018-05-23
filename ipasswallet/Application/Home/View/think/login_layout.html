@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="{:LANG_SET}" ng-app="App">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$brand_title}-{$Think.lang.web_title}</title>
+    <link rel="shortcut icon" href="{$brand_icon}" />
+    <!-- UIKIT -->
+    <load href="__PUBLIC__/{:UIKIT}/css/uikit.min.css" />
+    <load href="__PUBLIC__/Home/css/common.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <load href="__PUBLIC__/Common/js/jquery-1.11.2.min.js" />
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <load href="__PUBLIC__/{:UIKIT}/js/uikit.min.js" />
+    <load href="__PUBLIC__/Common/dist/jquery.validate.min.js" />
+    <load href="__PUBLIC__/{:ANGULARJS}/angular.min.js" />
+    <load href="__PUBLIC__/App/CommonDirective.js" />
+    <load href="__PUBLIC__/{:UIKIT}/css/components/notify.css" />
+    <load href="__PUBLIC__/{:UIKIT}/js/components/notify.min.js" />
+    <style>
+    .v-center {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+    }
+
+    .uk-tab>li>a {
+        color: white;
+    }
+    </style>
+    <script>
+    App.controller("loginCtrl", ["$http", "$interval", "$scope", function($http, $interval, $scope) {
+
+        $scope.login_data = {
+            hash_code: "{$Think.session.hash_code}",
+            default_time: 120,
+            default_email_button: "{$Think.lang.send_email_code}",
+            disable: false,
+        };
+
+        $scope.email_code = function(type) {
+            if (!$scope.isEmail($scope.login_data.user_email)) {
+                return;
+            }
+            post_url = "__CONTROLLER__/postmail/hash_code/" + $scope.login_data.hash_code + "/user_email/" + $scope.login_data.user_email + "/type/" + type;
+            $scope.login_data.disable = true;
+            $.getJSON(post_url, function(data) {
+                UIkit.notify(data.info);
+                if (data.status) {
+                    var timer = $interval(function() {
+                        $scope.login_data.default_time--;
+                        if ($scope.login_data.default_time == 0) {
+                            $interval.cancel(timer);
+                            $scope.login_data.disable = false;
+                            $scope.login_data.default_time = 120;
+                        }
+                    }, 1000);
+                } else {
+                    $scope.login_data.disable = false;
+                }
+                $scope.$apply();
+            })
+        }
+
+        //validate email
+        $scope.isEmail = function(str) {
+            var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+            return reg.test(str);
+        }
+
+
+
+        $scope.showModel = function() {
+            var modal = UIkit.modal("#chpwd-model");
+            modal.show();
+        }
+
+
+    }]);
+
+    $(function() {
+        //验证FORM
+        $("form").each(function() {
+            $(this).validate();
+        })
+    })
+    </script>
+</head>
+
+<body ng-controller="loginCtrl">
+    <include file="Public/top" />
+    <div class="v-center">
+        <img class='uk-align-center' title="{$brand_title}" style="height:55px;" src="__PUBLIC__/Common/{$brand_logo}" />
+        <div class="tm-section-color-1">
+            <div class="uk-container uk-container-center">
+                <div class="uk-block uk-block-large">
+                    {__CONTENT__}
+                </div>
+            </div>
+        </div>
+        <div class='uk-text-center'>
+            {$brand_copy}
+            <ul class="uk-subnav uk-subnav-line uk-flex-center">
+                <li> <a href="?l=en-us">English <eq name="LANG_SET" value="en-us"><i class="uk-icon-check"></i></eq></a></li>
+                <li> <a href="?l=zh-cn">中文<eq name="LANG_SET" value="zh-cn"><i class="uk-icon-check"></i></eq></a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

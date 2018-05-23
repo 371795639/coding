@@ -1,0 +1,64 @@
+<table width="600" cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+        <tr>
+            <td>
+                <div style="width:600px;text-align:left;font:12px/15px simsun;color:#000;background:#fff;">
+                    <p>Dear merchant,</p>
+                    <p>Here we received new chargeback from your clients,please take a look at the basic order info.</p>
+                    <ul>
+                        <li><b>Order ID:&nbsp;</b>{$order_id}</li>
+                        <li><b>Merchant ID:&nbsp;</b>{$order_mid}</li>
+                        <li><b>Merchant Order ID:&nbsp;</b>{$mh_oid}</li>
+                        <li><b>Order AMT*:&nbsp;</b>
+                            <font color=red>{$order_amount}&nbsp;{$order_currency}&nbsp;(≈{$gateway_amount}&nbsp;{$gateway_currency})</font>
+                        </li>
+                        <li><b>Order Time(Beijing time):&nbsp;</b>{$order_time}</li>
+                        <li><b>From:&nbsp;</b>{$order_site_domain}</li>
+                        <li><b>Card NO.:&nbsp;</b>{$cc_card_prefix}******{$cc_card_affix}&nbsp;({$card_type})</li>
+                        <li><b>Customer Email:&nbsp;</b>{$bill_email}</li>
+                        <li><b>Customer Phone:&nbsp;</b>{$bill_phone}</li>
+                        <li><b>Billing descriptor:&nbsp;</b>
+                            <font color=red>{$order_bill_desc}</font>
+                        </li>
+                        <li><b>Chargeback Time(Beijing time):&nbsp;</b>
+                            <font color=blue>{$oh_time}</font>
+                        </li>
+                        <li><b>Chargeback Reason:&nbsp;</b>
+                            <font color=blue>{$oh_remark}</font>
+                        </li>
+                    </ul>
+                    **<b>Please note:</b>
+                    <ol>
+                        <li>
+                            Merchants reserve the rights to appeal against the chargeback,please send the documents to support@ipasspay.com in 5 days.The documents include but are not limited to the following:
+                            <br>1) Email record
+                            <br>2) Chat snapshot
+                            <br>3) Telephone recording
+                            <br>4) Credit Card snapshot
+                            <br>5) Letters with signature
+                            <br>6) Audio and video recording
+                            <br>7) Contract with signature
+                        </li>
+                        <li>We recommend merchants reach the customer directly,and see if you can convince them to cancel chargeback,or take refund instead.Sometimes clients file a chargeback because of unrecognized billing descriptor,so please show the billing descriptor clearly to them.
+                        </li>
+                        <li>Sign in with your merchant account at the following URL to check more details of the chargeback:
+                            <br> <a href="https://www.ipasspay.biz" target="_blank">https://www.ipasspay.biz</a>.
+                        </li>
+                        <li>This is an auto email,please don't reply it directly.</li>
+                    </ol>
+                    <p>
+                        Thanks for your time.
+                        <hr>
+                        <p>Kind regards,
+                            <br><a href="https://www.ipasspay.com">www.ipasspay.com</a>
+                            <br><span style="font-weight: bold;">Secure,Fast and Stable.<br>Your reliable credit card payment solution provider.<br></span>
+                            <br><img src="https://www.ipasspay.com/Public/Common/img/logo.png" style="width: 225px; height: 70px;">
+                            <br><span style="color: rgb(128, 128, 128);"><font size="2">This e-mail message (and attachments) may contain information that is confidential to iPasspay.com. If you are not the intended recipient you cannot use, distribute or copy the message or attachments. In such a case, please notify the sender by return e-mail immediately and erase all copies of the message and attachments. Opinions, conclusions and other information in this message and attachments that do not relate to the official business of iPasspay.com are neither given nor endorsed by it.</font></span>
+                            <br><span style="font-weight: bold;"><br><br></span>
+                        </p>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
